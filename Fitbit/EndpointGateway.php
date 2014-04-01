@@ -20,7 +20,7 @@ class EndpointGateway {
     protected $userID;
 
     /**
-     * Set Fitbit service
+     * Set FitBit service
      *
      * @access public
      * @param \OAuth\OAuth1\Service\ServiceInterface
@@ -46,7 +46,7 @@ class EndpointGateway {
     }
 
     /**
-     * Set Fitbit user ids.
+     * Set FitBit user ids.
      *
      * @access public
      * @param string $id

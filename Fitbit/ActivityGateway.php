@@ -73,7 +73,7 @@ class ActivityGateway extends EndpointGateway {
      * @param string $activityId Activity Id (or Intensity Level Id) from activities database,
      *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity
      * @param string $duration Duration millis
-     * @param string $calories Manual calories to override Fitbit estimate
+     * @param string $calories Manual calories to override FitBit estimate
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -151,7 +151,7 @@ class ActivityGateway extends EndpointGateway {
     }
 
     /**
-     * Get a tree of all valid Fitbit public activities as well as private custom activities the user createds
+     * Get a tree of all valid FitBit public activities as well as private custom activities the user createds
      *
      * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object

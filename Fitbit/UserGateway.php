@@ -113,7 +113,7 @@ class UserGateway extends EndpointGateway {
      *
      * @throws Exception
      * @param string $userId Invite user by id
-     * @param string $email Invite user by email address (could be already Fitbit member or not)
+     * @param string $email Invite user by email address (could be already FitBit member or not)
      * @return bool
      */
     public function inviteFriend($userId = null, $email = null)
@@ -226,7 +226,7 @@ class UserGateway extends EndpointGateway {
     {
         $headers = array();
         if ($subscriberId) {
-            $headers['X-Fitbit-Subscriber-Id'] = $subscriberId;
+            $headers['X-FitBit-Subscriber-Id'] = $subscriberId;
         }
         return $headers;
     }

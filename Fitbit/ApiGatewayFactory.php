@@ -2,7 +2,7 @@
 /**
  * FitbitPHP v.0.8
  *
- * Fitbit API wrapper for PHP using OAuth
+ * FitBit API wrapper for PHP using OAuth
  *
  * Forked from:
  * - https://github.com/thesavior/fitbitphp
@@ -63,7 +63,7 @@ class ApiGatewayFactory
      * Set consumer credentials
      * 
      * @access public
-     * @param string $consumer_key Application consumer key for Fitbit API
+     * @param string $consumer_key Application consumer key for FitBit API
      * @param string $consumer_secret Application secret
      * @return \Fitbit\ApiGatewayFactory
      */
@@ -129,7 +129,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Set Fitbit user id for API calls
+     * Set FitBit user id for API calls
      *
      * @access public
      * @param string $id
@@ -142,7 +142,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Set HTTP Client library for Fitbit service.
+     * Set HTTP Client library for FitBit service.
      *
      * @param  \OAuth\Common\Http\Client\ClientInterface $client
      * @return \Fitbit\ApiGatewayFactory
@@ -245,7 +245,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Get Fitbit service
+     * Get FitBit service
      *
      * @access protected
      * @throws \Fitbit\Exception

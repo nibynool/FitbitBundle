@@ -1,6 +1,6 @@
 <?php
 /**
- * Fitbit API communication exception
+ * FitBit API communication exception
  */
 
 namespace Fitbit;
