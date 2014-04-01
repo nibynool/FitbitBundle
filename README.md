@@ -1,4 +1,14 @@
-## FitbitPHP ##
+## FitbitBundle ##
+
+This will soon become a bundle suitable for use in Symfony 2.3.x for interfacing to [FitBit](http://fitbit.com)'s [REST API](http://dev.fitbit.com)
+
+Whilst there are no tags on this project it is not suitable for use.
+
+## Credits ##
+
+This repo has been branched from [jsamos/fitbitphp](https://github.com/jsamos/fitbitphp) which was branched from [popthestack/fitbitphp](https://github.com/popthestack/fitbitphp).
+
+## Original README.md ##
 
 Basic wrapper for the OAuth-based [FitBit](http://fitbit.com) [REST API](http://dev.fitbit.com). See [dev.fitbit.com](http://dev.fitbit.com) for details on their OAuth implementation.
 
