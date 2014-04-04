@@ -1,6 +1,7 @@
 <?php
 
-namespace Fitbit;
+namespace NibyNool\FitBitBundle\FitBit;
+
 use DateTime;
 
 class TimeSeriesEndpointGateway extends EndpointGateway {

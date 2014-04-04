@@ -1,6 +1,6 @@
 <?php
 
-namespace Fitbit;
+namespace NibyNool\FitBitBundle\FitBit;
 
 class SleepGateway extends EndpointGateway {
 

@@ -1,18 +1,22 @@
 <?php
 /**
- * FitbitPHP v.0.8
+ * FitBitBundle v0.0.1
  *
- * FitBit API wrapper for PHP using OAuth
+ * Symfony Bundle for FitBit's OAuth-based REST API
  *
  * Forked from:
- * - https://github.com/thesavior/fitbitphp
+ * - https://github.com/jsamos/fitbitphp
+ * - https://github.com/popthestack/fitbitphp
+ * - https://github.com/TheSavior/fitbitphp
  * - https://github.com/heyitspavel/fitbitphp
  *
- * @author Ryan Martinsen <ryan@ryanware.com>
+ * @author Michael Lambert <michael@alphageek.com.au>
+ * @author jsamos
+ * @author Ryan Martinsen
  * @author Eli White
  * @author heyitspavel
  */
-namespace Fitbit;
+namespace NibyNool\FitBitBundle\FitBit;
 
 use \OAuth\Common\Consumer\Credentials;
 use \OAuth\ServiceFactory;

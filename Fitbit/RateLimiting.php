@@ -4,7 +4,7 @@
  *
  */
 
-namespace Fitbit;
+namespace NibyNool\FitBitBundle\FitBit;
 
 class RateLimiting
 {

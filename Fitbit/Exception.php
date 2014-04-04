@@ -3,6 +3,6 @@
  * FitBit API communication exception
  */
 
-namespace Fitbit;
+namespace NibyNool\FitBitBundle\FitBit;
 
 class Exception extends \Exception {}
