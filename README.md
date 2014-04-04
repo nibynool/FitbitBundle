@@ -1,141 +1,105 @@
 ## FitbitBundle ##
 
-This will soon become a bundle suitable for use in Symfony 2.3.x for interfacing to [FitBit](http://fitbit.com)'s [REST API](http://dev.fitbit.com)
+This will soon become a bundle suitable for use in Symfony 2.3.x for interfacing to [FitBit](http://fitbit.com)'s
+[REST API](http://dev.fitbit.com).
 
 Whilst there are no tags on this project it is not suitable for use.
 
+Please note that the FitBit API is considered to be a **beta** release.  As such, this bundle should also be
+considered to be a **beta** release.
+
 ## Credits ##
 
-This repo has been branched from [jsamos/fitbitphp](https://github.com/jsamos/fitbitphp) which was branched from [popthestack/fitbitphp](https://github.com/popthestack/fitbitphp).
-
-## Original README.md ##
-
-Basic wrapper for the OAuth-based [FitBit](http://fitbit.com) [REST API](http://dev.fitbit.com). See [dev.fitbit.com](http://dev.fitbit.com) for details on their OAuth implementation.
-
-Both this library and the Fitbit API are in **beta**.
-
-This library does not require the PHP OAuth extension. It should work on any server with PHP >= 5.3.
+This repo has been branched from [jsamos/fitbitphp](https://github.com/jsamos/fitbitphp) which was branched from
+[popthestack/fitbitphp](https://github.com/popthestack/fitbitphp) which was branched from
+[TheSaviour/fitbitphp](https://github.com/TheSaviour/fitbitphp) which was originally branched from
+[heyitspavel/fitbitphp](https://github.com/heyitspavel/fitbitphp).
 
 ## Installation ##
-This package is installable with composer:
-    "popthestack/fitbit": "dev-master"
+
+This package can be installed with composer.  Simply add the following to your composer.json within the require section:
+```json
+"nibynool/fitbitbundle": "~1.0.0"
+```
+
+You will also need to call this package from your AppKernel.php by adding the following to your $bundles array:
+```php
+new NibyNool\FitBitBundle\NibyNoolFitBitBundle(),
+```
+
+Prior to use, you will require a consumer key and secret.  These can be obtained by registering an application with
+[FitBit](https://dev.fitbit.com/apps/new).  If you have already registered an application you can get your key and
+secret from [FitBit](https://dev.fitbit.com/apps).
+
+You will need to add your consumer key and secret as well as your callback url to your parameters.yml file:
+```yaml
+parameters:
+    fitbit_key:      <consumer_key>
+    fitbit_secret:   <consumer_secret>
+    fitbit_callback: http://your.site.com/callback/url
+```
 
 ## Usage ##
 
-You need a consumer key and secret. You can obtain them by registering an application at [http://dev.fitbit.com](http://dev.fitbit.com).
-
-Simple, but full OAuth workflow example:
-
+Usage is fairly simple, although there is still room to optimise it further.  Simply put the following in a controller
+and adjust it to your needs:
 ```php
-$factory = new \Fitbit\ApiGatewayFactory;
-$factory->setCallbackURL($callback_url);
-$factory->setCredentials($consumer_key, $consumer_secret);
+// Begin by calling the FitBit Service
+/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
+$fitbit = $this->get('fitbit');
 
-$adapter = new \OAuth\Common\Storage\Session();
-$factory->setStorageAdapter($adapter);
+// Determine if we already have a session (this is only for SymfonySession as the storage adapter)
+/** @var \Symfony\Component\HttpFoundation\Session\Session $session */
+$session = $this->get('session');
+if (!$session->isStarted()) $session->start();
+// Set the storage adapter
+$fitbit->setStorageAdapter(new \OAuth\Common\Storage\SymfonySession($session));
 
-$auth_gateway = $factory->getAuthenticationGateway();
+/** @var \Symfony\Component\HttpFoundation\Request $request */
+$request = $this->get('request');
 
-if (isset($_GET['oauth_token']) && isset($_GET['oauth_verifier'])) {
-    $auth_gateway->authenticateUser($_GET['oauth_token'], $_GET['oauth_verifier']);
-} elseif (isset($_GET['connect'])) {
-    $auth_gateway->initiateLogin();
+// Get the FitBit authentication gateway
+/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
+$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+
+if ($request->query->get('oauth_token') && $request->query->get('oauth_verifier'))
+{   // These parameters are passed back from FitBit, so if we get them then we can try and authenticate
+    // Ideally we should check the referrer here to make sure the request really is from FitBit
+    $fitbitAuthGateway->authenticateUser($request->query->get('oauth_token'), $request->query->get('oauth_verifier'));
+    /** @var \OAuth\Common\Storage\TokenStorageInterface $storage */
+    $storage = $fitbit->getStorageAdapter();
+    /** @var \OAuth\OAuth1\Token\TokenInterface $token */
+    $token   = $storage->retrieveAccessToken('FitBit');
+    $oauth_access_token  = $token->getRequestToken();
+    $oauth_access_secret = $token->getRequestTokenSecret();
+    // At this point we can save the access token and secret so we can reload it when required (maybe as
+    // part of the user login process)
+}
+elseif ($request->query->get('connect'))
+{   // Redirect to FitBit to login
+    $fitbitAuthGateway->initiateLogin();
 }
 
-if ($auth_gateway->isAuthorized()) {
-    $user_gateway = $factory->getUserGateway();
-    $user_profile = $user_gateway->getProfile();
+if ($fitbitAuthGateway->isAuthorized())
+{   // Once we've confirmed a successful login we can store the auth token
+    /** @var \NibyNool\FitBitBundle\FitBit\UserGateway $fitbitUserGateway */
+    $fitbitUserGateway = $fitbit->getUserGateway();
     echo '<pre>';
-    print_r($user_profile);
+    print_r($fitbitUserGateway->getProfile());
     echo '</pre>';
-} else {
+}
+else
+{   // We aren't trying to do anything, so just display a message
     echo 'Not connected.';
 }
 ```
 
-If you want to retrieve the OAuth token and secret from the session to store elsewhere (e.g. a database):
+## EndPoint Test Status ##
 
-```php
-$storage = $factory->getStorageAdapter();
-$token   = $storage->retrieveAccessToken('FitBit');
+FitBit has a large number of API end points.  TO help navigate through these with this bundle here's a matrix to display
+the end point, the data available and the date this bundle was last tested with the end point.
 
-// Save these somewhere:
-$oauth_token  = $token->getRequestToken();
-$oauth_secret = $token->getRequestTokenSecret();
-```
-
-Here's how to use your OAuth token and secret without the `Session` storage adapter.
-It's a little cumbersome, but it works. If I ever have time for it, I'd like to
-replace the current OAuth library with something that doesn't enforce so much... stuff.
-
-```php
-$token = new \OAuth\OAuth1\Token\StdOAuth1Token();
-$token->setRequestToken($oauth_token);
-$token->setRequestTokenSecret($oauth_secret);
-$token->setAccessToken($oauth_token);
-$token->setAccessTokenSecret($oauth_secret);
-
-$adapter = new \OAuth\Common\Storage\Memory();
-$adapter->storeAccessToken('FitBit', $token);
-
-$factory->setStorageAdapter($adapter);
-
-$user_gateway = $factory->getUserGateway();
-$food_gateway = $factory->getFoodGateway();
-
-$user_profile = $user_gateway->getProfile();
-$user_devices = $user_gateway->getDevices();
-$foods        = $food_gateway->searchFoods('banana split');
-
-echo '<pre>';
-print_r($user_profile);
-print_r($user_devices);
-print_r($foods);
-echo '</pre>';
-```
-
-## Time Series Data ##
-
-Time series data can be colected as described [http://wiki.fitbit.com/display/API/API-Get-Time-Series](http://wiki.fitbit.com/display/API/API-Get-Time-Series)
-
-The base class, TimeSeriesGateway, uses the magic __call method to map methods calls to resource endpoints. The method name is converted to the last segment of the URI, the rest of the path is handled by the class.
-
-```php
-$sleep_time_series_gateway = $factory->getTimeSeriesGateway();
-$minutes_asleep = $sleep_time_series_gateway->getMinutesAsleep();
-```
-
-A method call without parameters will default to a time series of today/1d. A period, baseDate and endDate can be passed to specify the time series. *Note: period will override endDate.
-
-```php
-//past seven days
-$minutes_asleep = $sleep_time_series_gateway->getMinutesAsleep('today','7d');
-
-//seven days before the new year (*Note you can also pass Datetime objects for baseDate and endDate)
-$minutes_asleep = $sleep_time_series_gateway->getMinutesAsleep('2014-01-01','7d'); 
-
-//first week of new year
-$minutes_asleep = $sleep_time_series_gateway->getMinutesAsleep('2014-01-01', null, '2014-01-07'); 
-```
-
-The Activities Time Series Resource allows you to limit the data collected to that logged only by the tracker. To do so pass true|false (default false) as the first argument in activites timeseries calls
-
-```php
-$activities_time_series_gateway = $factory->getActivitiesSeriesGateway();
-//get the minutes of very active activity from the tracker only for the previous 7 days
-$tracker_minutes_very_active = $activities_time_series_gateway->getMinutesVeryActive(true, 'today', '7d');
-```
-*Note: the activities/caloriesBMR resource does not appear to have a corresponding activities/tracker/caloriesBMR. The tracker parameter for getCaloriesBMR(true) will automatically be set to false. 
-
-
-## Notes ##
-
- * By default, all requests assume you want data for the authorized user (viewer). There are, however, several endpoints you can use to access the data of other Fitbit users, given that you have permission to access their data. This is accomplished by setting the Fitbit User ID with the `setUserID` method available on `ApiGatewayFactory` and the Endpoint Gateways (e.g. `UserGateway`, `FoodGateway`).
- * *Subscriptions*: this library has some basic methods to add/delete subscriptions, but it's your responsibility to track the list and maintain server endpoints to receive notifications from Fitbit, as well as register them at [http://dev.fitbit.com](http://dev.fitbit.com). See [Subscriptions API](https://wiki.fitbit.com/display/API/Fitbit+Subscriptions+API) for more information.
-
- ## Known Issues ##
-
-At the time of writing, the following resources do not currently work, or are documented incorrectly by Fitbit's documentation.
-
-* activities/floors
-* activities/elevation
+End Point | API Call | Last Test
+----------|----------|----------
+[Get User Info](https://wiki.fitbit.com/display/API/API-Get-User-Info)|$fitbit->getUserGateway()->getProfile()|
+[Update User Info](https://wiki.fitbit.com/display/API/API-Update-User-Info)|$fitbit->getUserGateway()->updateProfileFromArray($array)|

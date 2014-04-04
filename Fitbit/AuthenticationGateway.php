@@ -42,7 +42,7 @@ class AuthenticationGateway extends EndpointGateway {
      */
     public function authenticateUser($token, $verifier)
     {
-
+	    /** @var TokenInterface $tokenSecret */
         $tokenSecret = $this->service->getStorage()->retrieveAccessToken('FitBit');
         
         return $this->service->requestAccessToken(
@@ -61,7 +61,7 @@ class AuthenticationGateway extends EndpointGateway {
     public function resetSession()
     {
         // TODO: Need to add clear to the interface for phpoauthlib
-        $this->service->getStorage()->clearToken();
+        $this->service->getStorage()->clearToken('FitBit');
     }
 
     protected function verifyToken()

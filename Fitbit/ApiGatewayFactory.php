@@ -73,11 +73,13 @@ class ApiGatewayFactory
 	 * @access public
 	 * @param string $consumer_key Application consumer key for FitBit API
 	 * @param string $consumer_secret Application secret
+	 * @param string $callback_url Callback URL to provide to FitBit
 	 */
-	public function __construct($consumer_key, $consumer_secret)
+	public function __construct($consumer_key, $consumer_secret, $callback_url)
 	{
 		$this->consumerKey    = $consumer_key;
 		$this->consumerSecret = $consumer_secret;
+		$this->callbackURL    = $callback_url;
 	}
 
 	/**

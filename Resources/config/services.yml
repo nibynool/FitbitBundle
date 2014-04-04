@@ -1,0 +1,4 @@
+services:
+    fitbit:
+        class:     NibyNool\FitBitBundle\FitBit\ApiGatewayFactory
+        arguments: [%fitbit_key%, %fitbit_secret%, %fitbit_callback%]
