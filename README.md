@@ -63,17 +63,21 @@ $request = $this->get('request');
 $fitbitAuthGateway = $fitbit->getAuthenticationGateway();
 
 if ($request->query->get('oauth_token') && $request->query->get('oauth_verifier'))
-{   // These parameters are passed back from FitBit, so if we get them then we can try and authenticate
-    // Ideally we should check the referrer here to make sure the request really is from FitBit
-    $fitbitAuthGateway->authenticateUser($request->query->get('oauth_token'), $request->query->get('oauth_verifier'));
+{   // These parameters are passed back from FitBit, so if we get them then we can try and
+    // authenticate.  Ideally we should check the referrer here to make sure the request really is
+    // from FitBit.
+    $fitbitAuthGateway->authenticateUser(
+        $request->query->get('oauth_token'),
+        $request->query->get('oauth_verifier')
+    );
     /** @var \OAuth\Common\Storage\TokenStorageInterface $storage */
     $storage = $fitbit->getStorageAdapter();
     /** @var \OAuth\OAuth1\Token\TokenInterface $token */
     $token   = $storage->retrieveAccessToken('FitBit');
     $oauth_access_token  = $token->getRequestToken();
     $oauth_access_secret = $token->getRequestTokenSecret();
-    // At this point we can save the access token and secret so we can reload it when required (maybe as
-    // part of the user login process)
+    // At this point we can save the access token and secret so we can reload it when required
+    // (maybe as part of the user login process)
 }
 elseif ($request->query->get('connect'))
 {   // Redirect to FitBit to login
