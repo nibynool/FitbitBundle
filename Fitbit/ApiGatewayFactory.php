@@ -18,8 +18,12 @@
  */
 namespace NibyNool\FitBitBundle\FitBit;
 
-use \OAuth\Common\Consumer\Credentials;
-use \OAuth\ServiceFactory;
+use OAuth\Common\Consumer\Credentials;
+use OAuth\ServiceFactory;
+use OAuth\OAuth1\Service\FitBit as ServiceInterface;
+use OAuth\Common\Storage\TokenStorageInterface;
+use OAuth\Common\Http\Client\ClientInterface;
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
 class ApiGatewayFactory
 {
@@ -44,12 +48,12 @@ class ApiGatewayFactory
     protected $responseFormat = 'json';
 
     /**
-     * @var \OAuth\OAuth1\Service\ServiceInterface
+     * @var ServiceInterface
      */
     protected $service;
     
     /**
-     * @var \OAuth\Common\Storage\TokenStorageInterface
+     * @var TokenStorageInterface
      */
     protected $storageAdapter;
     
@@ -59,7 +63,7 @@ class ApiGatewayFactory
     protected $callbackURL;
 
     /**
-     * @var \OAuth\Common\Http\Client\ClientInterface
+     * @var ClientInterface
      */
     protected $httpClient;
 
@@ -82,7 +86,7 @@ class ApiGatewayFactory
      * @access public
      * @param string $consumer_key Application consumer key for FitBit API
      * @param string $consumer_secret Application secret
-     * @return \Fitbit\ApiGatewayFactory
+     * @return self
      */
     public function setCredentials($consumer_key, $consumer_secret)
     {
@@ -95,10 +99,10 @@ class ApiGatewayFactory
      * Set storage adapter.
      * 
      * @access public
-     * @param \OAuth\Common\Storage\TokenStorageInterface $adapter
-     * @return \Fitbit\ApiGatewayFactory
+     * @param TokenStorageInterface $adapter
+     * @return self
      */
-    public function setStorageAdapter(\OAuth\Common\Storage\TokenStorageInterface $adapter)
+    public function setStorageAdapter(TokenStorageInterface $adapter)
     {
         $this->storageAdapter = $adapter;
         return $this;
@@ -108,7 +112,7 @@ class ApiGatewayFactory
      * Get storage adapter.
      * 
      * @access public
-     * @return \OAuth\Common\Storage\TokenStorageInterface
+     * @return TokenStorageInterface
      */
     public function getStorageAdapter()
     {
@@ -120,13 +124,13 @@ class ApiGatewayFactory
      * 
      * @access public
      * @param string $format Response format (json or xml) to use in API calls
-     * @throws \Fitbit\Exception
-     * @return \Fitbit\ApiGatewayFactory
+     * @throws FBException
+     * @return self
      */
     public function setResponseFormat($format)
     {
         if (!in_array($format, array('json', 'xml'))) {
-            throw new Exception("Reponse format must be one of 'json', 'xml'");
+            throw new FBException("Reponse format must be one of 'json', 'xml'");
         }
         $this->responseFormat = $format;
         return $this;
@@ -137,7 +141,7 @@ class ApiGatewayFactory
      * 
      * @access public
      * @param string $url
-     * @return \Fitbit\ApiGatewayFactory
+     * @return self
      */
     public function setCallbackURL($url)
     {
@@ -150,7 +154,7 @@ class ApiGatewayFactory
      *
      * @access public
      * @param string $id
-     * @return \Fitbit\ApiGatewayFactory
+     * @return self
      */
     public function setUserID($id)
     {
@@ -161,102 +165,167 @@ class ApiGatewayFactory
     /**
      * Set HTTP Client library for FitBit service.
      *
-     * @param  \OAuth\Common\Http\Client\ClientInterface $client
-     * @return \Fitbit\ApiGatewayFactory
+     * @param  ClientInterface $client
+     * @return self
      */
-    public function setHttpClient(\OAuth\Common\Http\Client\ClientInterface $client)
+    public function setHttpClient(ClientInterface $client)
     {
         $this->httpClient = $client;
         return $this;
     }
 
-    public function getAuthenticationGateway()
+	/**
+	 * Get the Authentication Gateway Interface
+	 *
+	 * @return AuthenticationGateway
+	 */
+	public function getAuthenticationGateway()
     {
         $gateway = new AuthenticationGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getActivityGateway()
+	/**
+	 * Get the Activity Gateway Interface
+	 *
+	 * @return ActivityGateway
+	 */
+	public function getActivityGateway()
     {
         $gateway = new ActivityGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getActivityTimeSeriesGateway()
+	/**
+	 * Get the Activity Time Series Gateway Interface
+	 *
+	 * @return ActivityTimeSeriesGateway
+	 */
+	public function getActivityTimeSeriesGateway()
     {
         $gateway = new ActivityTimeSeriesGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getBodyGateway()
+	/**
+	 * Get the Body Gateway Interface
+	 *
+	 * @return BodyGateway
+	 */
+	public function getBodyGateway()
     {
         $gateway = new BodyGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getBodyTimeSeriesGateway()
+	/**
+	 * Get the Body Time Series Gateway Interface
+	 *
+	 * @return BodyTimeSeriesGateway
+	 */
+	public function getBodyTimeSeriesGateway()
     {
         $gateway = new BodyTimeSeriesGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getFoodGateway()
+	/**
+	 * Get the Food Gateway Interface
+	 *
+	 * @return FoodGateway
+	 */
+	public function getFoodGateway()
     {
         $gateway = new FoodGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getFoodTimeSeriesGateway()
+	/**
+	 * Get the Food Time Series Gateway Interface
+	 *
+	 * @return FoodTimeSeriesGateway
+	 */
+	public function getFoodTimeSeriesGateway()
     {
         $gateway = new FoodTimeSeriesGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getSleepGateway()
+	/**
+	 * Get the Sleep Gateway Interface
+	 *
+	 * @return SleepGateway
+	 */
+	public function getSleepGateway()
     {
         $gateway = new SleepGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getSleepTimeSeriesGateway()
+	/**
+	 * Get the Sleep Time Series Gateway Interface
+	 *
+	 * @return SleepTimeSeriesGateway
+	 */
+	public function getSleepTimeSeriesGateway()
     {
         $gateway = new SleepTimeSeriesGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getTimeGateway()
+	/**
+	 * Get the Time Gateway Interface
+	 *
+	 * @return TimeGateway
+	 */
+	public function getTimeGateway()
     {
         $gateway = new TimeGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getUserGateway()
+	/**
+	 * Get the User Gateway Interface
+	 *
+	 * @return UserGateway
+	 */
+	public function getUserGateway()
     {
         $gateway = new UserGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    public function getWaterGateway()
+	/**
+	 * Get the Water Gateway Interface
+	 *
+	 * @return WaterGateway
+	 */
+	public function getWaterGateway()
     {
         $gateway = new WaterGateway;
         $this->injectGatewayDependencies($gateway);
         return $gateway;
     }
 
-    protected function injectGatewayDependencies($gateway)
+	/**
+	 * Inject Dependencies into a Gateway Interface
+	 *
+	 * @param EndpointGateway $gateway
+	 */
+	protected function injectGatewayDependencies(EndpointGateway $gateway)
     {
-        $gateway->setService($this->getService())
+	    $gateway->setService($this->getService())
                 ->setResponseFormat($this->responseFormat)
                 ->setUserID($this->userID);
     }
@@ -265,25 +334,18 @@ class ApiGatewayFactory
      * Get FitBit service
      *
      * @access protected
-     * @throws \Fitbit\Exception
-     * @return \OAuth\OAuth1\Service\ServiceInterface
+     * @throws FBException
+     * @return ServiceInterface
      */
     protected function getService()
     {
-        if (!$this->consumerKey) {
-            throw new Exception('Empty consumer key.');
-        }
-        if (!$this->consumerSecret) {
-            throw new Exception('Empty consumer secret.');
-        }
-        if (!$this->callbackURL) {
-            throw new Exception('Empty callback URL.');
-        }
-        if (!$this->storageAdapter) {
-            throw new Exception('Missing storage adapter.');
-        }
+        if (!$this->consumerKey)    throw new FBException('Empty consumer key.');
+        if (!$this->consumerSecret) throw new FBException('Empty consumer secret.');
+        if (!$this->callbackURL)    throw new FBException('Empty callback URL.');
+        if (!$this->storageAdapter) throw new FBException('Missing storage adapter.');
 
-        if (!$this->service) {
+        if (!$this->service)
+        {
             $credentials = new Credentials(
                 $this->consumerKey,
                 $this->consumerSecret,
@@ -292,9 +354,7 @@ class ApiGatewayFactory
 
             $factory = new ServiceFactory();
 
-            if ($this->httpClient) {
-                $factory->setHttpClient($this->httpClient);
-            }
+            if ($this->httpClient) $factory->setHttpClient($this->httpClient);
 
             $this->service = $factory->createService('FitBit', $credentials, $this->storageAdapter);
         }

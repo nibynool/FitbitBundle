@@ -7,23 +7,31 @@
     "license" :    "Apache-2.0",
     "authors": [
 	    {
-		    "name":  "Michael Lambert",
-		    "email": "michael@alphageek.com.au"
+		    "name":     "Michael Lambert",
+		    "email":    "michael@alphageek.com.au",
+		    "homepage": "https://github.com/NibyNool"
 	    },
 	    {
-		    "name":     ["Ryan Martinsen","Juni Samos"],
-		    "email":    "ryan@ryanware.com",
-		    "homepage": "http://ryanmartinsen.com"
+		    "name":     "Juni Samos",
+		    "homepage": "https://github.com/jsamos"
+	    },
+	    {
+		    "name":     "Ryan Martinsen",
+		    "homepage": "https://github.com/popthestack"
 	    },
         {
             "name":     "Eli White",
-            "homepage": "http://eli-white.com"
-        }
+	        "homepage": "https://github.com/TheSaviour"
+        },
+		{
+			"name":     "heyitspavel",
+			"homepage": "https://github.com/keyitspavel"
+		}
     ],
     "require": {
         "php":                      ">=5.3.0",
 	    "symfony/framework-bundle": "~2.1",
-        "lusitanian/oauth":         "~0.2"
+        "lusitanian/oauth":         "~0.3"
     },
     "autoload": {
         "psr-0": {

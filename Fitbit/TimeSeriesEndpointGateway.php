@@ -2,15 +2,11 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
-use DateTime;
-
 class TimeSeriesEndpointGateway extends EndpointGateway {
-
-
     /**
      * base fragment for the instantiated resource uri
      * 
-     * @var sting
+     * @var string
      */
     protected static $format;
 
@@ -18,6 +14,7 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
      * create a uri fragment from a method name
      *
      * @param string $method
+     * @return string
      */
     public function fragment($method)
     {
@@ -41,10 +38,10 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
         $date1 = $baseDate ?: 'today';
         $date2 = ($period) ? $period : ($endDate) ?: '1d';
 
-        if ($date1 instanceof Datetime)
+        if ($date1 instanceof \Datetime)
             $date1 = $date1->format("Y-m-d");
 
-        if ($date2 instanceof Datetime) 
+        if ($date2 instanceof \Datetime)
             $date2 = $date2->format("Y-m-d");
 
         $endpoint = sprintf('user/%s/%s/%s/%s', $this->userID, $fragment, $date1, $date2);
@@ -64,5 +61,4 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
         array_unshift($parameters, $fragment);        
         return call_user_func_array(array($this, 'get'), $parameters);   
     }
-
 }

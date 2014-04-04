@@ -7,12 +7,12 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
     /**
      * base fragment for this resources uri
      * 
-     * @var sting
+     * @var string
      */
     protected static $format = 'activities/%s/date';
 
     /**
-     * convert to trcker only fragment
+     * convert to tracker only fragment
      * 
      * @param string $fragment
      * @return string
@@ -50,6 +50,4 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
         if (in_array($method, array('getCaloriesBMR'))) $parameters[0] = false; 
         return parent::__call($method, $parameters);        
     }
-
-
 }

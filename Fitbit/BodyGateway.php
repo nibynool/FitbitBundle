@@ -12,11 +12,9 @@ class BodyGateway extends EndpointGateway {
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBody($date, $dateStr = null)
+    public function getBody(\DateTime $date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
     }
@@ -43,26 +41,16 @@ class BodyGateway extends EndpointGateway {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
 
-        if (isset($weight))
-            $parameters['weight'] = $weight;
-        if (isset($fat))
-            $parameters['fat'] = $fat;
-        if (isset($bicep))
-            $parameters['bicep'] = $bicep;
-        if (isset($calf))
-            $parameters['calf'] = $calf;
-        if (isset($chest))
-            $parameters['chest'] = $chest;
-        if (isset($forearm))
-            $parameters['forearm'] = $forearm;
-        if (isset($hips))
-            $parameters['hips'] = $hips;
-        if (isset($neck))
-            $parameters['neck'] = $neck;
-        if (isset($thigh))
-            $parameters['thigh'] = $thigh;
-        if (isset($waist))
-            $parameters['waist'] = $waist;
+        if (isset($weight))  $parameters['weight'] = $weight;
+        if (isset($fat))     $parameters['fat'] = $fat;
+        if (isset($bicep))   $parameters['bicep'] = $bicep;
+        if (isset($calf))    $parameters['calf'] = $calf;
+        if (isset($chest))   $parameters['chest'] = $chest;
+        if (isset($forearm)) $parameters['forearm'] = $forearm;
+        if (isset($hips))    $parameters['hips'] = $hips;
+        if (isset($neck))    $parameters['neck'] = $neck;
+        if (isset($thigh))   $parameters['thigh'] = $thigh;
+        if (isset($waist))   $parameters['waist'] = $waist;
 
         return $this->makeApiRequest('user/-/body', 'POST', $parameters);
     }
@@ -70,7 +58,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Log user weight
      *
-     * @throws Exception
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param \DateTime $date If present, log entry date, now by default (set proper timezone, which could be fetched via getProfile)
      * @return bool
@@ -79,9 +66,7 @@ class BodyGateway extends EndpointGateway {
     {
         $parameters = array();
         $parameters['weight'] = $weight;
-        if ($date) {
-            $parameters['date'] = $date->format('Y-m-d');
-        }
+        if ($date) $parameters['date'] = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
     }
@@ -89,16 +74,13 @@ class BodyGateway extends EndpointGateway {
     /**
      * Get user blood pressure log entries for specific date
      *
-     * @throws Exception
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getBloodPressure($date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
     }
@@ -106,7 +88,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Log user blood pressure
      *
-     * @throws Exception
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
      * @param string $diastolic Diastolic measurement
@@ -119,9 +100,7 @@ class BodyGateway extends EndpointGateway {
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['systolic'] = $systolic;
         $parameters['diastolic'] = $diastolic;
-        if ($time) {
-            $parameters['time'] = $time->format('H:i');
-        }
+        if ($time) $parameters['time'] = $time->format('H:i');
 
         return $this->makeApiRequest('user/-/bp', 'POST', $parameters);
     }
@@ -129,7 +108,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Delete user blood pressure record
      *
-     * @throws Exception
      * @param string $id Blood pressure log id
      * @return bool
      */
@@ -141,16 +119,13 @@ class BodyGateway extends EndpointGateway {
     /**
      * Get user glucose log entries for specific date
      *
-     * @throws Exception
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getGlucose($date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
     }
@@ -158,7 +133,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Log user glucose and HbA1c
      *
-     * @throws Exception
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $glucose Glucose measurement
@@ -172,12 +146,8 @@ class BodyGateway extends EndpointGateway {
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['glucose'] = $glucose;
-        if ($hba1c) {
-            $parameters['hba1c'] = $hba1c;
-        }
-        if ($time) {
-            $parameters['time'] = $time->format('H:i');
-        }
+        if ($hba1c) $parameters['hba1c'] = $hba1c;
+        if ($time)  $parameters['time'] = $time->format('H:i');
 
         return $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
     }
@@ -185,16 +155,13 @@ class BodyGateway extends EndpointGateway {
     /**
      * Get user heart rate log entries for specific date
      *
-     * @throws Exception
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getHeartRate($date, $dateStr = null)
+    public function getHeartRate(\DateTime $date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
     }
@@ -202,7 +169,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Log user heart rate
      *
-     * @throws Exception
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $heartRate Heart rate measurement
@@ -215,9 +181,7 @@ class BodyGateway extends EndpointGateway {
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['heartRate'] = $heartRate;
-        if ($time) {
-            $parameters['time'] = $time->format('H:i');
-        }
+        if ($time) $parameters['time'] = $time->format('H:i');
 
         return $this->makeApiRequest('user/-/heart', 'POST', $parameters);
     }
@@ -225,7 +189,6 @@ class BodyGateway extends EndpointGateway {
     /**
      * Delete user heart rate record
      *
-     * @throws Exception
      * @param string $id Heart rate log id
      * @return bool
      */

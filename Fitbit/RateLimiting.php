@@ -1,7 +1,6 @@
 <?php
 /**
  * Wrapper for rate limiting quota
- *
  */
 
 namespace NibyNool\FitBitBundle\FitBit;

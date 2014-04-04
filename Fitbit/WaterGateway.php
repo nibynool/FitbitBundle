@@ -12,11 +12,9 @@ class WaterGateway extends EndpointGateway {
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getWater($date, $dateStr = null)
+    public function getWater(\DateTime $date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/foods/log/water/date/' . $dateStr);
     }
@@ -37,8 +35,7 @@ class WaterGateway extends EndpointGateway {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['amount'] = $amount;
-        if (isset($waterUnit) && in_array($waterUnit, $waterUnits))
-            $parameters['unit'] = $waterUnit;
+        if (isset($waterUnit) && in_array($waterUnit, $waterUnits)) $parameters['unit'] = $waterUnit;
 
         return $this->makeApiRequest('user/-/foods/log/water', 'POST', $parameters);
     }
@@ -54,5 +51,4 @@ class WaterGateway extends EndpointGateway {
     {
         return $this->makeApiRequest('user/-/foods/log/water/' . $id, 'DELETE');
     }
-
 }

@@ -2,6 +2,8 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 class UserGateway extends EndpointGateway {
 
     /**
@@ -33,7 +35,8 @@ class UserGateway extends EndpointGateway {
      * @param array $parameters
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function updateProfileFromArray($parameters) {
+    public function updateProfileFromArray($parameters)
+    {
         return $this->makeApiRequest('user/' . $this->userID . '/profile', 'POST', $parameters);
     }
 
@@ -52,24 +55,12 @@ class UserGateway extends EndpointGateway {
     public function updateProfile($gender = null, \DateTime $birthday = null, $height = null, $nickname = null, $fullName = null, $timezone = null)
     {
         $parameters = array();
-        if ($gender) {
-            $parameters['gender'] = $gender;
-        }
-        if ($birthday) {
-            $parameters['birthday'] = $birthday->format('Y-m-d');
-        }
-        if ($height) {
-            $parameters['height'] = $height;
-        }
-        if ($nickname) {
-            $parameters['nickname'] = $nickname;
-        }
-        if ($fullName) {
-            $parameters['fullName'] = $fullName;
-        }
-        if ($timezone) {
-            $parameters['timezone'] = $timezone;
-        }
+        if ($gender)   $parameters['gender'] = $gender;
+        if ($birthday) $parameters['birthday'] = $birthday->format('Y-m-d');
+        if ($height)   $parameters['height'] = $height;
+        if ($nickname) $parameters['nickname'] = $nickname;
+        if ($fullName) $parameters['fullName'] = $fullName;
+        if ($timezone) $parameters['timezone'] = $timezone;
 
         return $this->updateProfileFromArray($parameters);
     }
@@ -77,7 +68,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Get list of devices and their properties
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getDevices()
@@ -88,7 +78,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Get user friends
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFriends()
@@ -99,7 +88,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Get user's friends leaderboard
      *
-     * @throws Exception
      * @param string $period Depth ('7d' or '30d')
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -111,7 +99,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Invite user to become friends
      *
-     * @throws Exception
      * @param string $userId Invite user by id
      * @param string $email Invite user by email address (could be already FitBit member or not)
      * @return bool
@@ -119,10 +106,8 @@ class UserGateway extends EndpointGateway {
     public function inviteFriend($userId = null, $email = null)
     {
         $parameters = array();
-        if (isset($userId))
-            $parameters['invitedUserId'] = $userId;
-        if (isset($email))
-            $parameters['invitedUserEmail'] = $email;
+        if (isset($userId)) $parameters['invitedUserId'] = $userId;
+        if (isset($email)) $parameters['invitedUserEmail'] = $email;
 
         return $this->makeApiRequest('user/-/friends/invitations', 'POST', $parameters);
     }
@@ -130,7 +115,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Accept invite to become friends from user
      *
-     * @throws Exception
      * @param string $userId Id of the inviting user
      * @return bool
      */
@@ -145,7 +129,6 @@ class UserGateway extends EndpointGateway {
     /**
      * Accept invite to become friends from user
      *
-     * @throws Exception
      * @param string $userId Id of the inviting user
      * @return bool
      */
@@ -198,7 +181,7 @@ class UserGateway extends EndpointGateway {
     /**
      * Validate user subscription type
      *
-     * @throws Exception
+     * @throws FBException
      * @access protected
      * @param string &$subscriptionType Collection type
      * @return bool
@@ -208,7 +191,7 @@ class UserGateway extends EndpointGateway {
         if (isset($this->subscriptionTypes[$subscriptionType])) {
             $subscriptionType = $this->subscriptionTypes[$subscriptionType];
         } else {
-            throw new Exception(sprintf('Invalid subscription collection type (valid values are \'%s\')',
+            throw new FBException(sprintf('Invalid subscription collection type (valid values are \'%s\')',
                 implode("', '", array_keys($this->subscriptionTypes))
             ));
         }
@@ -225,9 +208,7 @@ class UserGateway extends EndpointGateway {
     protected function makeSubscriptionHeaders($subscriberId = null)
     {
         $headers = array();
-        if ($subscriberId) {
-            $headers['X-FitBit-Subscriber-Id'] = $subscriberId;
-        }
+        if ($subscriberId) $headers['X-FitBit-Subscriber-Id'] = $subscriberId;
         return $headers;
     }
 

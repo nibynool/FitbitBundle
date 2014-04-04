@@ -2,10 +2,12 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
+use OAuth\OAuth1\Service\FitBit as ServiceInterface;
+
 class EndpointGateway {
 
     /**
-     * @var \OAuth\OAuth1\Service\ServiceInterface
+     * @var ServiceInterface
      */
     protected $service;
 
@@ -23,10 +25,10 @@ class EndpointGateway {
      * Set FitBit service
      *
      * @access public
-     * @param \OAuth\OAuth1\Service\ServiceInterface
-     * @return \Fitbit\EndpointGateway
+     * @param ServiceInterface $service
+     * @return self
      */
-    public function setService($service)
+    public function setService(ServiceInterface $service)
     {
         $this->service = $service;
         return $this;
@@ -36,8 +38,8 @@ class EndpointGateway {
      * Set response format.
      * 
      * @access public
-     * @param string $response_format
-     * @return \Fitbit\EndpointGateway
+     * @param string $format
+     * @return self
      */
     public function setResponseFormat($format)
     {
@@ -50,7 +52,7 @@ class EndpointGateway {
      *
      * @access public
      * @param string $id
-     * @return \Fitbit\EndpointGateway
+     * @return self
      */
     public function setUserID($id)
     {
@@ -86,15 +88,13 @@ class EndpointGateway {
      * Parse json or XML response.
      *
      * @access private
+     * @param string $response
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
     private function parseResponse($response)
     {
-        if ($this->responseFormat == 'json') {
-            return json_decode($response);
-        } elseif ($this->responseFormat == 'xml') {
-            return simplexml_load_string($response);
-        }
+        if ($this->responseFormat == 'json')    return json_decode($response);
+        elseif ($this->responseFormat == 'xml') return simplexml_load_string($response);
 
         return $response;
     }
@@ -103,7 +103,7 @@ class EndpointGateway {
      * Get CLIENT+VIEWER and CLIENT rate limiting quota status
      *
      * @access public
-     * @return \Fitbit\RateLimiting
+     * @return RateLimiting
      */
     public function getRateLimit()
     {

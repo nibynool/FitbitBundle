@@ -7,16 +7,13 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user foods for specific date
      *
-     * @throws Exception
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoods($date, $dateStr = null)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
     }
@@ -24,7 +21,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user recent foods
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentFoods()
@@ -35,7 +31,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user frequent foods
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFrequentFoods()
@@ -43,11 +38,9 @@ class FoodGateway extends EndpointGateway {
         return $this->makeApiRequest('user/-/foods/log/frequent');
     }
 
-
     /**
      * Get user favorite foods
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteFoods()
@@ -58,31 +51,35 @@ class FoodGateway extends EndpointGateway {
     /**
      * Log user food
      *
-     * @throws Exception
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)
      * @param string $mealTypeId Meal Type Id from foods database (see searchFoods)
      * @param string $unitId Unit Id, should be allowed for this food (see getFoodUnits and searchFoods)
      * @param string $amount Amount in specified units
+     * @param string $foodName
+     * @param int $calories
+     * @param string $brandName
+     * @param array $nutrition
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logFood(\DateTime $date, $foodId, $mealTypeId, $unitId, $amount, $foodName = null, $calories = null, $brandName = null, $nutrition = null)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
-        if (isset($foodName)) {
+        if (isset($foodName))
+        {
             $parameters['foodName'] = $foodName;
             $parameters['calories'] = $calories;
-            if (isset($brandName))
-                $parameters['brandName'] = $brandName;
-            if (isset($nutrition)) {
-                foreach ($nutrition as $i => $value) {
+            if (isset($brandName)) $parameters['brandName'] = $brandName;
+            if (isset($nutrition))
+            {
+                foreach ($nutrition as $i => $value)
+                {
                     $parameters[$i] = $nutrition[$i];
                 }
             }
-        } else {
-            $parameters['foodId'] = $foodId;
         }
+        else $parameters['foodId'] = $foodId;
         $parameters['mealTypeId'] = $mealTypeId;
         $parameters['unitId'] = $unitId;
         $parameters['amount'] = $amount;
@@ -93,7 +90,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Delete user food
      *
-     * @throws Exception
      * @param string $id Food log id
      * @return bool
      */
@@ -105,7 +101,7 @@ class FoodGateway extends EndpointGateway {
     /**
      * Add user favorite food
      *
-     * @throws Exception
+     * @TODO This will not work as the ID is never passed to the URL
      * @param string $id Food log id
      * @return bool
      */
@@ -117,7 +113,7 @@ class FoodGateway extends EndpointGateway {
     /**
      * Delete user favorite food
      *
-     * @throws Exception
+     * @TODO This will not work as the ID is never passed to the URL
      * @param string $id Food log id
      * @return bool
      */
@@ -129,7 +125,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user meal sets
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getMeals()
@@ -140,7 +135,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get food units library
      *
-     * @throws Exception
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoodUnits()
@@ -151,7 +145,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Search for foods in foods database
      *
-     * @throws Exception
      * @param string $query Search query
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -163,7 +156,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get description of specific food from food db (or private for the user)
      *
-     * @throws Exception
      * @param  string $id Food Id
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -175,7 +167,6 @@ class FoodGateway extends EndpointGateway {
     /**
      * Create private foods for a user
      *
-     * @throws Exception
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit
      * @param string $defaultServingSize Default serving size in measurement units
@@ -192,12 +183,12 @@ class FoodGateway extends EndpointGateway {
         $parameters['defaultFoodMeasurementUnitId'] = $defaultFoodMeasurementUnitId;
         $parameters['defaultServingSize'] = $defaultServingSize;
         $parameters['calories'] = $calories;
-        if (isset($description))
-            $parameters['description'] = $description;
-        if (isset($formType))
-            $parameters['formType'] = $formType;
-        if (isset($nutrition)) {
-            foreach ($nutrition as $i => $value) {
+        if (isset($description)) $parameters['description'] = $description;
+        if (isset($formType)) $parameters['formType'] = $formType;
+        if (isset($nutrition))
+        {
+            foreach ($nutrition as $i => $value)
+            {
                 $parameters[$i] = $nutrition[$i];
             }
         }
