@@ -1,5 +1,5 @@
 {
-    "name":        "nibynool/fitbitbundle",
+    "name":        "nibynool/fitbit-bundle",
     "type":        "symfony-bundle",
     "description": "A Symfony >=2.3.0 Bundle for accessing the FitBit API.",
     "keywords":    ["fitbit", "symfony"],
