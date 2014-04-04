@@ -59,7 +59,20 @@ class ApiGatewayFactory
      */
     protected $httpClient;
 
-    /**
+	/**
+	 * Set the consumer credentials when this class is instantiated
+	 *
+	 * @access public
+	 * @param string $consumer_key Application consumer key for FitBit API
+	 * @param string $consumer_secret Application secret
+	 */
+	public function __construct($consumer_key, $consumer_secret)
+	{
+		$this->consumerKey    = $consumer_key;
+		$this->consumerSecret = $consumer_secret;
+	}
+
+	/**
      * Set consumer credentials
      * 
      * @access public
