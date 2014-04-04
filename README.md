@@ -19,7 +19,7 @@ This repo has been branched from [jsamos/fitbitphp](https://github.com/jsamos/fi
 
 This package can be installed with composer.  Simply add the following to your composer.json within the require section:
 ```json
-"nibynool/fitbitbundle": "~1.0.0"
+"nibynool/fitbit-bundle": "~1.0.0"
 ```
 
 You will also need to call this package from your AppKernel.php by adding the following to your $bundles array:
