@@ -1,7 +1,7 @@
 {
     "name":        "nibynool/fitbitbundle",
     "type":        "symfony-bundle",
-    "description": "FitBit library with OAuth.",
+    "description": "A Symfony >=2.3.0 Bundle for accessing the FitBit API.",
     "keywords":    ["fitbit", "symfony"],
     "homepage":    "https://github.com/nibynool/fitbitbundle",
     "license" :    "Apache-2.0",
