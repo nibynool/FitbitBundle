@@ -101,25 +101,23 @@ class FoodGateway extends EndpointGateway {
     /**
      * Add user favorite food
      *
-     * @TODO This will not work as the ID is never passed to the URL
      * @param string $id Food log id
      * @return bool
      */
     public function addFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/', 'POST');
+        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
     }
 
     /**
      * Delete user favorite food
      *
-     * @TODO This will not work as the ID is never passed to the URL
      * @param string $id Food log id
      * @return bool
      */
     public function deleteFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/', 'DELETE');
+        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
     }
 
     /**
