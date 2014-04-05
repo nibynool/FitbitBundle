@@ -30,7 +30,7 @@ class TokenStorage
 		}
 
 		$this->adapter = new Memory();
-		$this->adapter->storeAccessToken('FitBit', $token);
+		$this->adapter->storeAccessToken('FitBit', $this->token);
 	}
 
 	/**

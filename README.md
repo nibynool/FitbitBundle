@@ -44,63 +44,162 @@ parameters:
 Usage is fairly simple, although there is still room to optimise it further.  Simply put the following in a controller
 and adjust it to your needs:
 ```php
-// Begin by calling the FitBit Service
-/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
-$fitbit = $this->get('fitbit');
+// Acme/DemoBundle/Controller/FitBitController.php
 
-// Determine if we already have a session (this is only for SymfonySession as the storage adapter)
-/** @var \Symfony\Component\HttpFoundation\Session\Session $session */
-$session = $this->get('session');
-if (!$session->isStarted()) $session->start();
-// Set the storage adapter
-$fitbit->setStorageAdapter(new \OAuth\Common\Storage\SymfonySession($session));
+namespace Acme\DemoBundle\Controller;
 
-/** @var \Symfony\Component\HttpFoundation\Request $request */
-$request = $this->get('request');
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use NibyNool\FitBitBundle\FitBit\TokenStorage;
 
-// Get the FitBit authentication gateway
-/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
-$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+class FitBitController extends Controller
+{
+	public function AllInOneAction()
+	{
+		// Begin by calling the FitBit Service
+		/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
+		$fitbit = $this->get('fitbit');
 
-if ($request->query->get('oauth_token') && $request->query->get('oauth_verifier'))
-{   // These parameters are passed back from FitBit, so if we get them then we can try and
-    // authenticate.  Ideally we should check the referrer here to make sure the request really is
-    // from FitBit.
-    $fitbitAuthGateway->authenticateUser(
-        $request->query->get('oauth_token'),
-        $request->query->get('oauth_verifier')
-    );
-    /** @var \OAuth\Common\Storage\TokenStorageInterface $storage */
-    $storage = $fitbit->getStorageAdapter();
-    /** @var \OAuth\OAuth1\Token\TokenInterface $token */
-    $token   = $storage->retrieveAccessToken('FitBit');
-    $oauth_access_token  = $token->getRequestToken();
-    $oauth_access_secret = $token->getRequestTokenSecret();
-    // At this point we can save the access token and secret so we can reload it when required
-    // (maybe as part of the user login process)
-}
-elseif ($request->query->get('connect'))
-{   // Redirect to FitBit to login
-    $fitbitAuthGateway->initiateLogin();
-}
+		// Set the storage adapter
+		/** @var \NibyNool\FitBitBundle\FitBit\TokenStorage $tokenStorage **/
+		$tokenStorage = new TokenStorage();
+		$fitbit->setStorageAdapter($tokenStorage->getApapter());
 
-if ($fitbitAuthGateway->isAuthorized())
-{   // Once we've confirmed a successful login we can store the auth token
-    /** @var \NibyNool\FitBitBundle\FitBit\UserGateway $fitbitUserGateway */
-    $fitbitUserGateway = $fitbit->getUserGateway();
-    echo '<pre>';
-    print_r($fitbitUserGateway->getProfile());
-    echo '</pre>';
-}
-else
-{   // We aren't trying to do anything, so just display a message
-    echo 'Not connected.';
+		/** @var \Symfony\Component\HttpFoundation\Request $request */
+		$request = $this->get('request');
+
+		// Get the FitBit authentication gateway
+		/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
+		$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+
+		if ($request->query->get('oauth_token') && $request->query->get('oauth_verifier'))
+		{   // These parameters are passed back from FitBit, so if we get them then we can try and
+		    // authenticate.  Ideally we should check the referrer here to make sure the request really is
+		    // from FitBit.
+		    $fitbitAuthGateway->authenticateUser(
+		        $request->query->get('oauth_token'),
+		        $request->query->get('oauth_verifier')
+		    );
+		    /** @var \OAuth\Common\Storage\TokenStorageInterface $storage */
+		    $storage = $fitbit->getStorageAdapter();
+		    /** @var \OAuth\OAuth1\Token\TokenInterface $token */
+		    $token   = $storage->retrieveAccessToken('FitBit');
+		    $oauth_access_token  = $token->getRequestToken();
+		    $oauth_access_secret = $token->getRequestTokenSecret();
+		    // At this point we can save the access token and secret so we can reload it when required
+		    // (maybe as part of the user login process)
+		}
+		elseif ($request->query->get('connect'))
+		{   // Redirect to FitBit to login
+		    $fitbitAuthGateway->initiateLogin();
+		}
+
+		if ($fitbitAuthGateway->isAuthorized())
+		{   // Once we've confirmed a successful login we can store the auth token
+		    /** @var \NibyNool\FitBitBundle\FitBit\UserGateway $fitbitUserGateway */
+		    $fitbitUserGateway = $fitbit->getUserGateway();
+		    echo '<pre>';
+		    print_r($fitbitUserGateway->getProfile());
+		    echo '</pre>';
+		}
+		else
+		{   // We aren't trying to do anything, so just display a message
+		    echo 'Not connected.';
+		}
+	}
+
+	public function RequestAuthorisationAction()
+	{
+		// Begin by calling the FitBit Service
+		/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
+		$fitbit = $this->get('fitbit');
+
+		// Set the storage adapter
+		/** @var \NibyNool\FitBitBundle\FitBit\TokenStorage $tokenStorage **/
+		$tokenStorage = new TokenStorage();
+		$fitbit->setStorageAdapter($tokenStorage->getApapter());
+
+		// Get the FitBit authentication gateway
+		/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
+		$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+
+		// Redirect to FitBit to login
+		$fitbitAuthGateway->initiateLogin();
+	}
+
+	public function HandleCallbackAction()
+	{
+		// Begin by calling the FitBit Service
+		/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
+		$fitbit = $this->get('fitbit');
+
+		// Set the storage adapter
+		/** @var \NibyNool\FitBitBundle\FitBit\TokenStorage $tokenStorage **/
+		$tokenStorage = new TokenStorage();
+		$fitbit->setStorageAdapter($tokenStorage->getApapter());
+
+		// Get the request
+		/** @var Request $request */
+		$request = $this->get('request');
+
+		// Get the FitBit authentication gateway
+		/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
+		$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+
+		// Ensure we have the required callback request parameters
+		if (!$request->query->get('oauth_token') || !$request->query->get('oauth_verifier')) throw new HttpException(400, 'Insufficient data provided');
+
+		// Process the authentication
+		$fitbitAuthGateway->authenticateUser($request->query->get('oauth_token'), $request->query->get('oauth_verifier'));
+
+		// Ensure the authentication worked
+		if (!$fitbitAuthGateway->isAuthorized()) throw new HttpException(401, 'Invalid Authentication Provided');
+
+		// Get the access token data and save it
+		/** @var TokenStorageInterface $storage */
+		$storage = $fitbit->getStorageAdapter();
+		/** @var TokenInterface1 $token */
+		$token = $storage->retrieveAccessToken('FitBit');
+
+		// This function should save the request token and associated secret for later use
+		customSaveFunction($token->getRequestToken(), $token->getRequestTokenSecret());
+	}
+
+	public function ShowFitBitProfileAction()
+	{
+		// This function should load the request token and associated secret as saved previously
+		list($token, $secret) = customLoadFunction();
+
+		// Call the FitBit Service
+		/** @var \NibyNool\FitBitBundle\FitBit\ApiGatewayFactory $fitbit **/
+		$fitbit = $this->get('fitbit');
+
+		// Set the storage adapter
+		/** @var \NibyNool\FitBitBundle\FitBit\TokenStorage $tokenStorage **/
+		$tokenStorage = new TokenStorage($token, $secret);
+		$fitbit->setStorageAdapter($tokenStorage->getApapter());
+
+		// Get the FitBit authentication gateway
+		/** @var \NibyNool\FitBitBundle\FitBit\AuthenticationGateway $fitbitAuthGateway */
+		$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
+
+		if ($$fitbitAuthGateway->isAuthorized())
+		{
+		    /** @var FitBitUser $fitbitUser */
+		    $fitbitUser = $fitbit->getUserGateway();
+		    /** @var array $fitbitProfile */
+		    $fitbitProfile = $fitbitUser->getProfile();
+		}
+		else
+		{
+			// Error
+		}
+	}
 }
 ```
 
 ## EndPoint Test Status ##
 
-FitBit has a large number of API end points.  TO help navigate through these with this bundle here's a matrix to display
+FitBit has a large number of API end points.  To help navigate through these with this bundle here's a matrix to display
 the end point, the data available and the date this bundle was last tested with the end point.
 
 End Point | API Call | Last Test
