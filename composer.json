@@ -35,8 +35,8 @@
     },
     "autoload": {
         "psr-0": {
-            "NibyNool\\FitBit\\FitBitBundle": ""
+            "NibyNool\\FitBitBundle": ""
         }
     },
-	"target-dir": "NibyNool/FitBit/FitBitBundle"
+	"target-dir": "NibyNool/FitBitBundle"
 }
