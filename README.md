@@ -231,6 +231,7 @@ End Point | API Call | Last Test
 ## FitBitBundle TODO ##
 
  * Test API Calls
+ * Release first stable version
  * Write test functions
  * Adjust OAuth use to prefer built-in PHP OAuth if available
  * Write example code for "Login with FitBit"
