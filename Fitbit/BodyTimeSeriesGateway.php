@@ -2,6 +2,12 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class BodyTimeSeriesGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ * @method array getWeight(string $baseDate, string $period, string $endDate)
+ */
 class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway {
 
     /**
@@ -9,6 +15,6 @@ class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway {
      * 
      * @var string
      */
-    protected static $format = 'body/%s/date';
+    protected static $format = 'body/log/%s/date';
 
 }
