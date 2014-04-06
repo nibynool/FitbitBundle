@@ -239,10 +239,10 @@ project, please respect and honour this methodology.
 
 ## FitBitBundle TODO ##
 
-[ ] Test API Calls
-[ ] Release first stable version
-[ ] Write test functions
-[ ] Adjust OAuth use to prefer built-in PHP OAuth if available
-[ ] Write example code for "Login with FitBit"
-[ ] Develop test site to demonstrate all functionality
-[ ] Contact FitBit to get bundle added to dev.fitbit.com
+- [ ] Test API Calls
+- [ ] Release first stable version
+- [ ] Write test functions
+- [ ] Adjust OAuth use to prefer built-in PHP OAuth if available
+- [ ] Write example code for "Login with FitBit"
+- [ ] Develop test site to demonstrate all functionality
+- [ ] Contact FitBit to get bundle added to dev.fitbit.com
