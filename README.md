@@ -227,3 +227,12 @@ End Point | API Call | Last Test
 ----------|----------|----------
 [Get User Info](https://wiki.fitbit.com/display/API/API-Get-User-Info)|$fitbit->getUserGateway()->getProfile()|2014-04-06
 [Update User Info](https://wiki.fitbit.com/display/API/API-Update-User-Info)|$fitbit->getUserGateway()->updateProfileFromArray($array)|
+
+## FitBitBundle TODO ##
+
+ * Test API Calls
+ * Write test functions
+ * Adjust OAuth use to prefer built-in PHP OAuth if available
+ * Write example code for "Login with FitBit"
+ * Develop test site to demonstrate all functionality
+ * Contact FitBit to get bundle added to dev.fitbit.com
