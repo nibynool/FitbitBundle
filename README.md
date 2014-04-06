@@ -94,8 +94,8 @@ class FitBitController extends Controller
 
 		if ($request->query->get('oauth_token') && $request->query->get('oauth_verifier'))
 		{   // These parameters are passed back from FitBit, so if we get them then we can try and
-		    // authenticate.  Ideally we should check the referrer here to make sure the request really is
-		    // from FitBit.
+		    // authenticate.  Ideally we should check the referrer here to make sure the request
+		    // really is from FitBit.
 		    $fitbitAuthGateway->authenticateUser(
 		        $request->query->get('oauth_token'),
 		        $request->query->get('oauth_verifier')
@@ -106,8 +106,8 @@ class FitBitController extends Controller
 		    $token   = $storage->retrieveAccessToken('FitBit');
 		    $oauth_access_token  = $token->getRequestToken();
 		    $oauth_access_secret = $token->getRequestTokenSecret();
-		    // At this point we can save the access token and secret so we can reload it when required
-		    // (maybe as part of the user login process)
+		    // At this point we can save the access token and secret so we can reload it when
+		    // required (maybe as part of the user login process)
 		}
 		elseif ($request->query->get('connect'))
 		{   // Redirect to FitBit to login
@@ -167,13 +167,18 @@ class FitBitController extends Controller
 		$fitbitAuthGateway = $fitbit->getAuthenticationGateway();
 
 		// Ensure we have the required callback request parameters
-		if (!$request->query->get('oauth_token') || !$request->query->get('oauth_verifier')) throw new HttpException(400, 'Insufficient data provided');
+		if (!$request->query->get('oauth_token') || !$request->query->get('oauth_verifier'))
+			throw new HttpException(400, 'Insufficient data provided');
 
 		// Process the authentication
-		$fitbitAuthGateway->authenticateUser($request->query->get('oauth_token'), $request->query->get('oauth_verifier'));
+		$fitbitAuthGateway->authenticateUser(
+			$request->query->get('oauth_token'),
+			$request->query->get('oauth_verifier')
+		);
 
 		// Ensure the authentication worked
-		if (!$fitbitAuthGateway->isAuthorized()) throw new HttpException(401, 'Invalid Authentication Provided');
+		if (!$fitbitAuthGateway->isAuthorized())
+			throw new HttpException(401, 'Invalid Authentication Provided');
 
 		// Get the access token data and save it
 		/** @var TokenStorageInterface $storage */
@@ -220,8 +225,9 @@ class FitBitController extends Controller
 
 ## EndPoint Test Status ##
 
-FitBit has a large number of API end points.  To help navigate through these with this bundle here's a matrix to display
-the end point, the data available and the date this bundle was last tested with the end point.
+FitBit has a large number of API end points.  To help navigate through these with this bundle here's
+a matrix to display the end point, the data available and the date this bundle was last tested with
+the end point.
 
 End Point | API Call | Last Test
 ----------|----------|----------
@@ -230,10 +236,10 @@ End Point | API Call | Last Test
 
 ## FitBitBundle TODO ##
 
- * Test API Calls
- * Release first stable version
- * Write test functions
- * Adjust OAuth use to prefer built-in PHP OAuth if available
- * Write example code for "Login with FitBit"
- * Develop test site to demonstrate all functionality
- * Contact FitBit to get bundle added to dev.fitbit.com
+[ ] Test API Calls
+[ ] Release first stable version
+[ ] Write test functions
+[ ] Adjust OAuth use to prefer built-in PHP OAuth if available
+[ ] Write example code for "Login with FitBit"
+[ ] Develop test site to demonstrate all functionality
+[ ] Contact FitBit to get bundle added to dev.fitbit.com
