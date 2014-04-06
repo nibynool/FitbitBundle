@@ -19,12 +19,33 @@ This repo has been branched from [jsamos/fitbitphp](https://github.com/jsamos/fi
 
 This package can be installed with composer.  Simply add the following to your composer.json within the require section:
 ```json
-"nibynool/fitbit-bundle": "~1.0.0"
+{
+	[...]
+	"require": {
+		[...]
+		"nibynool/fitbit-bundle": "~1.0.0",
+		[...]
+	},
+	[...]
+}
 ```
 
 You will also need to call this package from your AppKernel.php by adding the following to your $bundles array:
 ```php
-new NibyNool\FitBitBundle\NibyNoolFitBitBundle(),
+class AppKernel extends Kernel
+{
+	[...]
+	public function registerBundles()
+	{
+		$bundles = array(
+			[...]
+			new NibyNool\FitBitBundle\NibyNoolFitBitBundle(),
+			[...]
+		);
+		[...]
+	}
+	[...]
+}
 ```
 
 Prior to use, you will require a consumer key and secret.  These can be obtained by registering an application with
@@ -204,5 +225,5 @@ the end point, the data available and the date this bundle was last tested with 
 
 End Point | API Call | Last Test
 ----------|----------|----------
-[Get User Info](https://wiki.fitbit.com/display/API/API-Get-User-Info)|$fitbit->getUserGateway()->getProfile()|
+[Get User Info](https://wiki.fitbit.com/display/API/API-Get-User-Info)|$fitbit->getUserGateway()->getProfile()|2014-04-06
 [Update User Info](https://wiki.fitbit.com/display/API/API-Update-User-Info)|$fitbit->getUserGateway()->updateProfileFromArray($array)|
