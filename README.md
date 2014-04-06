@@ -1,9 +1,7 @@
 ## FitbitBundle ##
 
-This will soon become a bundle suitable for use in Symfony 2.3.x for interfacing to [FitBit](http://fitbit.com)'s
+This project is a bundle suitable for use in Symfony >=2.3.x for interfacing to [FitBit](http://fitbit.com)'s
 [REST API](http://dev.fitbit.com).
-
-Whilst there are no tags on this project it is not suitable for use.
 
 Please note that the FitBit API is considered to be a **beta** release.  As such, this bundle should also be
 considered to be a **beta** release.
@@ -233,6 +231,11 @@ End Point | API Call | Last Test
 ----------|----------|----------
 [Get User Info](https://wiki.fitbit.com/display/API/API-Get-User-Info)|$fitbit->getUserGateway()->getProfile()|2014-04-06
 [Update User Info](https://wiki.fitbit.com/display/API/API-Update-User-Info)|$fitbit->getUserGateway()->updateProfileFromArray($array)|
+
+## Development Notes ##
+
+This project is being developed with a GitFlow structure.  If you are developing and code for this
+project, please respect and honour this methodology.
 
 ## FitBitBundle TODO ##
 
