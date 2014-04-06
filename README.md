@@ -23,7 +23,7 @@ This package can be installed with composer.  Simply add the following to your c
 	[...]
 	"require": {
 		[...]
-		"nibynool/fitbit-bundle": "~1.0.0",
+		"nibynool/fitbit-bundle": "~0.1.0",
 		[...]
 	},
 	[...]
