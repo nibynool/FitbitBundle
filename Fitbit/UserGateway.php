@@ -22,6 +22,7 @@ class UserGateway extends EndpointGateway {
     /**
      * API wrappers
      *
+     * @return object
      */
     public function getProfile()
     {
