@@ -1,0 +1,27 @@
+{
+    "name":        "nibynool/fitbit-interface-bundle",
+    "type":        "symfony-bundle",
+    "description": "A Symfony >=2.3.0 Bundle for storing data from the FitBit API.",
+    "keywords":    ["fitbit", "symfony"],
+    "homepage":    "https://github.com/nibynool/fitbitinterfacebundle",
+    "license" :    "Apache-2.0",
+    "authors": [
+	    {
+		    "name":     "Michael Lambert",
+		    "email":    "michael@alphageek.com.au",
+		    "homepage": "https://github.com/NibyNool"
+	    }
+    ],
+    "require": {
+        "php":                              ">=5.3.0",
+	    "symfony/framework-bundle":         "~2.1",
+	    "nibynool/fitbit-storage-bundle":   "~0.1",
+	    "nibynool/fitbit-bundle":           "~0.1"
+	},
+    "autoload": {
+        "psr-0": {
+            "NibyNool\\FitBitBundle": ""
+        }
+    },
+	"target-dir": "NibyNool/FitBitInterfaceBundle"
+}
