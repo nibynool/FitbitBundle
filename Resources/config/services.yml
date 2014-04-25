@@ -2,4 +2,4 @@ services:
     fitbitprofileinterface:
         class:     NibyNool\FitBitInterfaceBundle\FitBitInterface\Profile
         calls:
-		    - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ @service_container ] ]
