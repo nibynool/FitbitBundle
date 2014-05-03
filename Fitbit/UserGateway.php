@@ -89,12 +89,11 @@ class UserGateway extends EndpointGateway {
     /**
      * Get user's friends leaderboard
      *
-     * @param string $period Depth ('7d' or '30d')
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getFriendsLeaderboard($period = '7d')
+    public function getFriendsLeaderboard()
     {
-        return $this->makeApiRequest('user/-/friends/leaders/' . $period);
+        return $this->makeApiRequest('user/-/friends/leaderboard');
     }
 
     /**
