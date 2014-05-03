@@ -2,6 +2,11 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class ActivityGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ */
 class ActivityGateway extends EndpointGateway {
 
     /**
@@ -23,7 +28,7 @@ class ActivityGateway extends EndpointGateway {
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getActivities($date, $dateStr = null)
+    public function getActivities(\DateTime $date, $dateStr = null)
     {
         if (!isset($dateStr)) {
             $dateStr = $date->format('Y-m-d');
