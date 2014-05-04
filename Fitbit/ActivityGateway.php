@@ -73,7 +73,6 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Log user activity
      *
-     * @throws Exception
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $activityId Activity Id (or Intensity Level Id) from activities database,
      *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity
@@ -81,6 +80,7 @@ class ActivityGateway extends EndpointGateway {
      * @param string $calories Manual calories to override FitBit estimate
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
+     * @param string $activityName The name of the activity
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logActivity(\DateTime $date, $activityId, $duration, $calories = null, $distance = null, $distanceUnit = null, $activityName = null)
