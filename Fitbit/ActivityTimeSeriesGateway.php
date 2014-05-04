@@ -2,6 +2,23 @@
 
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class ActivityTimeSeriesGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getSteps(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getDistance(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getFloors(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getElevation(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getMinutesSedentary(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getMinutesLightlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getMinutesFairlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ */
 class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
 
     /**

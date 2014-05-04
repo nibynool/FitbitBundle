@@ -132,7 +132,7 @@ class ApiGatewayFactory
     public function setResponseFormat($format)
     {
         if (!in_array($format, array('json', 'xml'))) {
-            throw new FBException("Reponse format must be one of 'json', 'xml'");
+            throw new FBException("Response format must be one of 'json', 'xml'");
         }
         $this->responseFormat = $format;
         return $this;
