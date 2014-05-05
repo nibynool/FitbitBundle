@@ -309,6 +309,18 @@ class ApiGatewayFactory
     }
 
 	/**
+	 * Get the Tracker Gateway Interface
+	 *
+	 * @return TrackerGateway
+	 */
+	public function getTrackerGateway()
+	{
+		$gateway = new TrackerGateway;
+		$this->injectGatewayDependencies($gateway);
+		return $gateway;
+	}
+
+	/**
 	 * Get the User Gateway Interface
 	 *
 	 * @return UserGateway
