@@ -273,6 +273,18 @@ class ApiGatewayFactory
     }
 
 	/**
+	 * Get the Goal Gateway Interface
+	 *
+	 * @return GoalGateway
+	 */
+	public function getGoalGateway()
+	{
+		$gateway = new GoalGateway;
+		$this->injectGatewayDependencies($gateway);
+		return $gateway;
+	}
+
+	/**
 	 * Get the Sleep Gateway Interface
 	 *
 	 * @return SleepGateway
