@@ -194,11 +194,23 @@ class ApiGatewayFactory
 	 * @return ActivityGateway
 	 */
 	public function getActivityGateway()
-    {
-        $gateway = new ActivityGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
+	{
+		$gateway = new ActivityGateway;
+		$this->injectGatewayDependencies($gateway);
+		return $gateway;
+	}
+
+	/**
+	 * Get the Activity Stats Gateway Interface
+	 *
+	 * @return ActivityStatsGateway
+	 */
+	public function getActivityStatsGateway()
+	{
+		$gateway = new ActivityStatsGateway;
+		$this->injectGatewayDependencies($gateway);
+		return $gateway;
+	}
 
 	/**
 	 * Get the Activity Time Series Gateway Interface
