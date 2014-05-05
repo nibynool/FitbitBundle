@@ -96,6 +96,16 @@ class UserGateway extends EndpointGateway {
         return $this->makeApiRequest('user/-/friends/leaderboard');
     }
 
+	/**
+	 * Get friend invites
+	 *
+	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 */
+	public function getInvites()
+	{
+		return $this->makeApiRequest('user/-/friends/invitations');
+	}
+
     /**
      * Invite user to become friends
      *
@@ -127,7 +137,7 @@ class UserGateway extends EndpointGateway {
     }
 
     /**
-     * Accept invite to become friends from user
+     * Reject invite to become friends from user
      *
      * @param string $userId Id of the inviting user
      * @return bool
@@ -139,6 +149,16 @@ class UserGateway extends EndpointGateway {
 
         return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
     }
+
+	/**
+	 * Get badges
+	 *
+	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 */
+	public function getBadges()
+	{
+		return $this->makeApiRequest('user/-/badges');
+	}
 
     /**
      * Add subscription
