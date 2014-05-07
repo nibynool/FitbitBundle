@@ -15,6 +15,10 @@ class WaterGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -30,6 +34,10 @@ class WaterGateway extends EndpointGateway {
      * Log user water
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Can this use a time in the date string?
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $amount Amount in ml/fl oz (as set with setMetric) or waterUnit
@@ -52,6 +60,8 @@ class WaterGateway extends EndpointGateway {
      * Delete user water record
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @param string $id Water log id
      * @return bool

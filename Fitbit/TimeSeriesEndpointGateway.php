@@ -21,6 +21,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Add validation for the method name
+     *
      * @param string $method
      * @return string
      */
@@ -35,6 +37,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
      * Get user time series
      *
      * @access public
+     *
+     * @todo Can $period and $endDate be merged?
      *
      * @param  string $fragment
      * @param  \DateTime|string $baseDate
@@ -61,6 +65,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
      * Dynamically pass methods to get.
      *
      * @access public
+     *
+     * @todo Check for function existance
      *
      * @param  string  $method
      * @param  array   $parameters

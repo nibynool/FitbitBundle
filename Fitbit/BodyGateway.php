@@ -7,6 +7,10 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
+ *
+ * @todo Is there a function to delete a body log?
+ * @todo Is there a function to delete a weight log?
+ * @todo Is there a function to delete a glucose log?
  */
 class BodyGateway extends EndpointGateway {
 
@@ -14,6 +18,10 @@ class BodyGateway extends EndpointGateway {
      * Get user body measurements
      *
      * @access public
+     *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -30,6 +38,9 @@ class BodyGateway extends EndpointGateway {
      * Log user body measurements
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
@@ -68,9 +79,14 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Can the date cope with a time?
+     * @todo Can we allow different weight units?
+     * @todo Handle failed API requests gracefully
+     *
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param \DateTime $date If present, log entry date, now by default (set proper timezone, which could be fetched via getProfile)
-     * @return bool
+     *
+	 * @return bool
      */
     public function logWeight($weight, \DateTime $date = null)
     {
@@ -85,6 +101,10 @@ class BodyGateway extends EndpointGateway {
      * Get user blood pressure log entries for specific date
      *
      * @access public
+     *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -101,6 +121,10 @@ class BodyGateway extends EndpointGateway {
      * Log user blood pressure
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Merge the date and time into one item
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
@@ -124,6 +148,8 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @param string $id Blood pressure log id
      * @return bool
      */
@@ -136,6 +162,10 @@ class BodyGateway extends EndpointGateway {
      * Get user glucose log entries for specific date
      *
      * @access public
+     *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -152,6 +182,10 @@ class BodyGateway extends EndpointGateway {
      * Log user glucose and HbA1c
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Merge the date and time into one item
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
@@ -177,6 +211,10 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -192,6 +230,10 @@ class BodyGateway extends EndpointGateway {
      * Log user heart rate
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Merge the date and time into one item
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
@@ -214,6 +256,8 @@ class BodyGateway extends EndpointGateway {
      * Delete user heart rate record
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @param string $id Heart rate log id
      * @return bool

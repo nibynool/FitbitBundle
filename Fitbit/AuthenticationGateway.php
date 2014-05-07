@@ -30,6 +30,8 @@ class AuthenticationGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Validate the returned URL
+     *
      * @return void
      */
     public function initiateLogin()
@@ -67,11 +69,12 @@ class AuthenticationGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Need to add clear to the interface for phpoauthlib (this todo was here when this project was branched)
+     *
      * @return void
      */
     public function resetSession()
     {
-        // TODO: Need to add clear to the interface for phpoauthlib
         $this->service->getStorage()->clearToken('FitBit');
     }
 

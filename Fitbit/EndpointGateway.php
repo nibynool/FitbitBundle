@@ -74,6 +74,9 @@ class EndpointGateway {
      *
      * @access protected
      *
+     * @todo Handle failed requests
+     * @todo Handle failed response parsing
+     *
      * @param string $resource Endpoint after '.../1/'
      * @param string $method ('GET', 'POST', 'PUT', 'DELETE')
      * @param array $body Request parameters
@@ -99,6 +102,9 @@ class EndpointGateway {
      *
      * @access private
      *
+     * @todo Handle invalid response formats
+     * @todo Handle errors in response data/format
+     *
      * @param string $response
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
@@ -114,6 +120,8 @@ class EndpointGateway {
      * Get CLIENT+VIEWER and CLIENT rate limiting quota status
      *
      * @access public
+     *
+     * @todo Handle failed API requests
      *
      * @return RateLimiting
      */

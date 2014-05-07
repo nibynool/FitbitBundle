@@ -31,6 +31,8 @@ class UserGateway extends EndpointGateway {
      * @access public
      * @version 0.1.1
      *
+     * @todo Handle failed API requests
+     *
      * @return object
      */
     public function getProfile()
@@ -42,6 +44,8 @@ class UserGateway extends EndpointGateway {
      * Update user profile with array of parameters.
      *
      * @access public
+     *
+     * @todo Handle failed API requests
      *
      * @param array $parameters
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -55,6 +59,8 @@ class UserGateway extends EndpointGateway {
      * Update user profile
      *
      * @access public
+     *
+     * @todo Handle failed profile update
      *
      * @param string $gender 'FEMALE', 'MALE' or 'NA'
      * @param \DateTime $birthday Date of birth
@@ -82,6 +88,8 @@ class UserGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getDevices()
@@ -93,6 +101,8 @@ class UserGateway extends EndpointGateway {
      * Get user friends
      *
      * @access public
+     *
+     * @todo Handle failed API requests
      *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -107,6 +117,8 @@ class UserGateway extends EndpointGateway {
      * @access public
      * @version 0.1.1
      *
+     * @todo Handle failed API requests
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFriendsLeaderboard()
@@ -120,6 +132,8 @@ class UserGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
+	 * @todo Handle failed API requests
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getInvites()
@@ -131,6 +145,8 @@ class UserGateway extends EndpointGateway {
      * Invite user to become friends
      *
      * @access public
+     *
+     * @todo Handle failed API requests
      *
      * @param string $userId Invite user by id
      * @param string $email Invite user by email address (could be already FitBit member or not)
@@ -150,6 +166,8 @@ class UserGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests
+     *
      * @param string $userId Id of the inviting user
      * @return bool
      */
@@ -166,6 +184,8 @@ class UserGateway extends EndpointGateway {
      *
      * @access public
      * @version 0.5.0
+     *
+     * @todo Handle failed API requests
      *
      * @param string $userId Id of the inviting user
      * @return bool
@@ -184,6 +204,8 @@ class UserGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
+	 * @todo Handle failed API requests
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getBadges()
@@ -195,6 +217,9 @@ class UserGateway extends EndpointGateway {
      * Add subscription
      *
      * @access public
+     *
+     * @todo Handle failed API requests
+     * @todo Handle failed function calls
      *
      * @param string $id Subscription ID
      * @param string $subscriptionType Collection type
@@ -215,6 +240,9 @@ class UserGateway extends EndpointGateway {
      * Delete user subscription
      *
      * @access public
+     *
+     * @todo Handle failed API requests
+     * @todo Handle failed function calls
      *
      * @param string $id Subscription Id
      * @param string $subscriptionType Collection type
@@ -291,6 +319,8 @@ class UserGateway extends EndpointGateway {
      * Get list of user's subscriptions for this application
      *
      * @access public
+     *
+     * @todo Handle failed API requests
      *
      * @return mixed
      */

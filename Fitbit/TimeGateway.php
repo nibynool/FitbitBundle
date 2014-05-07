@@ -8,6 +8,8 @@ namespace NibyNool\FitBitBundle\FitBit;
  *
  * @since 0.1.0
  * @deprecated 0.5.0
+ *
+ * @todo Can we throw a warning when this class is used?
  */
 class TimeGateway extends EndpointGateway {
     /**

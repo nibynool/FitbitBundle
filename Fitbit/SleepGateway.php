@@ -15,6 +15,10 @@ class SleepGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -30,6 +34,9 @@ class SleepGateway extends EndpointGateway {
      * Log user sleep
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Sleep date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $duration Duration millis
@@ -49,6 +56,8 @@ class SleepGateway extends EndpointGateway {
      * Delete user sleep record
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @param string $id Activity log id
      * @return bool

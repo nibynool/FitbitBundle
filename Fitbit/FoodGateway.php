@@ -15,6 +15,10 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Remove the $dateStr variable
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -31,6 +35,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentFoods()
@@ -42,6 +48,8 @@ class FoodGateway extends EndpointGateway {
      * Get user frequent foods
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -55,6 +63,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteFoods()
@@ -66,6 +76,9 @@ class FoodGateway extends EndpointGateway {
      * Log user food
      *
      * @access public
+     *
+     * @todo Add validation for the date
+     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)
@@ -108,6 +121,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @param string $id Food log id
      * @return bool
      */
@@ -120,6 +135,8 @@ class FoodGateway extends EndpointGateway {
      * Add user favorite food
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @param string $id Food log id
      * @return bool
@@ -134,6 +151,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @param string $id Food log id
      * @return bool
      */
@@ -147,6 +166,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getMeals()
@@ -159,6 +180,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoodUnits()
@@ -170,6 +193,10 @@ class FoodGateway extends EndpointGateway {
      * Search for foods in foods database
      *
      * @access public
+     *
+     * @todo Add validation for the query
+     * @todo Can we create a query builder?  Do we even need one?
+     * @todo Handle failed API requests gracefully
      *
      * @param string $query Search query
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -184,6 +211,8 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @param  string $id Food Id
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -196,6 +225,8 @@ class FoodGateway extends EndpointGateway {
      * Create private foods for a user
      *
      * @access public
+     *
+     * @todo Handle failed API requests gracefully
      *
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit

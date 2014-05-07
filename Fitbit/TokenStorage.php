@@ -29,6 +29,8 @@ class TokenStorage
 	 * @access public
 	 * @version 0.1.1
 	 *
+	 * @todo Handle invalid storage types
+	 *
 	 * @param string $storage The storage to use for the token
 	 * @param string $token  The token to be added to the storage if this is pre-authorised
 	 * @param string $secret The secret associated with the token.

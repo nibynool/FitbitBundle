@@ -16,6 +16,8 @@ class TrackerGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
+     * @todo Handle failed API requests
+     *
      * @param  string $tracker
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */

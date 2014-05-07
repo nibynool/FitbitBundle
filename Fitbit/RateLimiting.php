@@ -40,6 +40,8 @@ class RateLimiting
 	public $clientQuota;
 
 	/**
+	 * @todo Change reset values \DateTime
+	 *
 	 * @param integer $viewer
 	 * @param integer $client
 	 * @param string  $viewerReset

@@ -16,6 +16,8 @@ class GoalGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
+     * @todo Handle failed API requests gracefully
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getBodyWeightGoal()
@@ -28,6 +30,8 @@ class GoalGateway extends EndpointGateway {
 	 *
 	 * @access public
 	 * @version 0.5.0
+	 *
+	 * @todo Handle failed API requests gracefully
 	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
@@ -42,6 +46,8 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
+	 * @todo Handle failed API requests gracefully
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getActivityDailyGoal()
@@ -54,6 +60,8 @@ class GoalGateway extends EndpointGateway {
 	 *
 	 * @access public
 	 * @version 0.5.0
+	 *
+	 * @todo Handle failed API requests gracefully
 	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
@@ -68,6 +76,8 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
+	 * @todo Handle failed API requests gracefully
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getFoodGoal()
@@ -80,6 +90,8 @@ class GoalGateway extends EndpointGateway {
 	 *
 	 * @access public
 	 * @version 0.5.0
+	 *
+	 * @todo Handle failed API requests gracefully
 	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
