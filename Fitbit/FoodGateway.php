@@ -15,17 +15,15 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getFoods($date, $dateStr = null)
+    public function getFoods($date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
     }
