@@ -1,9 +1,15 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
+/**
+ * Class UserGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class UserGateway extends EndpointGateway {
 
     /**
@@ -22,6 +28,9 @@ class UserGateway extends EndpointGateway {
     /**
      * API wrappers
      *
+     * @access public
+     * @version 0.1.1
+     *
      * @return object
      */
     public function getProfile()
@@ -33,6 +42,7 @@ class UserGateway extends EndpointGateway {
      * Update user profile with array of parameters.
      *
      * @access public
+     *
      * @param array $parameters
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -45,6 +55,7 @@ class UserGateway extends EndpointGateway {
      * Update user profile
      *
      * @access public
+     *
      * @param string $gender 'FEMALE', 'MALE' or 'NA'
      * @param \DateTime $birthday Date of birth
      * @param string $height Height in cm/inches (as set with setMetric)
@@ -69,6 +80,8 @@ class UserGateway extends EndpointGateway {
     /**
      * Get list of devices and their properties
      *
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getDevices()
@@ -78,6 +91,8 @@ class UserGateway extends EndpointGateway {
 
     /**
      * Get user friends
+     *
+     * @access public
      *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -89,6 +104,9 @@ class UserGateway extends EndpointGateway {
     /**
      * Get user's friends leaderboard
      *
+     * @access public
+     * @version 0.1.1
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFriendsLeaderboard()
@@ -99,6 +117,9 @@ class UserGateway extends EndpointGateway {
 	/**
 	 * Get friend invites
 	 *
+	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getInvites()
@@ -108,6 +129,8 @@ class UserGateway extends EndpointGateway {
 
     /**
      * Invite user to become friends
+     *
+     * @access public
      *
      * @param string $userId Invite user by id
      * @param string $email Invite user by email address (could be already FitBit member or not)
@@ -125,6 +148,8 @@ class UserGateway extends EndpointGateway {
     /**
      * Accept invite to become friends from user
      *
+     * @access public
+     *
      * @param string $userId Id of the inviting user
      * @return bool
      */
@@ -138,6 +163,9 @@ class UserGateway extends EndpointGateway {
 
     /**
      * Reject invite to become friends from user
+     *
+     * @access public
+     * @version 0.5.0
      *
      * @param string $userId Id of the inviting user
      * @return bool
@@ -153,6 +181,9 @@ class UserGateway extends EndpointGateway {
 	/**
 	 * Get badges
 	 *
+	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getBadges()
@@ -164,6 +195,7 @@ class UserGateway extends EndpointGateway {
      * Add subscription
      *
      * @access public
+     *
      * @param string $id Subscription ID
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
@@ -183,6 +215,7 @@ class UserGateway extends EndpointGateway {
      * Delete user subscription
      *
      * @access public
+     *
      * @param string $id Subscription Id
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
@@ -201,9 +234,10 @@ class UserGateway extends EndpointGateway {
     /**
      * Validate user subscription type
      *
-     * @throws FBException
      * @access protected
+     *
      * @param string &$subscriptionType Collection type
+     * @throws FBException
      * @return bool
      */
     protected function validateSubscriptionType(&$subscriptionType)
@@ -222,6 +256,7 @@ class UserGateway extends EndpointGateway {
      * Create headers for subscription requests.
      *
      * @access protected
+     *
      * @param string $subscriberId The ID of the subscriber
      * @return array
      */
@@ -236,6 +271,7 @@ class UserGateway extends EndpointGateway {
      * Create the subscription request URL
      *
      * @access protected
+     *
      * @param string $id Subscription Id
      * @param string $subscriptionType subscriptionType resource path
      * @return string
@@ -255,6 +291,7 @@ class UserGateway extends EndpointGateway {
      * Get list of user's subscriptions for this application
      *
      * @access public
+     *
      * @return mixed
      */
     public function getSubscriptions()

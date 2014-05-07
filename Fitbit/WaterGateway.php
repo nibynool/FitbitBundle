@@ -1,13 +1,20 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class WaterGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class WaterGateway extends EndpointGateway {
 
     /**
      * Get user water log entries for specific date
      *
-     * @throws Exception
+     * @access public
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -22,7 +29,8 @@ class WaterGateway extends EndpointGateway {
     /**
      * Log user water
      *
-     * @throws Exception
+     * @access public
+     *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $amount Amount in ml/fl oz (as set with setMetric) or waterUnit
      * @param string $waterUnit Water Unit ("ml", "fl oz" or "cup")
@@ -43,7 +51,8 @@ class WaterGateway extends EndpointGateway {
     /**
      * Delete user water record
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $id Water log id
      * @return bool
      */

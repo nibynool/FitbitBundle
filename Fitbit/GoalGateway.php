@@ -1,13 +1,21 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class GoalGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.5.0
+ */
 class GoalGateway extends EndpointGateway {
 
     /**
      * Get weight goal
      *
      * @access public
+     * @version 0.5.0
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getBodyWeightGoal()
@@ -19,6 +27,8 @@ class GoalGateway extends EndpointGateway {
 	 * Get body fat goal
 	 *
 	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getBodyFatGoal()
@@ -30,6 +40,8 @@ class GoalGateway extends EndpointGateway {
 	 * Get daily activity goal
 	 *
 	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getActivityDailyGoal()
@@ -41,6 +53,8 @@ class GoalGateway extends EndpointGateway {
 	 * Get weekly activity goal
 	 *
 	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getActivityWeeklyGoal()
@@ -52,6 +66,8 @@ class GoalGateway extends EndpointGateway {
 	 * Get food goal
 	 *
 	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getFoodGoal()
@@ -63,6 +79,8 @@ class GoalGateway extends EndpointGateway {
 	 * Get water goal
 	 *
 	 * @access public
+	 * @version 0.5.0
+	 *
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getWaterGoal()

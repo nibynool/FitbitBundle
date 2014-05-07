@@ -1,14 +1,22 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\OAuth1\Token\TokenInterface;
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
+/**
+ * Class AuthenticationGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class AuthenticationGateway extends EndpointGateway {
 
 	/**
 	 * Determine if this user is authorised with FitBit
+	 *
+	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -21,6 +29,7 @@ class AuthenticationGateway extends EndpointGateway {
      * Initiate the login process
      *
      * @access public
+     *
      * @return void
      */
     public function initiateLogin()
@@ -36,6 +45,7 @@ class AuthenticationGateway extends EndpointGateway {
      * Authenticate user, request access token.
      *
      * @access public
+     *
      * @param string $token
      * @param string $verifier
      * @return TokenInterface
@@ -56,6 +66,7 @@ class AuthenticationGateway extends EndpointGateway {
      * Reset session
      *
      * @access public
+     *
      * @return void
      */
     public function resetSession()
@@ -64,8 +75,15 @@ class AuthenticationGateway extends EndpointGateway {
         $this->service->getStorage()->clearToken('FitBit');
     }
 
-    protected function verifyToken()
+	/**
+	 * @access protected
+	 *
+	 * @throws Exception
+	 * @return bool
+	 */
+	protected function verifyToken()
     {
         if (!$this->isAuthorized()) throw new FBException("You must be authorized to make requests");
+	    return true;
     }
 }

@@ -1,21 +1,4 @@
 <?php
-/**
- * FitBitBundle v0.0.1
- *
- * Symfony Bundle for FitBit's OAuth-based REST API
- *
- * Forked from:
- * - https://github.com/jsamos/fitbitphp
- * - https://github.com/popthestack/fitbitphp
- * - https://github.com/TheSavior/fitbitphp
- * - https://github.com/heyitspavel/fitbitphp
- *
- * @author Michael Lambert <michael@alphageek.com.au>
- * @author jsamos
- * @author Ryan Martinsen
- * @author Eli White
- * @author heyitspavel
- */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\Common\Consumer\Credentials;
@@ -25,6 +8,13 @@ use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Http\Client\ClientInterface;
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
+/**
+ * Class ApiGatewayFactory
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class ApiGatewayFactory
 {
     /**
@@ -71,6 +61,7 @@ class ApiGatewayFactory
 	 * Set the consumer credentials when this class is instantiated
 	 *
 	 * @access public
+	 *
 	 * @param string $consumer_key Application consumer key for FitBit API
 	 * @param string $consumer_secret Application secret
 	 * @param string $callback_url Callback URL to provide to FitBit
@@ -86,6 +77,7 @@ class ApiGatewayFactory
      * Set consumer credentials
      * 
      * @access public
+	 *
      * @param string $consumer_key Application consumer key for FitBit API
      * @param string $consumer_secret Application secret
      * @return self
@@ -101,6 +93,7 @@ class ApiGatewayFactory
      * Set storage adapter.
      * 
      * @access public
+     *
      * @param TokenStorageInterface $adapter
      * @return self
      */
@@ -114,6 +107,7 @@ class ApiGatewayFactory
      * Get storage adapter.
      * 
      * @access public
+     *
      * @return TokenStorageInterface
      */
     public function getStorageAdapter()
@@ -123,8 +117,10 @@ class ApiGatewayFactory
 
     /**
      * Set response format.
-     * 
+     *
      * @access public
+     * @version 0.1.1
+     *
      * @param string $format Response format (json or xml) to use in API calls
      * @throws FBException
      * @return self
@@ -142,6 +138,7 @@ class ApiGatewayFactory
      * Set callback URL.
      * 
      * @access public
+     *
      * @param string $url
      * @return self
      */
@@ -155,6 +152,7 @@ class ApiGatewayFactory
      * Set FitBit user id for API calls
      *
      * @access public
+     *
      * @param string $id
      * @return self
      */
@@ -166,6 +164,8 @@ class ApiGatewayFactory
 
     /**
      * Set HTTP Client library for FitBit service.
+     *
+     * @access public
      *
      * @param  ClientInterface $client
      * @return self
@@ -179,6 +179,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Authentication Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return AuthenticationGateway
 	 */
 	public function getAuthenticationGateway()
@@ -190,6 +192,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Activity Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return ActivityGateway
 	 */
@@ -203,6 +207,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Activity Stats Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return ActivityStatsGateway
 	 */
 	public function getActivityStatsGateway()
@@ -214,6 +220,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Activity Time Series Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return ActivityTimeSeriesGateway
 	 */
@@ -227,6 +235,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Body Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return BodyGateway
 	 */
 	public function getBodyGateway()
@@ -238,6 +248,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Body Time Series Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return BodyTimeSeriesGateway
 	 */
@@ -251,6 +263,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Food Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return FoodGateway
 	 */
 	public function getFoodGateway()
@@ -262,6 +276,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Food Time Series Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return FoodTimeSeriesGateway
 	 */
@@ -275,6 +291,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Goal Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return GoalGateway
 	 */
 	public function getGoalGateway()
@@ -286,6 +304,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Sleep Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return SleepGateway
 	 */
@@ -299,6 +319,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Sleep Time Series Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return SleepTimeSeriesGateway
 	 */
 	public function getSleepTimeSeriesGateway()
@@ -310,6 +332,9 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the Time Gateway Interface
+	 *
+	 * @access public
+	 * @deprecated 0.5.0
 	 *
 	 * @return TimeGateway
 	 */
@@ -323,6 +348,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Tracker Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return TrackerGateway
 	 */
 	public function getTrackerGateway()
@@ -334,6 +361,8 @@ class ApiGatewayFactory
 
 	/**
 	 * Get the User Gateway Interface
+	 *
+	 * @access public
 	 *
 	 * @return UserGateway
 	 */
@@ -347,6 +376,8 @@ class ApiGatewayFactory
 	/**
 	 * Get the Water Gateway Interface
 	 *
+	 * @access public
+	 *
 	 * @return WaterGateway
 	 */
 	public function getWaterGateway()
@@ -359,19 +390,24 @@ class ApiGatewayFactory
 	/**
 	 * Inject Dependencies into a Gateway Interface
 	 *
+	 * @access protected
+	 *
 	 * @param EndpointGateway $gateway
+	 * @return bool
 	 */
 	protected function injectGatewayDependencies(EndpointGateway $gateway)
     {
 	    $gateway->setService($this->getService())
                 ->setResponseFormat($this->responseFormat)
                 ->setUserID($this->userID);
+	    return true;
     }
 
     /**
      * Get FitBit service
      *
      * @access protected
+     *
      * @throws FBException
      * @return ServiceInterface
      */

@@ -1,7 +1,13 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class TimeSeriesEndpointGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class TimeSeriesEndpointGateway extends EndpointGateway {
     /**
      * base fragment for the instantiated resource uri
@@ -12,6 +18,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
 
     /**
      * create a uri fragment from a method name
+     *
+     * @access public
      *
      * @param string $method
      * @return string
@@ -26,7 +34,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
     /**
      * Get user time series
      *
-     * @throws Exception
+     * @access public
+     *
      * @param  string $fragment
      * @param  \DateTime|string $baseDate
      * @param  string $period
@@ -50,6 +59,8 @@ class TimeSeriesEndpointGateway extends EndpointGateway {
 
     /**
      * Dynamically pass methods to get.
+     *
+     * @access public
      *
      * @param  string  $method
      * @param  array   $parameters

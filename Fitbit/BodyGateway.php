@@ -1,13 +1,20 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class BodyGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class BodyGateway extends EndpointGateway {
 
     /**
      * Get user body measurements
      *
      * @access public
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -23,6 +30,7 @@ class BodyGateway extends EndpointGateway {
      * Log user body measurements
      *
      * @access public
+     *
      * @param \DateTime $date Date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param string $fat Float number
@@ -58,6 +66,8 @@ class BodyGateway extends EndpointGateway {
     /**
      * Log user weight
      *
+     * @access public
+     *
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param \DateTime $date If present, log entry date, now by default (set proper timezone, which could be fetched via getProfile)
      * @return bool
@@ -74,6 +84,8 @@ class BodyGateway extends EndpointGateway {
     /**
      * Get user blood pressure log entries for specific date
      *
+     * @access public
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -87,6 +99,8 @@ class BodyGateway extends EndpointGateway {
 
     /**
      * Log user blood pressure
+     *
+     * @access public
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
@@ -108,6 +122,8 @@ class BodyGateway extends EndpointGateway {
     /**
      * Delete user blood pressure record
      *
+     * @access public
+     *
      * @param string $id Blood pressure log id
      * @return bool
      */
@@ -118,6 +134,8 @@ class BodyGateway extends EndpointGateway {
 
     /**
      * Get user glucose log entries for specific date
+     *
+     * @access public
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -132,6 +150,8 @@ class BodyGateway extends EndpointGateway {
 
     /**
      * Log user glucose and HbA1c
+     *
+     * @access public
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
@@ -155,6 +175,8 @@ class BodyGateway extends EndpointGateway {
     /**
      * Get user heart rate log entries for specific date
      *
+     * @access public
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -168,6 +190,8 @@ class BodyGateway extends EndpointGateway {
 
     /**
      * Log user heart rate
+     *
+     * @access public
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
@@ -188,6 +212,8 @@ class BodyGateway extends EndpointGateway {
 
     /**
      * Delete user heart rate record
+     *
+     * @access public
      *
      * @param string $id Heart rate log id
      * @return bool

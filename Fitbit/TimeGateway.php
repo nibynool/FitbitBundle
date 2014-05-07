@@ -1,7 +1,14 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class TimeGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ * @deprecated 0.5.0
+ */
 class TimeGateway extends EndpointGateway {
     /**
      * Launch TimeSeries requests
@@ -22,7 +29,8 @@ class TimeGateway extends EndpointGateway {
      *
      *            'weight', 'bmi', 'fat'
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $type
      * @param  $basedate \DateTime or 'today', to_period
      * @param  $to_period \DateTime or '1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, max'
@@ -117,7 +125,6 @@ class TimeGateway extends EndpointGateway {
                 $path = '/sleep/efficiency';
                 break;
 
-
             case 'weight':
                 $path = '/body/weight';
                 break;
@@ -140,12 +147,13 @@ class TimeGateway extends EndpointGateway {
     }
 
     /**
-     * Launch IntradayTimeSeries requests
+     * Launch Intraday TimeSeries requests
      *
      * Allowed types are:
      *            'caloriesOut', 'steps', 'floors', 'elevation'
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $type
      * @param  $date \DateTime or 'today'
      * @param  $start_time \DateTime

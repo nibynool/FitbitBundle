@@ -1,11 +1,14 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
  * Class SleepTimeSeriesGateway
  *
  * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ * @version 0.1.1
+ *
  * @method array getStartTime(\DateTime $baseDate, string $period, \DateTime $endDate)
  * @method array getTimeInBed(\DateTime $baseDate, string $period, \DateTime $endDate)
  * @method array getMinutesAsleep(\DateTime $baseDate, string $period, \DateTime $endDate)
@@ -22,5 +25,4 @@ class SleepTimeSeriesGateway extends TimeSeriesEndpointGateway {
      * @var string
      */
     protected static $format = 'sleep/%s/date';
-
 }

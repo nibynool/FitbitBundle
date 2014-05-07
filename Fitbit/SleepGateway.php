@@ -1,11 +1,19 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class SleepGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class SleepGateway extends EndpointGateway {
 
     /**
      * Get user sleep log entries for specific date
+     *
+     * @access public
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -20,6 +28,8 @@ class SleepGateway extends EndpointGateway {
 
     /**
      * Log user sleep
+     *
+     * @access public
      *
      * @param \DateTime $date Sleep date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $duration Duration millis
@@ -37,6 +47,8 @@ class SleepGateway extends EndpointGateway {
 
     /**
      * Delete user sleep record
+     *
+     * @access public
      *
      * @param string $id Activity log id
      * @return bool

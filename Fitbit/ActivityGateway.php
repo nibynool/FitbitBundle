@@ -1,18 +1,20 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
  * Class ActivityGateway
  *
  * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
  */
 class ActivityGateway extends EndpointGateway {
 
     /**
-     * Get user's activity statistics (lifetime statistics from the tracker device and total numbers including the manual activity log entries)
+     * Get user's activity statistics
      *
-     * @throws Exception
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getActivityStats()
@@ -23,7 +25,9 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get user activities for specific date
      *
-     * @throws Exception
+     * @access public
+     * @version 0.1.1
+     *
      * @param  \DateTime $date
      * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -40,7 +44,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get user recent activities
      *
-     * @throws Exception
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentActivities()
@@ -51,7 +56,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get user frequent activities
      *
-     * @throws Exception
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFrequentActivities()
@@ -62,7 +68,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get user favorite activities
      *
-     * @throws Exception
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteActivities()
@@ -72,6 +79,9 @@ class ActivityGateway extends EndpointGateway {
 
     /**
      * Log user activity
+     *
+     * @access public
+     * @version 0.1.1
      *
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $activityId Activity Id (or Intensity Level Id) from activities database,
@@ -110,7 +120,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Delete user activity
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $id Activity log id
      * @return bool
      */
@@ -122,7 +133,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Add user favorite activity
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $id Activity log id
      * @return bool
      */
@@ -134,7 +146,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Delete user favorite activity
      *
-     * @throws Exception
+     * @access public
+     *
      * @param string $id Activity log id
      * @return bool
      */
@@ -146,7 +159,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get full description of specific activity
      *
-     * @throws Exception
+     * @access public
+     *
      * @param  string $id Activity log Id
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -158,7 +172,8 @@ class ActivityGateway extends EndpointGateway {
     /**
      * Get a tree of all valid FitBit public activities as well as private custom activities the user createds
      *
-     * @throws Exception
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function browseActivities()

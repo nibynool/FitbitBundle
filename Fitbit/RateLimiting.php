@@ -1,20 +1,53 @@
 <?php
-/**
- * Wrapper for rate limiting quota
- */
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class RateLimiting
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class RateLimiting
 {
-    public $viewer;
-    public $viewerReset;
-    public $viewerQuota;
-    public $client;
-    public $clientReset;
-    public $clientQuota;
+	/**
+	 * @var integer
+	 */
+	public $viewer;
 
-    public function __construct($viewer, $client, $viewerReset = null, $clientReset = null, $viewerQuota = null, $clientQuota = null)
+	/**
+	 * @var string
+	 */
+	public $viewerReset;
+	/**
+	 * @var integer
+	 */
+	public $viewerQuota;
+
+	/**
+	 * @var integer
+	 */
+	public $client;
+
+	/**
+	 * @var string
+	 */
+	public $clientReset;
+
+	/**
+	 * @var integer
+	 */
+	public $clientQuota;
+
+	/**
+	 * @param integer $viewer
+	 * @param integer $client
+	 * @param string  $viewerReset
+	 * @param string  $clientReset
+	 * @param integer $viewerQuota
+	 * @param integer $clientQuota
+	 */
+	public function __construct($viewer, $client, $viewerReset = null, $clientReset = null, $viewerQuota = null, $clientQuota = null)
     {
         $this->viewer = $viewer;
         $this->viewerReset = $viewerReset;

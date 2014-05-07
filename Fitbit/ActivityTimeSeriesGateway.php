@@ -1,11 +1,13 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
  * Class ActivityTimeSeriesGateway
  *
  * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ * @version 0.1.1
  *
  * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
  * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
@@ -30,11 +32,13 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
 
     /**
      * convert to tracker only fragment
-     * 
+     *
+     * @access protected
+     *
      * @param string $fragment
      * @return string
      */
-    protected function trackerOnlyFragment($fragment)
+	protected function trackerOnlyFragment($fragment)
     {   
         return str_replace('activities', 'activities/tracker', $fragment);
     }
@@ -42,7 +46,8 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
     /**
      * extended get to all for tracker only resource calls
      *
-     * @throws Exception
+     * @access public
+     *
      * @param  string $fragment
      * @param  bool $tracker
      * @param  \DateTime|string $baseDate

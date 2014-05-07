@@ -1,9 +1,15 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\OAuth1\Service\FitBit as ServiceInterface;
 
+/**
+ * Class EndpointGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class EndpointGateway {
 
     /**
@@ -25,6 +31,7 @@ class EndpointGateway {
      * Set FitBit service
      *
      * @access public
+     *
      * @param ServiceInterface $service
      * @return self
      */
@@ -38,6 +45,7 @@ class EndpointGateway {
      * Set response format.
      * 
      * @access public
+     *
      * @param string $format
      * @return self
      */
@@ -51,6 +59,7 @@ class EndpointGateway {
      * Set FitBit user ids.
      *
      * @access public
+     *
      * @param string $id
      * @return self
      */
@@ -64,6 +73,7 @@ class EndpointGateway {
      * Make an API request
      *
      * @access protected
+     *
      * @param string $resource Endpoint after '.../1/'
      * @param string $method ('GET', 'POST', 'PUT', 'DELETE')
      * @param array $body Request parameters
@@ -88,6 +98,7 @@ class EndpointGateway {
      * Parse json or XML response.
      *
      * @access private
+     *
      * @param string $response
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
@@ -103,6 +114,7 @@ class EndpointGateway {
      * Get CLIENT+VIEWER and CLIENT rate limiting quota status
      *
      * @access public
+     *
      * @return RateLimiting
      */
     public function getRateLimit()

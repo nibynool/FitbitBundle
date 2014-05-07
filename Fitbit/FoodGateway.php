@@ -1,11 +1,19 @@
 <?php
-
 namespace NibyNool\FitBitBundle\FitBit;
 
+/**
+ * Class FoodGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
 class FoodGateway extends EndpointGateway {
 
     /**
      * Get user foods for specific date
+     *
+     * @access public
      *
      * @param  \DateTime $date
      * @param  String $dateStr
@@ -21,6 +29,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user recent foods
      *
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentFoods()
@@ -30,6 +40,8 @@ class FoodGateway extends EndpointGateway {
 
     /**
      * Get user frequent foods
+     *
+     * @access public
      *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -41,6 +53,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user favorite foods
      *
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteFoods()
@@ -50,6 +64,8 @@ class FoodGateway extends EndpointGateway {
 
     /**
      * Log user food
+     *
+     * @access public
      *
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)
@@ -90,6 +106,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Delete user food
      *
+     * @access public
+     *
      * @param string $id Food log id
      * @return bool
      */
@@ -100,6 +118,8 @@ class FoodGateway extends EndpointGateway {
 
     /**
      * Add user favorite food
+     *
+     * @access public
      *
      * @param string $id Food log id
      * @return bool
@@ -112,6 +132,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Delete user favorite food
      *
+     * @access public
+     *
      * @param string $id Food log id
      * @return bool
      */
@@ -123,6 +145,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get user meal sets
      *
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getMeals()
@@ -133,6 +157,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get food units library
      *
+     * @access public
+     *
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoodUnits()
@@ -142,6 +168,8 @@ class FoodGateway extends EndpointGateway {
 
     /**
      * Search for foods in foods database
+     *
+     * @access public
      *
      * @param string $query Search query
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -154,6 +182,8 @@ class FoodGateway extends EndpointGateway {
     /**
      * Get description of specific food from food db (or private for the user)
      *
+     * @access public
+     *
      * @param  string $id Food Id
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
@@ -164,6 +194,8 @@ class FoodGateway extends EndpointGateway {
 
     /**
      * Create private foods for a user
+     *
+     * @access public
      *
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit
