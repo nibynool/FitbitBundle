@@ -2,6 +2,7 @@
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\OAuth1\Service\FitBit as ServiceInterface;
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
 /**
  * Class EndpointGateway
@@ -74,13 +75,11 @@ class EndpointGateway {
      *
      * @access protected
      *
-     * @todo Handle failed requests
-     * @todo Handle failed response parsing
-     *
      * @param string $resource Endpoint after '.../1/'
      * @param string $method ('GET', 'POST', 'PUT', 'DELETE')
      * @param array $body Request parameters
      * @param array $extraHeaders Additional custom headers
+     * @throws FBException
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
     protected function makeApiRequest($resource, $method = 'GET', $body = array(), $extraHeaders = array())
@@ -92,9 +91,24 @@ class EndpointGateway {
             $body = array();
         }
 
-        $response = $this->service->request($path, $method, $body, $extraHeaders);
+	    try
+	    {
+            $response = $this->service->request($path, $method, $body, $extraHeaders);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException($e->getMessage());
+	    }
 
-        return $this->parseResponse($response);
+        try
+        {
+	        $response = $this->parseResponse($response);
+        }
+        catch (\Exception $e)
+	    {
+		    throw new FBException($e->getMessage());
+	    }
+	    return $response;
     }
 
     /**
@@ -102,18 +116,36 @@ class EndpointGateway {
      *
      * @access private
      *
-     * @todo Handle invalid response formats
-     * @todo Handle errors in response data/format
-     *
      * @param string $response
+     * @throws FBException
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
     private function parseResponse($response)
     {
-        if ($this->responseFormat == 'json')    return json_decode($response);
-        elseif ($this->responseFormat == 'xml') return simplexml_load_string($response);
-
-        return $response;
+        if ($this->responseFormat == 'json')
+        {
+	        try
+	        {
+		        $response = json_decode($response);
+	        }
+	        catch (\Exception $e)
+	        {
+		        throw new FBException('Could not decode JSON response.');
+	        }
+        }
+        elseif ($this->responseFormat == 'xml')
+        {
+	        try
+	        {
+		        $response = simplexml_load_string($response);
+	        }
+	        catch (\Exception $e)
+	        {
+		        throw new FBException('Could not decode XML response.');
+	        }
+        }
+		else throw new FBException('Could not handle a response format of '.$this->responseFormat);
+	    return $response;
     }
 
     /**
@@ -121,14 +153,22 @@ class EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests
+     * @todo Convert reset times to \DateTime
      *
+     * @throws FBException
      * @return RateLimiting
      */
     public function getRateLimit()
     {
-        $clientAndUser = $this->makeApiRequest('account/clientAndViewerRateLimitStatus');
-        $client        = $this->makeApiRequest('account/clientRateLimitStatus');
+	    try
+	    {
+            $clientAndUser = $this->makeApiRequest('account/clientAndViewerRateLimitStatus');
+            $client        = $this->makeApiRequest('account/clientRateLimitStatus');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not get the rate limit data ('.$e->getMessage().')');
+	    }
 
         return new RateLimiting(
             $clientAndUser->rateLimitStatus->remainingHits,
