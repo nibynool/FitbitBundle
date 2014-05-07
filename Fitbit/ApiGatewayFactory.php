@@ -14,6 +14,23 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
+ * @version 0.5.0
+ *
+ * @method AuthenticationGateway getAuthenticationGateway()
+ * @method ActivityGateway getActivityGateway()
+ * @method ActivityStatsGateway getActivityStatsGateway()
+ * @method ActivityTimeSeriesGateway getActivityTimeSeriesGateway()
+ * @method BodyGateway getBodyGateway()
+ * @method BodyTimeSeriesGateway getBodyTimeSeriesGateway()
+ * @method FoodGateway getFoodGateway()
+ * @method FoodTimeSeriesGateway getFoodTimeSeriesGateway()
+ * @method GoalGateway getGoalGateway()
+ * @method SleepGateway getSleepGateway()
+ * @method SleepTimeSeriesGateway getSleepTimeSeriesGateway()
+ * @method TimeGateway getTimeGateway()
+ * @method TrackerGateway getTrackerGateway()
+ * @method UserGateway getUserGateway()
+ * @method WaterGateway getWaterGateway()
  */
 class ApiGatewayFactory
 {
@@ -127,9 +144,7 @@ class ApiGatewayFactory
      */
     public function setResponseFormat($format)
     {
-        if (!in_array($format, array('json', 'xml'))) {
-            throw new FBException("Response format must be one of 'json', 'xml'");
-        }
+        if (!in_array($format, array('json', 'xml'))) throw new FBException("Response format must be one of 'json', 'xml'");
         $this->responseFormat = $format;
         return $this;
     }
@@ -138,6 +153,9 @@ class ApiGatewayFactory
      * Set callback URL.
      * 
      * @access public
+     *
+     * @todo Add URL validation
+     * @todo Allow URL to be relative to the root of the site
      *
      * @param string $url
      * @return self
@@ -177,215 +195,31 @@ class ApiGatewayFactory
     }
 
 	/**
-	 * Get the Authentication Gateway Interface
+	 * Open a Gateway
 	 *
 	 * @access public
 	 *
-	 * @return AuthenticationGateway
+	 * @param $method
+	 * @param $parameters
+	 * @throws Exception
+	 * @return mixed
 	 */
-	public function getAuthenticationGateway()
-    {
-        $gateway = new AuthenticationGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Activity Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return ActivityGateway
-	 */
-	public function getActivityGateway()
+	public function __call($method, $parameters)
 	{
-		$gateway = new ActivityGateway;
-		$this->injectGatewayDependencies($gateway);
+		if (!preg_match('/^get.*Gateway$/', $method)) throw new FBException("Invalid function requested.");
+		if (count($parameters)) throw new FBException("Gateway interfaces do not accept parameters.");
+		$gatewayName = substr($method, 3);
+		try
+		{
+			$gateway = new $gatewayName;
+			$this->injectGatewayDependencies($gateway);
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException("Could not open a gateway named ".$gatewayName);
+		}
 		return $gateway;
 	}
-
-	/**
-	 * Get the Activity Stats Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return ActivityStatsGateway
-	 */
-	public function getActivityStatsGateway()
-	{
-		$gateway = new ActivityStatsGateway;
-		$this->injectGatewayDependencies($gateway);
-		return $gateway;
-	}
-
-	/**
-	 * Get the Activity Time Series Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return ActivityTimeSeriesGateway
-	 */
-	public function getActivityTimeSeriesGateway()
-    {
-        $gateway = new ActivityTimeSeriesGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Body Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return BodyGateway
-	 */
-	public function getBodyGateway()
-    {
-        $gateway = new BodyGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Body Time Series Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return BodyTimeSeriesGateway
-	 */
-	public function getBodyTimeSeriesGateway()
-    {
-        $gateway = new BodyTimeSeriesGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Food Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return FoodGateway
-	 */
-	public function getFoodGateway()
-    {
-        $gateway = new FoodGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Food Time Series Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return FoodTimeSeriesGateway
-	 */
-	public function getFoodTimeSeriesGateway()
-    {
-        $gateway = new FoodTimeSeriesGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Goal Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return GoalGateway
-	 */
-	public function getGoalGateway()
-	{
-		$gateway = new GoalGateway;
-		$this->injectGatewayDependencies($gateway);
-		return $gateway;
-	}
-
-	/**
-	 * Get the Sleep Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return SleepGateway
-	 */
-	public function getSleepGateway()
-    {
-        $gateway = new SleepGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Sleep Time Series Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return SleepTimeSeriesGateway
-	 */
-	public function getSleepTimeSeriesGateway()
-    {
-        $gateway = new SleepTimeSeriesGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Time Gateway Interface
-	 *
-	 * @access public
-	 * @deprecated 0.5.0
-	 *
-	 * @return TimeGateway
-	 */
-	public function getTimeGateway()
-    {
-        $gateway = new TimeGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Tracker Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return TrackerGateway
-	 */
-	public function getTrackerGateway()
-	{
-		$gateway = new TrackerGateway;
-		$this->injectGatewayDependencies($gateway);
-		return $gateway;
-	}
-
-	/**
-	 * Get the User Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return UserGateway
-	 */
-	public function getUserGateway()
-    {
-        $gateway = new UserGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
-
-	/**
-	 * Get the Water Gateway Interface
-	 *
-	 * @access public
-	 *
-	 * @return WaterGateway
-	 */
-	public function getWaterGateway()
-    {
-        $gateway = new WaterGateway;
-        $this->injectGatewayDependencies($gateway);
-        return $gateway;
-    }
 
 	/**
 	 * Inject Dependencies into a Gateway Interface
