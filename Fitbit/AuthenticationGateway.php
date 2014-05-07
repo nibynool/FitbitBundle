@@ -30,8 +30,7 @@ class AuthenticationGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Validate the returned URL
-     *
+     * @throws FBException
      * @return void
      */
     public function initiateLogin()
@@ -39,7 +38,8 @@ class AuthenticationGateway extends EndpointGateway {
 	    /** @var TokenInterface $token */
         $token = $this->service->requestRequestToken();
         $url = $this->service->getAuthorizationUri(['oauth_token' => $token->getRequestToken()]);
-        header('Location: ' . $url);
+	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException($url." is not a valid URL despite being returned from FitBit");
+	    header('Location: ' . $url);
         exit;
     }
     
@@ -69,7 +69,7 @@ class AuthenticationGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Need to add clear to the interface for phpoauthlib (this todo was here when this project was branched)
+     * @todo Need to add clear to the interface for phpoauthlib (this item was here when this project was branched)
      *
      * @return void
      */
