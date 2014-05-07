@@ -154,14 +154,15 @@ class ApiGatewayFactory
      * 
      * @access public
      *
-     * @todo Add URL validation
      * @todo Allow URL to be relative to the root of the site
      *
      * @param string $url
+     * @throws FBException
      * @return self
      */
     public function setCallbackURL($url)
     {
+	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException($url." is not a valid URL");
         $this->callbackURL = $url;
         return $this;
     }
