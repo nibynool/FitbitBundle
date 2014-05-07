@@ -15,17 +15,15 @@ class WaterGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getWater(\DateTime $date, $dateStr = null)
+    public function getWater(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/foods/log/water/date/' . $dateStr);
     }
