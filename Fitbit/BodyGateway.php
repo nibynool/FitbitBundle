@@ -19,17 +19,15 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBody(\DateTime $date, $dateStr = null)
+    public function getBody(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
     }
@@ -102,17 +100,15 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBloodPressure($date, $dateStr = null)
+    public function getBloodPressure($date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
     }
@@ -163,17 +159,15 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getGlucose($date, $dateStr = null)
+    public function getGlucose($date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
     }
@@ -211,17 +205,15 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Remove the $dateStr variable
      * @todo Add validation for the date
      * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
-     * @param  String $dateStr
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getHeartRate(\DateTime $date, $dateStr = null)
+    public function getHeartRate(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
         return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
     }
