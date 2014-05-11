@@ -14,42 +14,36 @@ class RateLimiting
 	 * @var integer
 	 */
 	public $viewer;
-
 	/**
-	 * @var string
+	 * @var \DateTime
 	 */
 	public $viewerReset;
 	/**
 	 * @var integer
 	 */
 	public $viewerQuota;
-
 	/**
 	 * @var integer
 	 */
 	public $client;
-
 	/**
-	 * @var string
+	 * @var \DateTime
 	 */
 	public $clientReset;
-
 	/**
 	 * @var integer
 	 */
 	public $clientQuota;
 
 	/**
-	 * @todo Change reset values \DateTime
-	 *
-	 * @param integer $viewer
-	 * @param integer $client
-	 * @param string  $viewerReset
-	 * @param string  $clientReset
-	 * @param integer $viewerQuota
-	 * @param integer $clientQuota
+	 * @param integer   $viewer
+	 * @param integer   $client
+	 * @param \DateTime $viewerReset
+	 * @param \DateTime $clientReset
+	 * @param integer   $viewerQuota
+	 * @param integer   $clientQuota
 	 */
-	public function __construct($viewer, $client, $viewerReset = null, $clientReset = null, $viewerQuota = null, $clientQuota = null)
+	public function __construct($viewer, $client, \DateTime $viewerReset = null, \DateTime $clientReset = null, $viewerQuota = null, $clientQuota = null)
     {
         $this->viewer = $viewer;
         $this->viewerReset = $viewerReset;

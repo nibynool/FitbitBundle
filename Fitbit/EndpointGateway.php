@@ -153,8 +153,6 @@ class EndpointGateway {
      *
      * @access public
      *
-     * @todo Convert reset times to \DateTime
-     *
      * @throws FBException
      * @return RateLimiting
      */
@@ -173,8 +171,8 @@ class EndpointGateway {
         return new RateLimiting(
             $clientAndUser->rateLimitStatus->remainingHits,
             $client->rateLimitStatus->remainingHits,
-            $clientAndUser->rateLimitStatus->resetTime,
-            $client->rateLimitStatus->resetTime,
+            new \DateTime($clientAndUser->rateLimitStatus->resetTime),
+            new \DateTime($client->rateLimitStatus->resetTime),
             $clientAndUser->rateLimitStatus->hourlyLimit,
             $client->rateLimitStatus->hourlyLimit
         );
