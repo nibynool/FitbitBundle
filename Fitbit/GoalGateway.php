@@ -1,6 +1,8 @@
 <?php
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 /**
  * Class GoalGateway
  *
@@ -16,13 +18,20 @@ class GoalGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getBodyWeightGoal()
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/body/log/weight/goal');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/log/weight/goal');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
 	/**
@@ -31,13 +40,20 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @todo Handle failed API requests gracefully
-	 *
+	 * @throws FBException
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getBodyFatGoal()
 	{
-		return $this->makeApiRequest('user/' . $this->userID . '/body/log/fat/goal');
+		try
+		{
+			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/log/fat/goal');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException($e->getMessage());
+		}
+		return $returnValue;
 	}
 
 	/**
@@ -46,13 +62,20 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @todo Handle failed API requests gracefully
-	 *
+	 * @throws FBException
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getActivityDailyGoal()
 	{
-		return $this->makeApiRequest('user/' . $this->userID . '/activities/goals/daily');
+		try
+		{
+			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/activities/goals/daily');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException($e->getMessage());
+		}
+		return $returnValue;
 	}
 
 	/**
@@ -61,13 +84,20 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @todo Handle failed API requests gracefully
-	 *
+	 * @throws FBException
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getActivityWeeklyGoal()
 	{
-		return $this->makeApiRequest('user/' . $this->userID . '/activities/goals/weekly');
+		try
+		{
+			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/activities/goals/weekly');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException($e->getMessage());
+		}
+		return $returnValue;
 	}
 
 	/**
@@ -76,13 +106,20 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @todo Handle failed API requests gracefully
-	 *
+	 * @throws FBException
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getFoodGoal()
 	{
-		return $this->makeApiRequest('user/' . $this->userID . '/foods/log/goal');
+		try
+		{
+			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/goal');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException($e->getMessage());
+		}
+		return $returnValue;
 	}
 
 	/**
@@ -91,12 +128,19 @@ class GoalGateway extends EndpointGateway {
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @todo Handle failed API requests gracefully
-	 *
+	 * @throws FBException
 	 * @return mixed SimpleXMLElement or the value encoded in json as an object
 	 */
 	public function getWaterGoal()
 	{
-		return $this->makeApiRequest('user/' . $this->userID . '/foods/log/water/goal');
+		try
+		{
+			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/water/goal');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException($e->getMessage());
+		}
+		return $returnValue;
 	}
 }
