@@ -1,6 +1,8 @@
 <?php
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 /**
  * Class FoodGateway
  *
@@ -16,16 +18,24 @@ class FoodGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoods($date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -33,13 +43,20 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/recent');
+	    try
+	    {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/recent');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException($e->getMessage());
+	    }
+	    return $returnValue;
     }
 
     /**
@@ -47,13 +64,20 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFrequentFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/frequent');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/frequent');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -61,13 +85,20 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -76,7 +107,6 @@ class FoodGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)
@@ -87,6 +117,7 @@ class FoodGateway extends EndpointGateway {
      * @param int $calories
      * @param string $brandName
      * @param array $nutrition
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logFood(\DateTime $date, $foodId, $mealTypeId, $unitId, $amount, $foodName = null, $calories = null, $brandName = null, $nutrition = null)
@@ -111,7 +142,15 @@ class FoodGateway extends EndpointGateway {
         $parameters['unitId'] = $unitId;
         $parameters['amount'] = $amount;
 
-        return $this->makeApiRequest('user/-/foods/log', 'POST');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log', 'POST');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -119,14 +158,21 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function deleteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -134,14 +180,21 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function addFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -149,14 +202,21 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function deleteFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -164,13 +224,20 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getMeals()
     {
-        return $this->makeApiRequest('user/-/meals');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/meals');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -178,13 +245,20 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoodUnits()
     {
-        return $this->makeApiRequest('foods/units');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('foods/units');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -194,14 +268,22 @@ class FoodGateway extends EndpointGateway {
      *
      * @todo Add validation for the query
      * @todo Can we create a query builder?  Do we even need one?
-     * @todo Handle failed API requests gracefully
      *
      * @param string $query Search query
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function searchFoods($query)
     {
-        return $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
+        try
+        {
+	        $returnValue = $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
+        }
+        catch(\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -209,22 +291,27 @@ class FoodGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param  string $id Food Id
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFood($id)
     {
-        return $this->makeApiRequest('foods/' . $id);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('foods/' . $id);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
      * Create private foods for a user
      *
      * @access public
-     *
-     * @todo Handle failed API requests gracefully
      *
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit
@@ -233,6 +320,7 @@ class FoodGateway extends EndpointGateway {
      * @param string $description
      * @param string $formType ("LIQUID" or "DRY)
      * @param string $nutrition Array of nutritional values, see http://wiki.fitbit.com/display/API/API-Create-Food
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function createFood($name, $defaultFoodMeasurementUnitId, $defaultServingSize, $calories, $description = null, $formType = null, $nutrition = null)
@@ -252,6 +340,14 @@ class FoodGateway extends EndpointGateway {
             }
         }
 
-        return $this->makeApiRequest('foods', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('foods', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 }
