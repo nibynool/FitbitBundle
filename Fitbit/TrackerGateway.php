@@ -1,6 +1,8 @@
 <?php
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 /**
  * Class TrackerGateway
  *
@@ -16,13 +18,20 @@ class TrackerGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Handle failed API requests
-     *
      * @param  string $tracker
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getAlarms($tracker)
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 }
