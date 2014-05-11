@@ -1,6 +1,8 @@
 <?php
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 /**
  * Class SleepGateway
  *
@@ -16,16 +18,24 @@ class SleepGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getSleep($date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
+	    try
+	    {
+		    $returnValue = $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException($e->getMessage());
+	    }
+	    return $returnValue;
     }
 
     /**
@@ -34,10 +44,10 @@ class SleepGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Sleep date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $duration Duration millis
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logSleep(\DateTime $date, $duration)
@@ -47,7 +57,15 @@ class SleepGateway extends EndpointGateway {
         $parameters['startTime'] = $date->format('H:i');
         $parameters['duration'] = $duration;
 
-        return $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -55,13 +73,20 @@ class SleepGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Activity log id
+     * @throws FBException
      * @return bool
      */
     public function deleteSleep($id)
     {
-        return $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 }
