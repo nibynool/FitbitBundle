@@ -1,6 +1,8 @@
 <?php
 namespace NibyNool\FitBitBundle\FitBit;
 
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+
 /**
  * Class BodyGateway
  *
@@ -20,16 +22,24 @@ class BodyGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getBody(\DateTime $date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -38,7 +48,6 @@ class BodyGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
@@ -51,6 +60,7 @@ class BodyGateway extends EndpointGateway {
      * @param string $neck Float number
      * @param string $thigh Float number
      * @param string $waist Float number
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logBody(\DateTime $date, $weight = null, $fat = null, $bicep = null, $calf = null, $chest = null, $forearm = null, $hips = null, $neck = null, $thigh = null, $waist = null)
@@ -69,7 +79,15 @@ class BodyGateway extends EndpointGateway {
         if (isset($thigh))   $parameters['thigh'] = $thigh;
         if (isset($waist))   $parameters['waist'] = $waist;
 
-        return $this->makeApiRequest('user/-/body', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/body', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -79,11 +97,10 @@ class BodyGateway extends EndpointGateway {
      *
      * @todo Can the date cope with a time?
      * @todo Can we allow different weight units?
-     * @todo Handle failed API requests gracefully
      *
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param \DateTime $date If present, log entry date, now by default (set proper timezone, which could be fetched via getProfile)
-     *
+     * @throws FBException
 	 * @return bool
      */
     public function logWeight($weight, \DateTime $date = null)
@@ -92,7 +109,15 @@ class BodyGateway extends EndpointGateway {
         $parameters['weight'] = $weight;
         if ($date) $parameters['date'] = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -101,16 +126,24 @@ class BodyGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBloodPressure($date)
+    public function getBloodPressure(\DateTime $date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
+	    try
+	    {
+            $returnValue = $this->makeApiRequest('user/-/bp/date/' . $dateStr);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException($e->getMessage());
+	    }
+	    return $returnValue;
     }
 
     /**
@@ -120,12 +153,12 @@ class BodyGateway extends EndpointGateway {
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
      * @param string $diastolic Diastolic measurement
      * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logBloodPressure(\DateTime $date, $systolic, $diastolic, \DateTime $time = null)
@@ -136,7 +169,15 @@ class BodyGateway extends EndpointGateway {
         $parameters['diastolic'] = $diastolic;
         if ($time) $parameters['time'] = $time->format('H:i');
 
-        return $this->makeApiRequest('user/-/bp', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/bp', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -144,14 +185,21 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Blood pressure log id
+     * @throws FBException
      * @return bool
      */
     public function deleteBloodPressure($id)
     {
-        return $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -160,16 +208,24 @@ class BodyGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getGlucose($date)
+    public function getGlucose(\DateTime $date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -179,13 +235,13 @@ class BodyGateway extends EndpointGateway {
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $glucose Glucose measurement
      * @param string $hba1c Glucose measurement
      * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logGlucose(\DateTime $date, $tracker, $glucose, $hba1c = null, \DateTime $time = null)
@@ -197,7 +253,15 @@ class BodyGateway extends EndpointGateway {
         if ($hba1c) $parameters['hba1c'] = $hba1c;
         if ($time)  $parameters['time'] = $time->format('H:i');
 
-        return $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -206,16 +270,24 @@ class BodyGateway extends EndpointGateway {
      * @access public
      *
      * @todo Add validation for the date
-     * @todo Handle failed API requests gracefully
      *
      * @param  \DateTime $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getHeartRate(\DateTime $date)
     {
         $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/heart/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -225,12 +297,12 @@ class BodyGateway extends EndpointGateway {
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
-     * @todo Handle failed API requests gracefully
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $heartRate Heart rate measurement
      * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logHeartRate(\DateTime $date, $tracker, $heartRate, \DateTime $time = null)
@@ -241,7 +313,15 @@ class BodyGateway extends EndpointGateway {
         $parameters['heartRate'] = $heartRate;
         if ($time) $parameters['time'] = $time->format('H:i');
 
-        return $this->makeApiRequest('user/-/heart', 'POST', $parameters);
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/heart', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->getMessage());
+        }
+	    return $returnValue;
     }
 
     /**
@@ -249,13 +329,20 @@ class BodyGateway extends EndpointGateway {
      *
      * @access public
      *
-     * @todo Handle failed API requests gracefully
-     *
      * @param string $id Heart rate log id
+     * @throws FBException
      * @return bool
      */
     public function deleteHeartRate($id)
     {
-        return $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
+        try
+        {
+	        $returnValue = $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException($e->GetMessage());
+        }
+	    return $returnValue;
     }
 }
