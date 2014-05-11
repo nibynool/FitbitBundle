@@ -16,6 +16,7 @@ class SleepGateway extends EndpointGateway {
      * Get user sleep log entries for specific date
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -29,19 +30,19 @@ class SleepGateway extends EndpointGateway {
 
 	    try
 	    {
-		    $returnValue = $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
+		    return $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
 	    }
 	    catch (\Exception $e)
 	    {
 		    throw new FBException($e->getMessage());
 	    }
-	    return $returnValue;
     }
 
     /**
      * Log user sleep
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -59,19 +60,19 @@ class SleepGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Delete user sleep record
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Activity log id
      * @throws FBException
@@ -81,12 +82,11 @@ class SleepGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
+	        return $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 }

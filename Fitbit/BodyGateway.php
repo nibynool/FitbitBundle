@@ -20,6 +20,7 @@ class BodyGateway extends EndpointGateway {
      * Get user body measurements
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -33,19 +34,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
+	        return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Log user body measurements
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -81,19 +82,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/body', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/body', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Log user weight
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Can the date cope with a time?
      * @todo Can we allow different weight units?
@@ -111,19 +112,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user blood pressure log entries for specific date
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -137,19 +138,19 @@ class BodyGateway extends EndpointGateway {
 
 	    try
 	    {
-            $returnValue = $this->makeApiRequest('user/-/bp/date/' . $dateStr);
+            return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
 	    }
 	    catch (\Exception $e)
 	    {
 		    throw new FBException($e->getMessage());
 	    }
-	    return $returnValue;
     }
 
     /**
      * Log user blood pressure
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
@@ -171,19 +172,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/bp', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/bp', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Delete user blood pressure record
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Blood pressure log id
      * @throws FBException
@@ -193,19 +194,19 @@ class BodyGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
+	        return $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user glucose log entries for specific date
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -219,19 +220,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
+	        return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Log user glucose and HbA1c
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
@@ -255,19 +256,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user heart rate log entries for specific date
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -281,19 +282,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/heart/date/' . $dateStr);
+	        return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Log user heart rate
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      * @todo Merge the date and time into one item
@@ -315,19 +316,19 @@ class BodyGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/heart', 'POST', $parameters);
+	        return $this->makeApiRequest('user/-/heart', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Delete user heart rate record
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Heart rate log id
      * @throws FBException
@@ -337,12 +338,11 @@ class BodyGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
+	        return $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->GetMessage());
         }
-	    return $returnValue;
     }
 }

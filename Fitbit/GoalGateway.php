@@ -25,13 +25,12 @@ class GoalGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/log/weight/goal');
+	        return $this->makeApiRequest('user/' . $this->userID . '/body/log/weight/goal');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
 	/**
@@ -47,13 +46,12 @@ class GoalGateway extends EndpointGateway {
 	{
 		try
 		{
-			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/body/log/fat/goal');
+			return $this->makeApiRequest('user/' . $this->userID . '/body/log/fat/goal');
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException($e->getMessage());
 		}
-		return $returnValue;
 	}
 
 	/**
@@ -69,13 +67,12 @@ class GoalGateway extends EndpointGateway {
 	{
 		try
 		{
-			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/activities/goals/daily');
+			return $this->makeApiRequest('user/' . $this->userID . '/activities/goals/daily');
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException($e->getMessage());
 		}
-		return $returnValue;
 	}
 
 	/**
@@ -91,13 +88,12 @@ class GoalGateway extends EndpointGateway {
 	{
 		try
 		{
-			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/activities/goals/weekly');
+			return $this->makeApiRequest('user/' . $this->userID . '/activities/goals/weekly');
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException($e->getMessage());
 		}
-		return $returnValue;
 	}
 
 	/**
@@ -113,13 +109,12 @@ class GoalGateway extends EndpointGateway {
 	{
 		try
 		{
-			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/goal');
+			return $this->makeApiRequest('user/' . $this->userID . '/foods/log/goal');
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException($e->getMessage());
 		}
-		return $returnValue;
 	}
 
 	/**
@@ -135,12 +130,11 @@ class GoalGateway extends EndpointGateway {
 	{
 		try
 		{
-			$returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/water/goal');
+			return $this->makeApiRequest('user/' . $this->userID . '/foods/log/water/goal');
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException($e->getMessage());
 		}
-		return $returnValue;
 	}
 }

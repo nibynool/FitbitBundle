@@ -26,12 +26,11 @@ class TrackerGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
+	        return $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 }

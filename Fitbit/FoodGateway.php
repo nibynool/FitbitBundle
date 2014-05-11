@@ -16,6 +16,7 @@ class FoodGateway extends EndpointGateway {
      * Get user foods for specific date
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -29,19 +30,19 @@ class FoodGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
+	        return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user recent foods
      *
      * @access public
+     * @version 0.5.0
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -50,19 +51,19 @@ class FoodGateway extends EndpointGateway {
     {
 	    try
 	    {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/recent');
+	        return $this->makeApiRequest('user/-/foods/log/recent');
 	    }
 	    catch (\Exception $e)
 	    {
 		    throw new FBException($e->getMessage());
 	    }
-	    return $returnValue;
     }
 
     /**
      * Get user frequent foods
      *
      * @access public
+     * @version 0.5.0
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -71,19 +72,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/frequent');
+	        return $this->makeApiRequest('user/-/foods/log/frequent');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user favorite foods
      *
      * @access public
+     * @version 0.5.0
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -92,19 +93,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite');
+	        return $this->makeApiRequest('user/-/foods/log/favorite');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
-    }
+   }
 
     /**
      * Log user food
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the date
      *
@@ -144,19 +145,19 @@ class FoodGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log', 'POST');
+	        return $this->makeApiRequest('user/-/foods/log', 'POST');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Delete user food
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Food log id
      * @throws FBException
@@ -166,19 +167,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
+	        return $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Add user favorite food
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Food log id
      * @throws FBException
@@ -188,19 +189,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
+	        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Delete user favorite food
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $id Food log id
      * @throws FBException
@@ -210,19 +211,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
+	        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get user meal sets
      *
      * @access public
+     * @version 0.5.0
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -231,19 +232,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('user/-/meals');
+	        return $this->makeApiRequest('user/-/meals');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get food units library
      *
      * @access public
+     * @version 0.5.0
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -252,19 +253,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('foods/units');
+	        return $this->makeApiRequest('foods/units');
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Search for foods in foods database
      *
      * @access public
+     * @version 0.5.0
      *
      * @todo Add validation for the query
      * @todo Can we create a query builder?  Do we even need one?
@@ -277,19 +278,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
+	        return $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
         }
         catch(\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Get description of specific food from food db (or private for the user)
      *
      * @access public
+     * @version 0.5.0
      *
      * @param  string $id Food Id
      * @throws FBException
@@ -299,19 +300,19 @@ class FoodGateway extends EndpointGateway {
     {
         try
         {
-	        $returnValue = $this->makeApiRequest('foods/' . $id);
+	        return $this->makeApiRequest('foods/' . $id);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 
     /**
      * Create private foods for a user
      *
      * @access public
+     * @version 0.5.0
      *
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit
@@ -342,12 +343,11 @@ class FoodGateway extends EndpointGateway {
 
         try
         {
-	        $returnValue = $this->makeApiRequest('foods', 'POST', $parameters);
+	        return $this->makeApiRequest('foods', 'POST', $parameters);
         }
         catch (\Exception $e)
         {
 	        throw new FBException($e->getMessage());
         }
-	    return $returnValue;
     }
 }
