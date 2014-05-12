@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
 				->info('Distance units recognised by FitBit')
 				->defaultValue(array('Centimeter', 'Foot', 'Inch', 'Kilometer', 'Meter', 'Mile', 'Millimeter', 'Steps', 'Yards'))
 			->end()
-			->arrayNode('timeseries_endpoints')
+			->arrayNode('interday_timeseries_endpoints')
 				->addDefaultsIfNotSet()
 				->requiresAtLeastOneElement()
 		        ->info('Valid end points for FitBit time series data')
@@ -71,6 +71,24 @@ class Configuration implements ConfigurationInterface
                     'fat'                   => array('value' => '/body/fat')
 				))
 		    ->end()
+			->arrayNode('intraday_timeseries_endpoints')
+				->addDefaultsIfNotSet()
+					->requiresAtLeastOneElement()
+					->info('Valid end points for FitBit time series data')
+					->prototype('array')
+						->children()
+							->scalarNode('value')
+								->isRequired()
+							->end()
+						->end()
+					->end()
+				->defaultValue(array(
+					'caloriesOut'           => array('value' => '/activities/log/calories'),
+					'steps'                 => array('value' => '/activities/log/steps'),
+					'floors'                => array('value' => '/activities/log/floors'),
+					'elevation'             => array('value' => '/activities/log/elevation')
+				))
+			->end()
 		->end();
 
 		return $treeBuilder;

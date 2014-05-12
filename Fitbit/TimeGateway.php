@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Error Codes: 1201-1203
+ * Error Codes: 1201-1204
  */
 namespace NibyNool\FitBitBundle\FitBit;
 
@@ -21,22 +21,6 @@ class TimeGateway extends EndpointGateway {
     /**
      * Launch TimeSeries requests
      *
-     * Allowed types are:
-     *            'caloriesIn', 'water'
-     *
-     *            'caloriesOut', 'steps', 'distance', 'floors', 'elevation'
-     *            'minutesSedentary', 'minutesLightlyActive', 'minutesFairlyActive', 'minutesVeryActive',
-     *            'activeScore', 'activityCalories',
-     *
-     *            'tracker_caloriesOut', 'tracker_steps', 'tracker_distance', 'tracker_floors', 'tracker_elevation'
-     *            'tracker_activeScore'
-     *
-     *            'startTime', 'timeInBed', 'minutesAsleep', 'minutesAwake', 'awakeningsCount',
-     *            'minutesToFallAsleep', 'minutesAfterWakeup',
-     *            'efficiency'
-     *
-     *            'weight', 'bmi', 'fat'
-     *
      * @access public
      * @version 0.5.0
      *
@@ -48,8 +32,8 @@ class TimeGateway extends EndpointGateway {
      */
     public function getTimeSeries($type, $basedate, $to_period)
     {
-	    if (!isset($this->configuration['timeseries_endpoints'][$type])) throw new FBException('Invalid time-series end-point requested.', 1203);
-	    $path = $this->configuration['timeseries_endpoints'][$type]['value'];
+	    if (!isset($this->configuration['interday_timeseries_endpoints'][$type])) throw new FBException('Invalid time-series end-point requested.', 1203);
+	    $path = $this->configuration['interday_timeseries_endpoints'][$type]['value'];
 	    try
 	    {
 	        return $this->makeApiRequest(sprintf('user/%s/date/%s/%s',
@@ -67,13 +51,8 @@ class TimeGateway extends EndpointGateway {
     /**
      * Launch Intraday TimeSeries requests
      *
-     * Allowed types are:
-     *            'caloriesOut', 'steps', 'floors', 'elevation'
-     *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Export the switch to an array in a config
      *
      * @param string $type
      * @param  $date \DateTime or 'today'
@@ -84,23 +63,8 @@ class TimeGateway extends EndpointGateway {
      */
     public function getIntradayTimeSeries($type, $date, $start_time = null, $end_time = null)
     {
-        switch ($type) {
-            case 'caloriesOut':
-                $path = '/activities/log/calories';
-                break;
-            case 'steps':
-                $path = '/activities/log/steps';
-                break;
-            case 'floors':
-                $path = '/activities/log/floors';
-                break;
-            case 'elevation':
-                $path = '/activities/log/elevation';
-                break;
-
-            default:
-                return false;
-        }
+	    if (!isset($this->configuration['intraday_timeseries_endpoints'][$type])) throw new FBException('Invalid time-series end-point requested.', 1204);
+	    $path = $this->configuration['interday_timeseries_endpoints'][$type]['value'];
 
         try
         {

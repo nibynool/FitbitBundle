@@ -19,8 +19,9 @@ class NibyNoolFitBitExtension extends Extension
 		$container->setParameter(
 			'niby_nool_fit_bit.configuration',
 			array(
-				'distance_units'       => $config['distance_units'],
-				'timeseries_endpoints' =>  $config['timeseries_endpoints']
+				'distance_units'                => $config['distance_units'],
+				'interday_timeseries_endpoints' => $config['interday_timeseries_endpoints'],
+				'intraday_timeseries_endpoints' => $config['intraday_timeseries_endpoints']
 			)
 		);
 
