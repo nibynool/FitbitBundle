@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Error Codes: 1201-1202
+ * Error Codes: 1201-1203
  */
 namespace NibyNool\FitBitBundle\FitBit;
 
@@ -40,8 +40,6 @@ class TimeGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Export the switch to an array in a config
-     *
      * @param string $type
      * @param  $basedate \DateTime or 'today', to_period
      * @param  $to_period \DateTime or '1d, 7d, 30d, 1w, 1m, 3m, 6m, 1y, max'
@@ -50,106 +48,8 @@ class TimeGateway extends EndpointGateway {
      */
     public function getTimeSeries($type, $basedate, $to_period)
     {
-        switch ($type) {
-            case 'caloriesIn':
-                $path = '/foods/log/caloriesIn';
-                break;
-            case 'water':
-                $path = '/foods/log/water';
-                break;
-
-            case 'caloriesOut':
-                $path = '/activities/log/calories';
-                break;
-            case 'steps':
-                $path = '/activities/log/steps';
-                break;
-            case 'distance':
-                $path = '/activities/log/distance';
-                break;
-            case 'floors':
-                $path = '/activities/log/floors';
-                break;
-            case 'elevation':
-                $path = '/activities/log/elevation';
-                break;
-            case 'minutesSedentary':
-                $path = '/activities/log/minutesSedentary';
-                break;
-            case 'minutesLightlyActive':
-                $path = '/activities/log/minutesLightlyActive';
-                break;
-            case 'minutesFairlyActive':
-                $path = '/activities/log/minutesFairlyActive';
-                break;
-            case 'minutesVeryActive':
-                $path = '/activities/log/minutesVeryActive';
-                break;
-            case 'activeScore':
-                $path = '/activities/log/activeScore';
-                break;
-            case 'activityCalories':
-                $path = '/activities/log/activityCalories';
-                break;
-
-            case 'tracker_caloriesOut':
-                $path = '/activities/log/tracker/calories';
-                break;
-            case 'tracker_steps':
-                $path = '/activities/log/tracker/steps';
-                break;
-            case 'tracker_distance':
-                $path = '/activities/log/tracker/distance';
-                break;
-            case 'tracker_floors':
-                $path = '/activities/log/tracker/floors';
-                break;
-            case 'tracker_elevation':
-                $path = '/activities/log/tracker/elevation';
-                break;
-            case 'tracker_activeScore':
-                $path = '/activities/log/tracker/activeScore';
-                break;
-
-            case 'startTime':
-                $path = '/sleep/startTime';
-                break;
-            case 'timeInBed':
-                $path = '/sleep/timeInBed';
-                break;
-            case 'minutesAsleep':
-                $path = '/sleep/minutesAsleep';
-                break;
-            case 'awakeningsCount':
-                $path = '/sleep/awakeningsCount';
-                break;
-            case 'minutesAwake':
-                $path = '/sleep/minutesAwake';
-                break;
-            case 'minutesToFallAsleep':
-                $path = '/sleep/minutesToFallAsleep';
-                break;
-            case 'minutesAfterWakeup':
-                $path = '/sleep/minutesAfterWakeup';
-                break;
-            case 'efficiency':
-                $path = '/sleep/efficiency';
-                break;
-
-            case 'weight':
-                $path = '/body/weight';
-                break;
-            case 'bmi':
-                $path = '/body/bmi';
-                break;
-            case 'fat':
-                $path = '/body/fat';
-                break;
-
-            default:
-                return false;
-        }
-
+	    if (!isset($this->configuration['timeseries_endpoints'][$type])) throw new FBException('Invalid time-series end-point requested.', 1203);
+	    $path = $this->configuration['timeseries_endpoints'][$type]['value'];
 	    try
 	    {
 	        return $this->makeApiRequest(sprintf('user/%s/date/%s/%s',

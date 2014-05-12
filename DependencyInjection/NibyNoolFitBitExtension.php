@@ -13,13 +13,14 @@ class NibyNoolFitBitExtension extends Extension
 	{
 		$configuration = new Configuration();
 		$config = $this->processConfiguration($configuration, $configs);
-		$container->setParameter('niby_nool_fit_bit.key',      $config[0]['key']);
-		$container->setParameter('niby_nool_fit_bit.secret',   $config[0]['secret']);
-		$container->setParameter('niby_nool_fit_bit.callback', $config[0]['callback']);
+		$container->setParameter('niby_nool_fit_bit.key',      $config['key']);
+		$container->setParameter('niby_nool_fit_bit.secret',   $config['secret']);
+		$container->setParameter('niby_nool_fit_bit.callback', $config['callback']);
 		$container->setParameter(
 			'niby_nool_fit_bit.configuration',
 			array(
-				'distance_units' => $config[0]['distance_units']
+				'distance_units'       => $config['distance_units'],
+				'timeseries_endpoints' =>  $config['timeseries_endpoints']
 			)
 		);
 
