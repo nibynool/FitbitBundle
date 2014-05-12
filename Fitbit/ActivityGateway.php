@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Error Codes: 601 - 611
+ * Error Codes: 601 - 618
  */
 namespace NibyNool\FitBitBundle\FitBit;
 
@@ -130,38 +130,46 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Validate parameters where possible
-     *
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
-     * @param string $activityId Activity Id (or Intensity Level Id) from activities database,
-     *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity
+     * @param int|string $activity Activity Id (or Intensity Level Id) from activities database,
+     *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity or a new activity name
      * @param string $duration Duration millis
      * @param string $calories Manual calories to override FitBit estimate
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
-     * @param string $activityName The name of the activity
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logActivity(\DateTime $date, $activityId, $duration, $calories = null, $distance = null, $distanceUnit = null, $activityName = null)
+    public function logActivity(\DateTime $date, $activity, $duration, $calories = null, $distance = null, $distanceUnit = null)
     {
+	    if (!isset($date)) throw new FBException('Start date must be defined.', 614);
+	    if (!isset($activity) || (!is_string($activity) && !is_integer($activity))) throw new FBException('Activity must be defined as a string or integer.', 615);
+	    if (!is_integer($duration)) throw new FBException('Duration must be defined in milliseconds.', 613);
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['startTime'] = $date->format('H:i');
-        if (isset($activityName))
+	    if (is_string($activity))
         {
-            $parameters['activityName'] = $activityName;
+	        if (!isset($calories) || !is_integer($calories)) throw new FBException('Calories must be defined when using a manual activity.', 612);
+            $parameters['activityName'] = $activity;
             $parameters['manualCalories'] = $calories;
         }
         else
         {
-            $parameters['activityId'] = $activityId;
+            $parameters['activityId'] = $activity;
             if (isset($calories)) $parameters['manualCalories'] = $calories;
         }
         $parameters['durationMillis'] = $duration;
-        if (isset($distance)) $parameters['distance'] = $distance;
-        if (isset($distanceUnit) && in_array($distanceUnit, $this->configuration['distance_units'])) $parameters['distanceUnit'] = $distanceUnit;
-
+        if (isset($distance))
+        {
+	        if (!is_numeric($distance)) throw new FBException('When distance is defined it must be a number.', 616);
+	        $parameters['distance'] = $distance;
+        }
+        if (isset($distanceUnit))
+        {
+	        if (!in_array($distanceUnit, $this->configuration['distance_units'])) throw new FBException('Invalid distance unit provided.', 617);
+		    $parameters['distanceUnit'] = $distanceUnit;
+        }
         try
         {
 	        return $this->makeApiRequest('user/-/activities', 'POST', $parameters);
@@ -178,14 +186,13 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Validate the id
-     *
      * @param string $id Activity log id
      * @throws FBException
      * @return bool
      */
     public function deleteActivity($id)
     {
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 618);
 	    try
 	    {
             return $this->makeApiRequest('user/-/activities/' . $id, 'DELETE');
@@ -202,15 +209,14 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Validate the ID
-     *
      * @param string $id Activity log id
      * @throws FBException
      * @return bool
      */
     public function addFavoriteActivity($id)
     {
-        try
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 619);
+	    try
         {
 	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'POST');
         }
@@ -226,14 +232,13 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Validate the ID
-     *
      * @param string $id Activity log id
      * @throws FBException
      * @return bool
      */
     public function deleteFavoriteActivity($id)
     {
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 620);
         try
         {
 	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'DELETE');
@@ -250,14 +255,13 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Validate the ID
-     *
      * @param  string $id Activity log Id
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getActivity($id)
     {
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 621);
         try
         {
 	        return $this->makeApiRequest('activities/' . $id);
