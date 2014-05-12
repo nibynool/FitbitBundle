@@ -29,6 +29,13 @@ class EndpointGateway
      * @var string
      */
     protected $userID;
+	/** @var array $configuration */
+	protected $configuration;
+
+	public function __construct($configuration)
+	{
+		$this->configuration = $configuration;
+	}
 
     /**
      * Set FitBit service

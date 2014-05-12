@@ -2,7 +2,8 @@ parameters:
     niby_nool_fit_bit.key: ''
     niby_nool_fit_bit.secret: ''
     niby_nool_fit_bit.callback: ''
+    niby_nool_fit_bit.configuration: []
 services:
     fitbit:
         class:     NibyNool\FitBitBundle\FitBit\ApiGatewayFactory
-        arguments: [%niby_nool_fit_bit.key%, %niby_nool_fit_bit.secret%, %niby_nool_fit_bit.callback%]
+        arguments: [%niby_nool_fit_bit.key%, %niby_nool_fit_bit.secret%, %niby_nool_fit_bit.callback%, %niby_nool_fit_bit.configuration%]

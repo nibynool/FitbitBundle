@@ -130,7 +130,6 @@ class ActivityGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Move distance units to a configuration file
      * @todo Validate parameters where possible
      *
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
@@ -146,24 +145,22 @@ class ActivityGateway extends EndpointGateway
      */
     public function logActivity(\DateTime $date, $activityId, $duration, $calories = null, $distance = null, $distanceUnit = null, $activityName = null)
     {
-        $distanceUnits = array('Centimeter', 'Foot', 'Inch', 'Kilometer', 'Meter', 'Mile', 'Millimeter', 'Steps', 'Yards');
-
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['startTime'] = $date->format('H:i');
-        if (isset($activityName)) {
+        if (isset($activityName))
+        {
             $parameters['activityName'] = $activityName;
             $parameters['manualCalories'] = $calories;
-        } else {
+        }
+        else
+        {
             $parameters['activityId'] = $activityId;
-            if (isset($calories))
-                $parameters['manualCalories'] = $calories;
+            if (isset($calories)) $parameters['manualCalories'] = $calories;
         }
         $parameters['durationMillis'] = $duration;
-        if (isset($distance))
-            $parameters['distance'] = $distance;
-        if (isset($distanceUnit) && in_array($distanceUnit, $distanceUnits))
-            $parameters['distanceUnit'] = $distanceUnit;
+        if (isset($distance)) $parameters['distance'] = $distance;
+        if (isset($distanceUnit) && in_array($distanceUnit, $this->configuration['distance_units'])) $parameters['distanceUnit'] = $distanceUnit;
 
         try
         {

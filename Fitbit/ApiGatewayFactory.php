@@ -70,6 +70,8 @@ class ApiGatewayFactory
      * @var ClientInterface
      */
     protected $httpClient;
+	/** @var array */
+	protected $configuration;
 
 	/**
 	 * Set the consumer credentials when this class is instantiated
@@ -79,12 +81,14 @@ class ApiGatewayFactory
 	 * @param string $consumer_key Application consumer key for FitBit API
 	 * @param string $consumer_secret Application secret
 	 * @param string $callback_url Callback URL to provide to FitBit
+	 * @param array  $configuration Configurable items
 	 */
-	public function __construct($consumer_key, $consumer_secret, $callback_url)
+	public function __construct($consumer_key, $consumer_secret, $callback_url, $configuration)
 	{
 		$this->consumerKey    = $consumer_key;
 		$this->consumerSecret = $consumer_secret;
 		$this->callbackURL    = $callback_url;
+		$this->configuration  = $configuration;
 	}
 
 	/**
@@ -211,7 +215,7 @@ class ApiGatewayFactory
 		$gatewayName = substr($method, 3);
 		try
 		{
-			$gateway = new $gatewayName;
+			$gateway = new $gatewayName($this->configuration);
 			$this->injectGatewayDependencies($gateway);
 		}
 		catch (\Exception $e)
