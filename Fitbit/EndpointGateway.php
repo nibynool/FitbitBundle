@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 401 - 407
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\OAuth1\Service\FitBit as ServiceInterface;
@@ -11,18 +15,16 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  *
  * @since 0.1.0
  */
-class EndpointGateway {
-
+class EndpointGateway
+{
     /**
      * @var ServiceInterface
      */
     protected $service;
-
     /**
      * @var string
      */
     protected $responseFormat;
-
     /**
      * @var string
      */
@@ -97,7 +99,7 @@ class EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('The service request failed.', 401, $e);
 	    }
 
         try
@@ -106,7 +108,7 @@ class EndpointGateway {
         }
         catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('The response from FitBit could not be interpreted.', 402, $e);
 	    }
 	    return $response;
     }
@@ -130,7 +132,7 @@ class EndpointGateway {
 	        }
 	        catch (\Exception $e)
 	        {
-		        throw new FBException('Could not decode JSON response.');
+		        throw new FBException('Could not decode JSON response.', 403);
 	        }
         }
         elseif ($this->responseFormat == 'xml')
@@ -141,10 +143,10 @@ class EndpointGateway {
 	        }
 	        catch (\Exception $e)
 	        {
-		        throw new FBException('Could not decode XML response.');
+		        throw new FBException('Could not decode XML response.', 404);
 	        }
         }
-		else throw new FBException('Could not handle a response format of '.$this->responseFormat);
+		else throw new FBException('Could not handle a response format of '.$this->responseFormat, 405);
 	    return $response;
     }
 
@@ -165,16 +167,23 @@ class EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException('Could not get the rate limit data ('.$e->getMessage().')');
+		    throw new FBException('Could not get the rate limit data.', 406, $e);
 	    }
 
-        return new RateLimiting(
-            $clientAndUser->rateLimitStatus->remainingHits,
-            $client->rateLimitStatus->remainingHits,
-            new \DateTime($clientAndUser->rateLimitStatus->resetTime),
-            new \DateTime($client->rateLimitStatus->resetTime),
-            $clientAndUser->rateLimitStatus->hourlyLimit,
-            $client->rateLimitStatus->hourlyLimit
-        );
+	    try
+	    {
+	        return new RateLimiting(
+	            $clientAndUser->rateLimitStatus->remainingHits,
+	            $client->rateLimitStatus->remainingHits,
+	            new \DateTime($clientAndUser->rateLimitStatus->resetTime),
+	            new \DateTime($client->rateLimitStatus->resetTime),
+	            $clientAndUser->rateLimitStatus->hourlyLimit,
+	            $client->rateLimitStatus->hourlyLimit
+	        );
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not create the rate limiting object.', 407, $e);
+	    }
     }
 }

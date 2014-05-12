@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 1101-1103
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -34,7 +38,7 @@ class SleepGateway extends EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Unable to get sleep records.', 1101, $e);
 	    }
     }
 
@@ -64,7 +68,7 @@ class SleepGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Unable to add sleep load.', 1102, $e);
         }
     }
 
@@ -86,7 +90,7 @@ class SleepGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Unable to delete sleep record.', 1103, $e);
         }
     }
 }

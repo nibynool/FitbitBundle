@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 1601-1616
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -10,10 +14,13 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  *
  * @since 0.1.0
  */
-class UserGateway extends EndpointGateway {
-
+class UserGateway extends EndpointGateway
+{
     /**
      * Valid subscription types mapped to their collection paths.
+     *
+     * @todo Export this to a configuration file
+     *
      * @var array
      */
     protected $subscriptionTypes = array(
@@ -42,7 +49,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not get the profile.', 1601, $e);
         }
     }
 
@@ -64,7 +71,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not update the user profile.', 1602, $e);
         }
     }
 
@@ -99,7 +106,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not update the user profile.', 1603, $e);
         }
     }
 
@@ -120,7 +127,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not get the device list.', 1604, $e);
         }
     }
 
@@ -141,7 +148,7 @@ class UserGateway extends EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Could not get the friends list.', 1605, $e);
 	    }
     }
 
@@ -162,7 +169,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not get the friends leaderboard.', 1607, $e);
         }
     }
 
@@ -179,11 +186,11 @@ class UserGateway extends EndpointGateway {
 	{
 		try
 		{
-			return  $this->makeApiRequest('user/-/friends/invitations');
+			return $this->makeApiRequest('user/-/friends/invitations');
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Could not get friend invitations.', 1606, $e);
 		}
 	}
 
@@ -210,7 +217,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not invite the chosen friend', 1608, $e);
         }
     }
 
@@ -235,7 +242,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not accept friend invitation.', 1609, $e);
         }
     }
 
@@ -260,7 +267,7 @@ class UserGateway extends EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Could not reject friend request.', 1610, $e);
 	    }
     }
 
@@ -281,7 +288,7 @@ class UserGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Could not get badges.', 1611, $e);
 		}
 	}
 
@@ -310,7 +317,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not add subscription.', 1612, $e);
         }
     }
 
@@ -339,7 +346,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not delete subscription.', 1613, $e);
         }
     }
 
@@ -347,6 +354,7 @@ class UserGateway extends EndpointGateway {
      * Validate user subscription type
      *
      * @access protected
+     * @version 0.5.0
      *
      * @param string &$subscriptionType Collection type
      * @throws FBException
@@ -358,7 +366,7 @@ class UserGateway extends EndpointGateway {
             $subscriptionType = $this->subscriptionTypes[$subscriptionType];
         } else {
             throw new FBException(sprintf('Invalid subscription collection type (valid values are \'%s\')',
-                implode("', '", array_keys($this->subscriptionTypes))
+                implode("', '", array_keys($this->subscriptionTypes), 1614)
             ));
         }
         return true;
@@ -395,17 +403,16 @@ class UserGateway extends EndpointGateway {
 	    try
 	    {
 		    $this->validateSubscriptionType($subscriptionType);
-
-	        return sprintf('user/%s%s/apiSubscriptions%s',
-	            $this->userID,
-	            $subscriptionType,
-	            ($id ? '/' . $id : '')
-	        );
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Invalid subscription type provided.', 1615, $e);
 	    }
+        return sprintf('user/%s%s/apiSubscriptions%s',
+            $this->userID,
+            $subscriptionType,
+            ($id ? '/' . $id : '')
+        );
     }
 
     /**
@@ -425,7 +432,7 @@ class UserGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Unable to get subscriptions.', 1615, $e);
         }
     }
 }

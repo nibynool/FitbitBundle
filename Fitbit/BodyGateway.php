@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 301 - 311
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -14,8 +18,8 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  * @todo Is there a function to delete a weight log?
  * @todo Is there a function to delete a glucose log?
  */
-class BodyGateway extends EndpointGateway {
-
+class BodyGateway extends EndpointGateway
+{
     /**
      * Get user body measurements
      *
@@ -38,7 +42,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Body data request failed.', 301, $e);
         }
     }
 
@@ -86,7 +90,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Body data log submission failed.', 302, $e);
         }
     }
 
@@ -116,7 +120,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Weight data log submission failed.', 303, $e);
         }
     }
 
@@ -142,7 +146,7 @@ class BodyGateway extends EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Blood pressure request failed.', 304, $e);
 	    }
     }
 
@@ -176,7 +180,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Blood pressure submission failed.', 305, $e);
         }
     }
 
@@ -198,7 +202,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Blood pressure record deletion failed.', 306, $e);
         }
     }
 
@@ -224,7 +228,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Glucose request failed.', 307, $e);
         }
     }
 
@@ -260,7 +264,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Glucose log submission failed.', 308, $e);
         }
     }
 
@@ -286,7 +290,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Heart rate request failed.', 309, $e);
         }
     }
 
@@ -320,7 +324,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Heart rate log submission failed.', 310, $e);
         }
     }
 
@@ -342,7 +346,7 @@ class BodyGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->GetMessage());
+	        throw new FBException('Heart rate record deletion failed.', 311, $e);
         }
     }
 }

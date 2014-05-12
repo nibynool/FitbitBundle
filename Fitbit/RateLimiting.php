@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 19XX
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**

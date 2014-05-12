@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 101 - 112
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\Common\Consumer\Credentials;
@@ -38,37 +42,30 @@ class ApiGatewayFactory
      * @var string
      */
     protected $consumerKey;
-
     /**
      * @var string
      */
     protected $consumerSecret;
-
     /**
      * @var string (default: '-')
      */
     protected $userID = '-';
-    
     /**
      * @var string (default: 'json')
      */
     protected $responseFormat = 'json';
-
     /**
      * @var ServiceInterface
      */
     protected $service;
-    
     /**
      * @var TokenStorageInterface
      */
     protected $storageAdapter;
-    
     /**
      * @var string
      */
     protected $callbackURL;
-
     /**
      * @var ClientInterface
      */
@@ -136,7 +133,7 @@ class ApiGatewayFactory
      * Set response format.
      *
      * @access public
-     * @version 0.1.1
+     * @version 0.5.0
      *
      * @param string $format Response format (json or xml) to use in API calls
      * @throws FBException
@@ -144,7 +141,7 @@ class ApiGatewayFactory
      */
     public function setResponseFormat($format)
     {
-        if (!in_array($format, array('json', 'xml'))) throw new FBException("Response format must be one of 'json', 'xml'");
+        if (!in_array($format, array('json', 'xml'))) throw new FBException('Response format can only be set to \'json\' or \'xml\'.', 101);
         $this->responseFormat = $format;
         return $this;
     }
@@ -153,6 +150,7 @@ class ApiGatewayFactory
      * Set callback URL.
      * 
      * @access public
+     * @version 0.5.0
      *
      * @todo Allow URL to be relative to the root of the site
      *
@@ -162,7 +160,7 @@ class ApiGatewayFactory
      */
     public function setCallbackURL($url)
     {
-	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException($url." is not a valid URL");
+	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException('The provided callback URL ('.$url.') is not a valid URL.', 102);
         $this->callbackURL = $url;
         return $this;
     }
@@ -199,6 +197,7 @@ class ApiGatewayFactory
 	 * Open a Gateway
 	 *
 	 * @access public
+	 * @version 0.5.0
 	 *
 	 * @param $method
 	 * @param $parameters
@@ -207,8 +206,8 @@ class ApiGatewayFactory
 	 */
 	public function __call($method, $parameters)
 	{
-		if (!preg_match('/^get.*Gateway$/', $method)) throw new FBException("Invalid function requested.");
-		if (count($parameters)) throw new FBException("Gateway interfaces do not accept parameters.");
+		if (!preg_match('/^get.*Gateway$/', $method)) throw new FBException('Invalid API Gateway interface ('.$method.') requested.', 103);
+		if (count($parameters)) throw new FBException('API Gateway interfaces do not accept parameters.', 104);
 		$gatewayName = substr($method, 3);
 		try
 		{
@@ -217,7 +216,7 @@ class ApiGatewayFactory
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException("Could not open a gateway named ".$gatewayName);
+			throw new FBException('API Gateway could not open a gateway named '.$gatewayName.'.', 105);
 		}
 		return $gateway;
 	}
@@ -226,15 +225,24 @@ class ApiGatewayFactory
 	 * Inject Dependencies into a Gateway Interface
 	 *
 	 * @access protected
+	 * @version 0.5.0
 	 *
 	 * @param EndpointGateway $gateway
+	 * @throws FBException
 	 * @return bool
 	 */
 	protected function injectGatewayDependencies(EndpointGateway $gateway)
     {
-	    $gateway->setService($this->getService())
-                ->setResponseFormat($this->responseFormat)
-                ->setUserID($this->userID);
+	    try
+	    {
+		    $gateway->setService($this->getService())
+			    ->setResponseFormat($this->responseFormat)
+			    ->setUserID($this->userID);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not inject gateway dependencies', 112, $e);
+	    }
 	    return true;
     }
 
@@ -242,30 +250,43 @@ class ApiGatewayFactory
      * Get FitBit service
      *
      * @access protected
+     * @version 0.5.0
      *
      * @throws FBException
      * @return ServiceInterface
      */
     protected function getService()
     {
-        if (!$this->consumerKey)    throw new FBException('Empty consumer key.');
-        if (!$this->consumerSecret) throw new FBException('Empty consumer secret.');
-        if (!$this->callbackURL)    throw new FBException('Empty callback URL.');
-        if (!$this->storageAdapter) throw new FBException('Missing storage adapter.');
+        if (!$this->consumerKey)    throw new FBException('Cannot get service as the consumer key is empty.', 106);
+        if (!$this->consumerSecret) throw new FBException('Cannot get service as the consumer secret is empty.', 107);
+        if (!$this->callbackURL)    throw new FBException('Cannot get service as the callback URL is empty.', 108);
+        if (!$this->storageAdapter) throw new FBException('Cannot get service as it is missing a storage adapter.', 109);
 
         if (!$this->service)
         {
-            $credentials = new Credentials(
-                $this->consumerKey,
-                $this->consumerSecret,
-                $this->callbackURL
-            );
+            try
+            {
+	            $credentials = new Credentials(
+		            $this->consumerKey,
+		            $this->consumerSecret,
+		            $this->callbackURL
+	            );
+            }
+            catch (\Exception $e)
+            {
+	            throw new FBException('Could not initialise the credentials.', 110, $e);
+            }
 
-            $factory = new ServiceFactory();
-
-            if ($this->httpClient) $factory->setHttpClient($this->httpClient);
-
-            $this->service = $factory->createService('FitBit', $credentials, $this->storageAdapter);
+	        try
+	        {
+	            $factory = new ServiceFactory();
+		        if ($this->httpClient) $factory->setHttpClient($this->httpClient);
+		        $this->service = $factory->createService('FitBit', $credentials, $this->storageAdapter);
+	        }
+	        catch (\Exception $e)
+	        {
+		        throw new FBException('Could not initialise service factory.', 111, $e);
+	        }
         }
 
         return $this->service;

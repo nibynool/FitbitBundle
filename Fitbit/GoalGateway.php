@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 1001-1006
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -10,8 +14,8 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  *
  * @since 0.5.0
  */
-class GoalGateway extends EndpointGateway {
-
+class GoalGateway extends EndpointGateway
+{
     /**
      * Get weight goal
      *
@@ -29,7 +33,7 @@ class GoalGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Unable to get weight goal.', 1001, $e);
         }
     }
 
@@ -50,7 +54,7 @@ class GoalGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Unable to get body fat goal.', 1002, $e);
 		}
 	}
 
@@ -71,7 +75,7 @@ class GoalGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Unable to get daily activity goal.', 1003, $e);
 		}
 	}
 
@@ -92,7 +96,7 @@ class GoalGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Unable to get weekly activity goal.', 1004, $e);
 		}
 	}
 
@@ -113,7 +117,7 @@ class GoalGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Unable to get food goal.', 1005, $e);
 		}
 	}
 
@@ -134,7 +138,7 @@ class GoalGateway extends EndpointGateway {
 		}
 		catch (\Exception $e)
 		{
-			throw new FBException($e->getMessage());
+			throw new FBException('Unable to get water goal.', 1006, $e);
 		}
 	}
 }

@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 501 - 513
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -10,8 +14,8 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  *
  * @since 0.1.0
  */
-class FoodGateway extends EndpointGateway {
-
+class FoodGateway extends EndpointGateway
+{
     /**
      * Get user foods for specific date
      *
@@ -34,7 +38,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Food data request failed.', 501, $e);
         }
     }
 
@@ -55,7 +59,7 @@ class FoodGateway extends EndpointGateway {
 	    }
 	    catch (\Exception $e)
 	    {
-		    throw new FBException($e->getMessage());
+		    throw new FBException('Recent food data request failed.', 502, $e);
 	    }
     }
 
@@ -76,7 +80,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Frequent food data request failed.', 503, $e);
         }
     }
 
@@ -97,7 +101,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Favorite food data request failed.', 504, $e);
         }
    }
 
@@ -149,7 +153,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Create food log failed.', 505, $e);
         }
     }
 
@@ -171,7 +175,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Delete food log failed.', 506, $e);
         }
     }
 
@@ -193,7 +197,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Add favorite food failed.', 507, $e);
         }
     }
 
@@ -215,7 +219,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Delete favorite food failed.', 508, $e);
         }
     }
 
@@ -236,7 +240,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Meal request failed.', 509, $e);
         }
     }
 
@@ -257,7 +261,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Food Unit request failed.', 510, $e);
         }
     }
 
@@ -282,7 +286,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch(\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Food search (for '.$query.') failed.', 511, $e);
         }
     }
 
@@ -304,7 +308,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Food detail request failed.', 512, $e);
         }
     }
 
@@ -347,7 +351,7 @@ class FoodGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Create food failed.', 513, $e);
         }
     }
 }

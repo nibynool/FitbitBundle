@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 1501
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -30,7 +34,7 @@ class TrackerGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not get silent alarms.', 1501, $e);
         }
     }
 }

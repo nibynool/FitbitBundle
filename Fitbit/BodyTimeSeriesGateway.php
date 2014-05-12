@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 9XX
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
@@ -13,8 +17,8 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @method array getFat(\DateTime $baseDate, string $period, \DateTime $endDate)
  * @method array getWeight(\DateTime $baseDate, string $period, \DateTime $endDate)
  */
-class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway {
-
+class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
+{
     /**
      * Base fragment for this resources uri
      *

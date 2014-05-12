@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 1701-1704
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
@@ -34,7 +38,7 @@ class WaterGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not get water records.', 1701, $e);
         }
     }
 
@@ -62,7 +66,7 @@ class WaterGateway extends EndpointGateway {
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['amount'] = $amount;
         if (isset($waterUnit) && in_array($waterUnit, $waterUnits)) $parameters['unit'] = $waterUnit;
-	    else throw new FBException('Invalid water unit provided.');
+	    else throw new FBException('Invalid water unit provided.', 1702);
 
         try
         {
@@ -70,7 +74,7 @@ class WaterGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not log water consumption.', 1703, $e);
         }
     }
 
@@ -92,7 +96,7 @@ class WaterGateway extends EndpointGateway {
         }
         catch (\Exception $e)
         {
-	        throw new FBException($e->getMessage());
+	        throw new FBException('Could not delete water record.', 1704, $e);
         }
     }
 }

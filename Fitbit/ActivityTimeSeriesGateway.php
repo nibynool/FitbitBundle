@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ * Error Codes: 8XX
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
@@ -21,8 +25,8 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
  * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
  */
-class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
-
+class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway
+{
     /**
      * base fragment for this resources uri
      * 
@@ -47,6 +51,7 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
      * extended get to all for tracker only resource calls
      *
      * @access public
+     * @version 0.5.0
      *
      * @param  string $fragment
      * @param  bool $tracker
@@ -57,7 +62,7 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
      */
     public function get($fragment, $tracker = false, $baseDate = null, $period = null, $endDate = null)
     {
-        $fragment = ($tracker) ? $this->trackerOnlyFragment($fragment) : $fragment;
+	    $fragment = ($tracker) ? $this->trackerOnlyFragment($fragment) : $fragment;
         return parent::get($fragment, $baseDate, $period, $endDate);
     }
 
