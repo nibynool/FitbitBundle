@@ -21,7 +21,8 @@ class NibyNoolFitBitExtension extends Extension
 			array(
 				'distance_units'                => $config['distance_units'],
 				'interday_timeseries_endpoints' => $config['interday_timeseries_endpoints'],
-				'intraday_timeseries_endpoints' => $config['intraday_timeseries_endpoints']
+				'intraday_timeseries_endpoints' => $config['intraday_timeseries_endpoints'],
+				'subscription_types'            => $config['subscription_types']
 			)
 		);
 

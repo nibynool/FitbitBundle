@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
 			->arrayNode('interday_timeseries_endpoints')
 				->addDefaultsIfNotSet()
 				->requiresAtLeastOneElement()
-		        ->info('Valid end points for FitBit time series data')
+		        ->info('Valid end points for FitBit interday time series data')
 				->prototype('array')
 					->children()
 						->scalarNode('value')
@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
 			->arrayNode('intraday_timeseries_endpoints')
 				->addDefaultsIfNotSet()
 					->requiresAtLeastOneElement()
-					->info('Valid end points for FitBit time series data')
+					->info('Valid end points for FitBit intraday time series data')
 					->prototype('array')
 						->children()
 							->scalarNode('value')
@@ -83,10 +83,30 @@ class Configuration implements ConfigurationInterface
 						->end()
 					->end()
 				->defaultValue(array(
-					'caloriesOut'           => array('value' => '/activities/log/calories'),
-					'steps'                 => array('value' => '/activities/log/steps'),
-					'floors'                => array('value' => '/activities/log/floors'),
-					'elevation'             => array('value' => '/activities/log/elevation')
+					'caloriesOut' => array('value' => '/activities/log/calories'),
+					'steps'       => array('value' => '/activities/log/steps'),
+					'floors'      => array('value' => '/activities/log/floors'),
+					'elevation'   => array('value' => '/activities/log/elevation')
+				))
+			->end()
+			->arrayNode('subscription_types')
+				->addDefaultsIfNotSet()
+				->requiresAtLeastOneElement()
+				->info('Valid end subscription types')
+				->prototype('array')
+					->children()
+						->scalarNode('value')
+							->isRequired()
+						->end()
+					->end()
+				->end()
+				->defaultValue(array(
+					'sleep'      => array('value' => '/sleep'),
+					'body'       => array('value' => '/body'),
+					'activities' => array('value' => '/activities'),
+					'foods'      => array('value' => '/foods'),
+					'all'        => array('value' => ''),
+					''           => array('value' => '')
 				))
 			->end()
 		->end();

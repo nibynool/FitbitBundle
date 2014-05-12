@@ -17,22 +17,6 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 class UserGateway extends EndpointGateway
 {
     /**
-     * Valid subscription types mapped to their collection paths.
-     *
-     * @todo Export this to a configuration file
-     *
-     * @var array
-     */
-    protected $subscriptionTypes = array(
-        'sleep'      => '/sleep',
-        'body'       => '/body',
-        'activities' => '/activities',
-        'foods'      => '/foods',
-        'all'        => '',
-        ''           => '',
-    );
-
-    /**
      * API wrappers
      *
      * @access public
@@ -362,13 +346,8 @@ class UserGateway extends EndpointGateway
      */
     protected function validateSubscriptionType(&$subscriptionType)
     {
-        if (isset($this->subscriptionTypes[$subscriptionType])) {
-            $subscriptionType = $this->subscriptionTypes[$subscriptionType];
-        } else {
-            throw new FBException(sprintf('Invalid subscription collection type (valid values are \'%s\')',
-                implode("', '", array_keys($this->subscriptionTypes), 1614)
-            ));
-        }
+	    if (!isset($this->configuration['subscription_types'][$subscriptionType])) throw new FBException('Invalid subscription type requested.', 1614);
+	    $subscriptionType = $this->configuration['subscription_types'][$subscriptionType]['value'];
         return true;
     }
 
