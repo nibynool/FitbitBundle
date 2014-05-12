@@ -22,8 +22,6 @@ class SleepGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -47,8 +45,6 @@ class SleepGateway extends EndpointGateway {
      *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Add validation for the date
      *
      * @param \DateTime $date Sleep date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $duration Duration millis

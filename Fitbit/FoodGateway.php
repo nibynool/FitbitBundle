@@ -22,8 +22,6 @@ class FoodGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -110,8 +108,6 @@ class FoodGateway extends EndpointGateway
      *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Add validation for the date
      *
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)

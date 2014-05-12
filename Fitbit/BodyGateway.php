@@ -26,8 +26,6 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -51,8 +49,6 @@ class BodyGateway extends EndpointGateway
      *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Add validation for the date
      *
      * @param \DateTime $date Date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
@@ -130,8 +126,6 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -156,23 +150,20 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     * @todo Merge the date and time into one item
-     *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
      * @param string $diastolic Diastolic measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logBloodPressure(\DateTime $date, $systolic, $diastolic, \DateTime $time = null)
+    public function logBloodPressure(\DateTime $date, $systolic, $diastolic, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['systolic'] = $systolic;
         $parameters['diastolic'] = $diastolic;
-        if ($time) $parameters['time'] = $time->format('H:i');
+        if ($time) $parameters['time'] = $date->format('H:i');
 
         try
         {
@@ -212,8 +203,6 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -238,25 +227,22 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     * @todo Merge the date and time into one item
-     *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $glucose Glucose measurement
      * @param string $hba1c Glucose measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logGlucose(\DateTime $date, $tracker, $glucose, $hba1c = null, \DateTime $time = null)
+    public function logGlucose(\DateTime $date, $tracker, $glucose, $hba1c = null, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['glucose'] = $glucose;
         if ($hba1c) $parameters['hba1c'] = $hba1c;
-        if ($time)  $parameters['time'] = $time->format('H:i');
+        if ($time)  $parameters['time'] = $date->format('H:i');
 
         try
         {
@@ -273,8 +259,6 @@ class BodyGateway extends EndpointGateway
      *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Add validation for the date
      *
      * @param  \DateTime $date
      * @throws FBException
@@ -300,23 +284,20 @@ class BodyGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     * @todo Merge the date and time into one item
-     *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $heartRate Heart rate measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logHeartRate(\DateTime $date, $tracker, $heartRate, \DateTime $time = null)
+    public function logHeartRate(\DateTime $date, $tracker, $heartRate, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['heartRate'] = $heartRate;
-        if ($time) $parameters['time'] = $time->format('H:i');
+        if ($time) $parameters['time'] = $date->format('H:i');
 
         try
         {

@@ -22,8 +22,6 @@ class WaterGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
-     *
      * @param  \DateTime $date
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
@@ -48,7 +46,6 @@ class WaterGateway extends EndpointGateway {
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the date
      * @todo Can this use a time in the date string?
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
