@@ -109,6 +109,12 @@ class Configuration implements ConfigurationInterface
 					''           => array('value' => '')
 				))
 			->end()
+			->arrayNode('water_units')
+				->addDefaultsIfNotSet()
+				->requiresAtLeastOneElement()
+				->info('Water units recognised by FitBit')
+				->defaultValue(array('ml', 'fl oz', 'cup'))
+			->end()
 		->end();
 
 		return $treeBuilder;

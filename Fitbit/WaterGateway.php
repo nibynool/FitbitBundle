@@ -50,7 +50,6 @@ class WaterGateway extends EndpointGateway {
      *
      * @todo Add validation for the date
      * @todo Can this use a time in the date string?
-     * @todo Move water units to a configuration file
      *
      * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $amount Amount in ml/fl oz (as set with setMetric) or waterUnit
@@ -60,12 +59,10 @@ class WaterGateway extends EndpointGateway {
      */
     public function logWater(\DateTime $date, $amount, $waterUnit = null)
     {
-        $waterUnits = array('ml', 'fl oz', 'cup');
-
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['amount'] = $amount;
-        if (isset($waterUnit) && in_array($waterUnit, $waterUnits)) $parameters['unit'] = $waterUnit;
+        if (isset($waterUnit) && in_array($waterUnit, $this->configuration['water_units'][$waterUnit])) $parameters['unit'] = $waterUnit;
 	    else throw new FBException('Invalid water unit provided.', 1702);
 
         try
