@@ -10,6 +10,7 @@ use OAuth\ServiceFactory;
 use OAuth\OAuth1\Service\FitBit as ServiceInterface;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Http\Client\ClientInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
 /**
@@ -72,6 +73,8 @@ class ApiGatewayFactory
     protected $httpClient;
 	/** @var array */
 	protected $configuration;
+	/** @var Router */
+	protected $router;
 
 	/**
 	 * Set the consumer credentials when this class is instantiated
@@ -82,13 +85,15 @@ class ApiGatewayFactory
 	 * @param string $consumer_secret Application secret
 	 * @param string $callback_url Callback URL to provide to FitBit
 	 * @param array  $configuration Configurable items
+	 * @param Router $router
 	 */
-	public function __construct($consumer_key, $consumer_secret, $callback_url, $configuration)
+	public function __construct($consumer_key, $consumer_secret, $callback_url, $configuration, $router)
 	{
 		$this->consumerKey    = $consumer_key;
 		$this->consumerSecret = $consumer_secret;
 		$this->callbackURL    = $callback_url;
 		$this->configuration  = $configuration;
+		$this->router         = $router;
 	}
 
 	/**
@@ -156,14 +161,13 @@ class ApiGatewayFactory
      * @access public
      * @version 0.5.0
      *
-     * @todo Allow URL to be relative to the root of the site
-     *
      * @param string $url
      * @throws FBException
      * @return self
      */
     public function setCallbackURL($url)
     {
+	    if(substr($url, 0, 1) == '/' && substr($url, 0, 2) != '//') $url = $this->router->getContext()->getBaseUrl().$url;
 	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException('The provided callback URL ('.$url.') is not a valid URL.', 102);
         $this->callbackURL = $url;
         return $this;
