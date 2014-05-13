@@ -267,9 +267,6 @@ class FoodGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the query
-     * @todo Can we create a query builder?  Do we even need one?
-     *
      * @param string $query Search query
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object

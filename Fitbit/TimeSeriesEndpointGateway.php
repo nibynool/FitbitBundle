@@ -50,22 +50,20 @@ class TimeSeriesEndpointGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Can $period and $endDate be merged?
-     *
      * @param  string $fragment
      * @param  \DateTime|string $baseDate
-     * @param  string $period
-     * @param  \DateTime|string $endDate
+     * @param  \DateTime|string $end
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function get($fragment, $baseDate = null, $period = null, $endDate = null)
+    public function get($fragment, $baseDate = null, $end = null)
     {
-        $date1 = $baseDate ?: 'today';
-        $date2 = ($period) ? $period : ($endDate) ?: '1d';
-
-        if ($date1 instanceof \Datetime) $date1 = $date1->format("Y-m-d");
-        if ($date2 instanceof \Datetime) $date2 = $date2->format("Y-m-d");
+	    if (!isset($baseDate)) $date1 = 'today';
+	    elseif ($baseDate instanceof \Datetime) $date1 = $baseDate->format('Y-m-d');
+	    else $date1 = $baseDate;
+	    if (!isset($end)) $date2 = '1d';
+	    elseif ($end instanceof \Datetime) $date2 = $end->format('Y-m-d');
+	    else $date2 = $end;
 
         $endpoint = sprintf('user/%s/%s/%s/%s', $this->userID, $fragment, $date1, $date2);
 
@@ -84,8 +82,6 @@ class TimeSeriesEndpointGateway extends EndpointGateway
      *
      * @access public
      * @version 0.5.0
-     *
-     * @todo Check for function existance
      *
      * @param  string  $method
      * @param  array   $parameters
