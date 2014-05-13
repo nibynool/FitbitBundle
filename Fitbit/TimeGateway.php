@@ -14,10 +14,15 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  *
  * @since 0.1.0
  * @deprecated 0.5.0
- *
- * @todo Can we throw a warning when this class is used?
  */
-class TimeGateway extends EndpointGateway {
+class TimeGateway extends EndpointGateway
+{
+	public function __construct($config)
+	{
+		trigger_error('The TimeGateway class has been deprecated and should no longer be used.', E_WARNING);
+		parent::__construct($config);
+	}
+
     /**
      * Launch TimeSeries requests
      *
