@@ -11,6 +11,9 @@ class NibyNoolFitBitExtension extends Extension
 {
 	public function load(array $configs, ContainerBuilder $container)
 	{
+		$loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+		$loader->load('services.yml');
+
 		$configuration = new Configuration();
 		$config = $this->processConfiguration($configuration, $configs);
 		$container->setParameter('niby_nool_fit_bit.key',      $config['key']);
@@ -26,9 +29,6 @@ class NibyNoolFitBitExtension extends Extension
 				'water_units'                   => $config['water_units']
 			)
 		);
-
-		$loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-		$loader->load('services.yml');
 	}
 
 	public function getAlias()
