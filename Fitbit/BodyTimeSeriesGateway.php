@@ -39,7 +39,7 @@ class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
 	 */
 	public function getWeightLogs($baseDate, $endDate)
 	{
-		return call_user_func_array(array($this, 'get'), array('log/weight/date', $baseDate, $endDate));
+		return call_user_func_array(array($this, 'get'), array('body/log/weight/date', $baseDate, $endDate));
 	}
 
 	/**
@@ -52,8 +52,8 @@ class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
 	 * @param  \DateTime|string $endDate
 	 * @return array
 	 */
-	public function getFatLogs(\DateTime $baseDate, \DateTime $endDate)
+	public function getFatLogs($baseDate, $endDate)
 	{
-		return call_user_func_array(array($this, 'get'), array('log/fat/date', $baseDate, $endDate));
+		return call_user_func_array(array($this, 'get'), array('body/log/fat/date', $baseDate, $endDate));
 	}
 }
