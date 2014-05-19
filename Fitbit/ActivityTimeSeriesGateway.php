@@ -11,19 +11,19 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
- * @version 0.1.1
+ * @version 0.5.0
  *
- * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getSteps(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getDistance(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getFloors(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getElevation(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesSedentary(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesLightlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesFairlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getSteps(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getDistance(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getFloors(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getElevation(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesSedentary(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesLightlyActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesFairlyActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
  */
 class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway
 {
@@ -56,14 +56,13 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway
      * @param  string $fragment
      * @param  bool $tracker
      * @param  \DateTime|string $baseDate
-     * @param  string $period
      * @param  \DateTime|string $endDate
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function get($fragment, $tracker = false, $baseDate = null, $period = null, $endDate = null)
+    public function get($fragment, $tracker = false, $baseDate = null, $endDate = null)
     {
 	    $fragment = ($tracker) ? $this->trackerOnlyFragment($fragment) : $fragment;
-        return parent::get($fragment, $baseDate, $period, $endDate);
+        return parent::get($fragment, $baseDate, $endDate);
     }
 
     /**

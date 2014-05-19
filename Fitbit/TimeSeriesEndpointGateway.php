@@ -29,9 +29,6 @@ class TimeSeriesEndpointGateway extends EndpointGateway
      * @access public
      * @version 0.5.0
      *
-     * @todo Add validation for the method name
-     * @todo Add validation for the fragment name
-     *
      * @param string $method
      * @throws FBException
      * @return string

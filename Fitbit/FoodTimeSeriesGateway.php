@@ -11,10 +11,10 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
- * @version 0.1.1
+ * @version 0.5.0
  *
- * @method array getCaloriesIn(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getWater(\DateTime $baseDate, string $period, \DateTime $endDate)
+ * @method array getCaloriesIn(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getWater(\DateTime $baseDate, \DateTime $endDate)
  */
 class FoodTimeSeriesGateway extends TimeSeriesEndpointGateway {
     /**

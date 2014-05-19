@@ -13,9 +13,9 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @since 0.1.0
  * @version 0.1.1
  *
- * @method array getBmi(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getFat(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getWeight(\DateTime $baseDate, string $period, \DateTime $endDate)
+ * @method array getBmi(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getFat(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getWeight(\DateTime $baseDate, \DateTime $endDate)
  */
 class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
 {
@@ -33,14 +33,13 @@ class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @param  \DateTime $baseDate
-	 * @param  string    $period
-	 * @param  \DateTime $endDate
+	 * @param  \DateTime|string $baseDate
+	 * @param  \DateTime|string $endDate
 	 * @return array
 	 */
-	public function getWeightLogs(\DateTime $baseDate, $period, \DateTime $endDate)
+	public function getWeightLogs($baseDate, $endDate)
 	{
-		return call_user_func_array(array($this, 'get'), array('log/weight/date', $baseDate, $period, $endDate));
+		return call_user_func_array(array($this, 'get'), array('log/weight/date', $baseDate, $endDate));
 	}
 
 	/**
@@ -49,13 +48,12 @@ class BodyTimeSeriesGateway extends TimeSeriesEndpointGateway
 	 * @access public
 	 * @version 0.5.0
 	 *
-	 * @param  \DateTime $baseDate
-	 * @param  string    $period
-	 * @param  \DateTime $endDate
+	 * @param  \DateTime|string $baseDate
+	 * @param  \DateTime|string $endDate
 	 * @return array
 	 */
-	public function getFatLogs(\DateTime $baseDate, $period, \DateTime $endDate)
+	public function getFatLogs(\DateTime $baseDate, \DateTime $endDate)
 	{
-		return call_user_func_array(array($this, 'get'), array('log/fat/date', $baseDate, $period, $endDate));
+		return call_user_func_array(array($this, 'get'), array('log/fat/date', $baseDate, $endDate));
 	}
 }

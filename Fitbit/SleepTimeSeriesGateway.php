@@ -11,16 +11,16 @@ namespace NibyNool\FitBitBundle\FitBit;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
- * @version 0.1.1
+ * @version 0.5.0
  *
- * @method array getStartTime(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getTimeInBed(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getMinutesAsleep(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getAwakeningsCount(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getMinutesAwake(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getMinutesToFallAsleep(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getMinutesAfterWakeup(\DateTime $baseDate, string $period, \DateTime $endDate)
- * @method array getEfficiency(\DateTime $baseDate, string $period, \DateTime $endDate)
+ * @method array getStartTime(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getTimeInBed(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getMinutesAsleep(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getAwakeningsCount(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getMinutesAwake(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getMinutesToFallAsleep(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getMinutesAfterWakeup(\DateTime $baseDate, \DateTime $endDate)
+ * @method array getEfficiency(\DateTime $baseDate, \DateTime $endDate)
  */
 class SleepTimeSeriesGateway extends TimeSeriesEndpointGateway {
     /**
