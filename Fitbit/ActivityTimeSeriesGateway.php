@@ -1,5 +1,8 @@
 <?php
-
+/**
+ *
+ * Error Codes: 8XX
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 /**
@@ -7,20 +10,23 @@ namespace NibyNool\FitBitBundle\FitBit;
  *
  * @package NibyNool\FitBitBundle\FitBit
  *
- * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getSteps(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getDistance(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getFloors(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getElevation(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesSedentary(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesLightlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesFairlyActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
- * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, string $period = null, \DateTime $endDate = null)
+ * @since 0.1.0
+ * @version 0.5.0
+ *
+ * @method object getCalories(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getCaloriesBMR(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getSteps(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getDistance(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getFloors(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getElevation(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesSedentary(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesLightlyActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesFairlyActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getMinutesVeryActive(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
+ * @method object getActivityCalories(bool $tracker = false, \DateTime $baseDate = null, \DateTime $endDate = null)
  */
-class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
-
+class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway
+{
     /**
      * base fragment for this resources uri
      * 
@@ -30,11 +36,13 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
 
     /**
      * convert to tracker only fragment
-     * 
+     *
+     * @access protected
+     *
      * @param string $fragment
      * @return string
      */
-    protected function trackerOnlyFragment($fragment)
+	protected function trackerOnlyFragment($fragment)
     {   
         return str_replace('activities', 'activities/tracker', $fragment);
     }
@@ -42,18 +50,19 @@ class ActivityTimeSeriesGateway extends TimeSeriesEndpointGateway {
     /**
      * extended get to all for tracker only resource calls
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param  string $fragment
      * @param  bool $tracker
      * @param  \DateTime|string $baseDate
-     * @param  string $period
      * @param  \DateTime|string $endDate
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function get($fragment, $tracker = false, $baseDate = null, $period = null, $endDate = null)
+    public function get($fragment, $tracker = false, $baseDate = null, $endDate = null)
     {
-        $fragment = ($tracker) ? $this->trackerOnlyFragment($fragment) : $fragment;
-        return parent::get($fragment, $baseDate, $period, $endDate);
+	    $fragment = ($tracker) ? $this->trackerOnlyFragment($fragment) : $fragment;
+        return parent::get($fragment, $baseDate, $endDate);
     }
 
     /**

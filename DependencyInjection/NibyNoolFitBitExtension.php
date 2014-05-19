@@ -13,6 +13,22 @@ class NibyNoolFitBitExtension extends Extension
 	{
 		$loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 		$loader->load('services.yml');
+
+		$configuration = new Configuration();
+		$config = $this->processConfiguration($configuration, $configs);
+		$container->setParameter('niby_nool_fit_bit.key',      $config['key']);
+		$container->setParameter('niby_nool_fit_bit.secret',   $config['secret']);
+		$container->setParameter('niby_nool_fit_bit.callback', $config['callback']);
+		$container->setParameter(
+			'niby_nool_fit_bit.configuration',
+			array(
+				'distance_units'                => $config['distance_units'],
+				'interday_timeseries_endpoints' => $config['interday_timeseries_endpoints'],
+				'intraday_timeseries_endpoints' => $config['intraday_timeseries_endpoints'],
+				'subscription_types'            => $config['subscription_types'],
+				'water_units'                   => $config['water_units']
+			)
+		);
 	}
 
 	public function getAlias()

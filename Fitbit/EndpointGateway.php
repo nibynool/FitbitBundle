@@ -1,30 +1,47 @@
 <?php
-
+/**
+ *
+ * Error Codes: 401 - 407
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use OAuth\OAuth1\Service\FitBit as ServiceInterface;
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
-class EndpointGateway {
-
+/**
+ * Class EndpointGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
+class EndpointGateway
+{
     /**
      * @var ServiceInterface
      */
     protected $service;
-
     /**
      * @var string
      */
     protected $responseFormat;
-
     /**
      * @var string
      */
     protected $userID;
+	/** @var array $configuration */
+	protected $configuration;
+
+	public function __construct($configuration)
+	{
+		$this->configuration = $configuration;
+	}
 
     /**
      * Set FitBit service
      *
      * @access public
+     *
      * @param ServiceInterface $service
      * @return self
      */
@@ -38,6 +55,7 @@ class EndpointGateway {
      * Set response format.
      * 
      * @access public
+     *
      * @param string $format
      * @return self
      */
@@ -51,6 +69,7 @@ class EndpointGateway {
      * Set FitBit user ids.
      *
      * @access public
+     *
      * @param string $id
      * @return self
      */
@@ -64,10 +83,12 @@ class EndpointGateway {
      * Make an API request
      *
      * @access protected
+     *
      * @param string $resource Endpoint after '.../1/'
      * @param string $method ('GET', 'POST', 'PUT', 'DELETE')
      * @param array $body Request parameters
      * @param array $extraHeaders Additional custom headers
+     * @throws FBException
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
     protected function makeApiRequest($resource, $method = 'GET', $body = array(), $extraHeaders = array())
@@ -79,44 +100,97 @@ class EndpointGateway {
             $body = array();
         }
 
-        $response = $this->service->request($path, $method, $body, $extraHeaders);
+	    try
+	    {
+            $response = $this->service->request($path, $method, $body, $extraHeaders);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('The service request failed.', 401, $e);
+	    }
 
-        return $this->parseResponse($response);
+        try
+        {
+	        $response = $this->parseResponse($response);
+        }
+        catch (\Exception $e)
+	    {
+		    throw new FBException('The response from FitBit could not be interpreted.', 402, $e);
+	    }
+	    return $response;
     }
 
     /**
      * Parse json or XML response.
      *
      * @access private
+     *
      * @param string $response
+     * @throws FBException
      * @return mixed stdClass for json response, SimpleXMLElement for XML response.
      */
     private function parseResponse($response)
     {
-        if ($this->responseFormat == 'json')    return json_decode($response);
-        elseif ($this->responseFormat == 'xml') return simplexml_load_string($response);
-
-        return $response;
+        if ($this->responseFormat == 'json')
+        {
+	        try
+	        {
+		        $response = json_decode($response);
+	        }
+	        catch (\Exception $e)
+	        {
+		        throw new FBException('Could not decode JSON response.', 403);
+	        }
+        }
+        elseif ($this->responseFormat == 'xml')
+        {
+	        try
+	        {
+		        $response = simplexml_load_string($response);
+	        }
+	        catch (\Exception $e)
+	        {
+		        throw new FBException('Could not decode XML response.', 404);
+	        }
+        }
+		else throw new FBException('Could not handle a response format of '.$this->responseFormat, 405);
+	    return $response;
     }
 
     /**
      * Get CLIENT+VIEWER and CLIENT rate limiting quota status
      *
      * @access public
+     *
+     * @throws FBException
      * @return RateLimiting
      */
     public function getRateLimit()
     {
-        $clientAndUser = $this->makeApiRequest('account/clientAndViewerRateLimitStatus');
-        $client        = $this->makeApiRequest('account/clientRateLimitStatus');
+	    try
+	    {
+            $clientAndUser = $this->makeApiRequest('account/clientAndViewerRateLimitStatus');
+            $client        = $this->makeApiRequest('account/clientRateLimitStatus');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not get the rate limit data.', 406, $e);
+	    }
 
-        return new RateLimiting(
-            $clientAndUser->rateLimitStatus->remainingHits,
-            $client->rateLimitStatus->remainingHits,
-            $clientAndUser->rateLimitStatus->resetTime,
-            $client->rateLimitStatus->resetTime,
-            $clientAndUser->rateLimitStatus->hourlyLimit,
-            $client->rateLimitStatus->hourlyLimit
-        );
+	    try
+	    {
+	        return new RateLimiting(
+	            $clientAndUser->rateLimitStatus->remainingHits,
+	            $client->rateLimitStatus->remainingHits,
+	            new \DateTime($clientAndUser->rateLimitStatus->resetTime),
+	            new \DateTime($client->rateLimitStatus->resetTime),
+	            $clientAndUser->rateLimitStatus->hourlyLimit,
+	            $client->rateLimitStatus->hourlyLimit
+	        );
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not create the rate limiting object.', 407, $e);
+	    }
     }
 }

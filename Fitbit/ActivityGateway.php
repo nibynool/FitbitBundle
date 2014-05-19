@@ -1,168 +1,295 @@
 <?php
-
+/**
+ *
+ * Error Codes: 601 - 618
+ */
 namespace NibyNool\FitBitBundle\FitBit;
+
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
 /**
  * Class ActivityGateway
  *
  * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
  */
-class ActivityGateway extends EndpointGateway {
-
+class ActivityGateway extends EndpointGateway
+{
     /**
-     * Get user's activity statistics (lifetime statistics from the tracker device and total numbers including the manual activity log entries)
+     * Get user's activity statistics
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getActivityStats()
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/activities');
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/activities');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Activity statistics request failed.', 601, $e);
+        }
     }
 
     /**
      * Get user activities for specific date
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getActivities(\DateTime $date, $dateStr = null)
+    public function getActivities(\DateTime $date)
     {
-        if (!isset($dateStr)) {
-            $dateStr = $date->format('Y-m-d');
-        }
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/activities/date/' . $dateStr);
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/activities/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Get activities by date request failed.', 602, $e);
+        }
     }
 
     /**
      * Get user recent activities
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentActivities()
     {
-        return $this->makeApiRequest('user/-/activities/recent');
+	    try
+	    {
+		    return $this->makeApiRequest('user/-/activities/recent');
+	    }
+	    catch (Exception $e)
+	    {
+		    throw new FBException('Get recent activities request failed.', 603, $e);
+	    }
     }
 
     /**
      * Get user frequent activities
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFrequentActivities()
     {
-        return $this->makeApiRequest('user/-/activities/frequent');
+        try
+        {
+	        return $this->makeApiRequest('user/-/activities/frequent');
+        }
+        catch (Exception $e)
+        {
+	        throw new FBException('Request for frequent activities failed.', 604, $e);
+        }
     }
 
     /**
      * Get user favorite activities
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteActivities()
     {
-        return $this->makeApiRequest('user/-/activities/favorite');
+        try
+        {
+	        return $this->makeApiRequest('user/-/activities/favorite');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Request for favorite activities failed.', 605, $e);
+        }
     }
 
     /**
      * Log user activity
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
-     * @param string $activityId Activity Id (or Intensity Level Id) from activities database,
-     *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity
+     * @param int|string $activity Activity Id (or Intensity Level Id) from activities database,
+     *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity or a new activity name
      * @param string $duration Duration millis
      * @param string $calories Manual calories to override FitBit estimate
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
-     * @param string $activityName The name of the activity
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logActivity(\DateTime $date, $activityId, $duration, $calories = null, $distance = null, $distanceUnit = null, $activityName = null)
+    public function logActivity(\DateTime $date, $activity, $duration, $calories = null, $distance = null, $distanceUnit = null)
     {
-        $distanceUnits = array('Centimeter', 'Foot', 'Inch', 'Kilometer', 'Meter', 'Mile', 'Millimeter', 'Steps', 'Yards');
-
+	    if (!isset($date)) throw new FBException('Start date must be defined.', 614);
+	    if (!isset($activity) || (!is_string($activity) && !is_integer($activity))) throw new FBException('Activity must be defined as a string or integer.', 615);
+	    if (!is_integer($duration)) throw new FBException('Duration must be defined in milliseconds.', 613);
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['startTime'] = $date->format('H:i');
-        if (isset($activityName)) {
-            $parameters['activityName'] = $activityName;
+	    if (is_string($activity))
+        {
+	        if (!isset($calories) || !is_integer($calories)) throw new FBException('Calories must be defined when using a manual activity.', 612);
+            $parameters['activityName'] = $activity;
             $parameters['manualCalories'] = $calories;
-        } else {
-            $parameters['activityId'] = $activityId;
-            if (isset($calories))
-                $parameters['manualCalories'] = $calories;
+        }
+        else
+        {
+            $parameters['activityId'] = $activity;
+            if (isset($calories)) $parameters['manualCalories'] = $calories;
         }
         $parameters['durationMillis'] = $duration;
         if (isset($distance))
-            $parameters['distance'] = $distance;
-        if (isset($distanceUnit) && in_array($distanceUnit, $distanceUnits))
-            $parameters['distanceUnit'] = $distanceUnit;
-
-        return $this->makeApiRequest('user/-/activities', 'POST', $parameters);
+        {
+	        if (!is_numeric($distance)) throw new FBException('When distance is defined it must be a number.', 616);
+	        $parameters['distance'] = $distance;
+        }
+        if (isset($distanceUnit))
+        {
+	        if (!in_array($distanceUnit, $this->configuration['distance_units'])) throw new FBException('Invalid distance unit provided.', 617);
+		    $parameters['distanceUnit'] = $distanceUnit;
+        }
+        try
+        {
+	        return $this->makeApiRequest('user/-/activities', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Failed logging activity.', 606, $e);
+        }
     }
 
     /**
      * Delete user activity
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Activity log id
+     * @throws FBException
      * @return bool
      */
     public function deleteActivity($id)
     {
-        return $this->makeApiRequest('user/-/activities/' . $id, 'DELETE');
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 618);
+	    try
+	    {
+            return $this->makeApiRequest('user/-/activities/' . $id, 'DELETE');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Request to delete activity failed.', 607, $e);
+	    }
     }
 
     /**
      * Add user favorite activity
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Activity log id
+     * @throws FBException
      * @return bool
      */
     public function addFavoriteActivity($id)
     {
-        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'POST');
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 619);
+	    try
+        {
+	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'POST');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Unable to add favorite activity.', 608, $e);
+        }
     }
 
     /**
      * Delete user favorite activity
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Activity log id
+     * @throws FBException
      * @return bool
      */
     public function deleteFavoriteActivity($id)
     {
-        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'DELETE');
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 620);
+        try
+        {
+	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Unable to delete favorite activity.', 609, $e);
+        }
     }
 
     /**
      * Get full description of specific activity
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
      * @param  string $id Activity log Id
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getActivity($id)
     {
-        return $this->makeApiRequest('activities/' . $id);
+	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 621);
+        try
+        {
+	        return $this->makeApiRequest('activities/' . $id);
+        }
+        catch (Exception $e)
+        {
+	        throw new FBException('Unable to get the requested activity.', 610, $e);
+        }
     }
 
     /**
      * Get a tree of all valid FitBit public activities as well as private custom activities the user createds
      *
-     * @throws Exception
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function browseActivities()
     {
-        return $this->makeApiRequest('activities');
+        try
+        {
+	        return $this->makeApiRequest('activities');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Unable to get a list of activities.', 611, $e);
+        }
     }
 }

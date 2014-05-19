@@ -1,28 +1,55 @@
 <?php
-
+/**
+ *
+ * Error Codes: 301 - 311
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
-class BodyGateway extends EndpointGateway {
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
+/**
+ * Class BodyGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ *
+ * @todo Is there a function to delete a body log?
+ * @todo Is there a function to delete a weight log?
+ * @todo Is there a function to delete a glucose log?
+ */
+class BodyGateway extends EndpointGateway
+{
     /**
      * Get user body measurements
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBody(\DateTime $date, $dateStr = null)
+    public function getBody(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/body/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Body data request failed.', 301, $e);
+        }
     }
 
     /**
      * Log user body measurements
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param \DateTime $date Date Log entry date (set proper timezone, which could be fetched via getProfile)
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param string $fat Float number
@@ -34,6 +61,7 @@ class BodyGateway extends EndpointGateway {
      * @param string $neck Float number
      * @param string $thigh Float number
      * @param string $waist Float number
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logBody(\DateTime $date, $weight = null, $fat = null, $bicep = null, $calf = null, $chest = null, $forearm = null, $hips = null, $neck = null, $thigh = null, $waist = null)
@@ -52,15 +80,29 @@ class BodyGateway extends EndpointGateway {
         if (isset($thigh))   $parameters['thigh'] = $thigh;
         if (isset($waist))   $parameters['waist'] = $waist;
 
-        return $this->makeApiRequest('user/-/body', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/body', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Body data log submission failed.', 302, $e);
+        }
     }
 
     /**
      * Log user weight
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @todo Can the date cope with a time?
+     * @todo Can we allow different weight units?
+     *
      * @param string $weight Float number. For en_GB units, provide floating number of stones (i.e. 11 st. 4 lbs = 11.2857143)
      * @param \DateTime $date If present, log entry date, now by default (set proper timezone, which could be fetched via getProfile)
-     * @return bool
+     * @throws FBException
+	 * @return bool
      */
     public function logWeight($weight, \DateTime $date = null)
     {
@@ -68,132 +110,224 @@ class BodyGateway extends EndpointGateway {
         $parameters['weight'] = $weight;
         if ($date) $parameters['date'] = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/body/weight', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Weight data log submission failed.', 303, $e);
+        }
     }
 
     /**
      * Get user blood pressure log entries for specific date
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getBloodPressure($date, $dateStr = null)
+    public function getBloodPressure(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
+	    try
+	    {
+            return $this->makeApiRequest('user/-/bp/date/' . $dateStr);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Blood pressure request failed.', 304, $e);
+	    }
     }
 
     /**
      * Log user blood pressure
      *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @access public
+     * @version 0.5.0
+     *
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $systolic Systolic measurement
      * @param string $diastolic Diastolic measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logBloodPressure(\DateTime $date, $systolic, $diastolic, \DateTime $time = null)
+    public function logBloodPressure(\DateTime $date, $systolic, $diastolic, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['systolic'] = $systolic;
         $parameters['diastolic'] = $diastolic;
-        if ($time) $parameters['time'] = $time->format('H:i');
+        if ($time) $parameters['time'] = $date->format('H:i');
 
-        return $this->makeApiRequest('user/-/bp', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/bp', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Blood pressure submission failed.', 305, $e);
+        }
     }
 
     /**
      * Delete user blood pressure record
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Blood pressure log id
+     * @throws FBException
      * @return bool
      */
     public function deleteBloodPressure($id)
     {
-        return $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
+        try
+        {
+	        return $this->makeApiRequest('user/-/bp/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Blood pressure record deletion failed.', 306, $e);
+        }
     }
 
     /**
      * Get user glucose log entries for specific date
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getGlucose($date, $dateStr = null)
+    public function getGlucose(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
+        try
+        {
+	        return $this->makeApiRequest('user/-/glucose/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Glucose request failed.', 307, $e);
+        }
     }
 
     /**
      * Log user glucose and HbA1c
      *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @access public
+     * @version 0.5.0
+     *
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $glucose Glucose measurement
      * @param string $hba1c Glucose measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logGlucose(\DateTime $date, $tracker, $glucose, $hba1c = null, \DateTime $time = null)
+    public function logGlucose(\DateTime $date, $tracker, $glucose, $hba1c = null, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['glucose'] = $glucose;
         if ($hba1c) $parameters['hba1c'] = $hba1c;
-        if ($time)  $parameters['time'] = $time->format('H:i');
+        if ($time)  $parameters['time'] = $date->format('H:i');
 
-        return $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/glucose', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Glucose log submission failed.', 308, $e);
+        }
     }
 
     /**
      * Get user heart rate log entries for specific date
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getHeartRate(\DateTime $date, $dateStr = null)
+    public function getHeartRate(\DateTime $date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
+        try
+        {
+	        return $this->makeApiRequest('user/-/heart/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Heart rate request failed.', 309, $e);
+        }
     }
 
     /**
      * Log user heart rate
      *
-     * @param \DateTime $date Log entry date (set proper timezone, which could be fetched via getProfile)
+     * @access public
+     * @version 0.5.0
+     *
+     * @param \DateTime $date Log entry date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $tracker Name of the glucose tracker
      * @param string $heartRate Heart rate measurement
-     * @param \DateTime $time Time of the measurement (set proper timezone, which could be fetched via getProfile)
+     * @param bool $time If true, use the time from $date
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function logHeartRate(\DateTime $date, $tracker, $heartRate, \DateTime $time = null)
+    public function logHeartRate(\DateTime $date, $tracker, $heartRate, $time = false)
     {
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['tracker'] = $tracker;
         $parameters['heartRate'] = $heartRate;
-        if ($time) $parameters['time'] = $time->format('H:i');
+        if ($time) $parameters['time'] = $date->format('H:i');
 
-        return $this->makeApiRequest('user/-/heart', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/heart', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Heart rate log submission failed.', 310, $e);
+        }
     }
 
     /**
      * Delete user heart rate record
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Heart rate log id
+     * @throws FBException
      * @return bool
      */
     public function deleteHeartRate($id)
     {
-        return $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
+        try
+        {
+	        return $this->makeApiRequest('user/-/heart/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Heart rate record deletion failed.', 311, $e);
+        }
     }
 }

@@ -1,55 +1,113 @@
 <?php
-
+/**
+ *
+ * Error Codes: 501 - 513
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
-class FoodGateway extends EndpointGateway {
+use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
+/**
+ * Class FoodGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
+class FoodGateway extends EndpointGateway
+{
     /**
      * Get user foods for specific date
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param  \DateTime $date
-     * @param  String $dateStr
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
-    public function getFoods($date, $dateStr = null)
+    public function getFoods($date)
     {
-        if (!isset($dateStr)) $dateStr = $date->format('Y-m-d');
+        $dateStr = $date->format('Y-m-d');
 
-        return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/foods/log/date/' . $dateStr);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Food data request failed.', 501, $e);
+        }
     }
 
     /**
      * Get user recent foods
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getRecentFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/recent');
+	    try
+	    {
+	        return $this->makeApiRequest('user/-/foods/log/recent');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Recent food data request failed.', 502, $e);
+	    }
     }
 
     /**
      * Get user frequent foods
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFrequentFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/frequent');
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log/frequent');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Frequent food data request failed.', 503, $e);
+        }
     }
 
     /**
      * Get user favorite foods
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFavoriteFoods()
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite');
-    }
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log/favorite');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Favorite food data request failed.', 504, $e);
+        }
+   }
 
     /**
      * Log user food
+     *
+     * @access public
+     * @version 0.5.0
      *
      * @param \DateTime $date Food log date
      * @param string $foodId Food Id from foods database (see searchFoods)
@@ -60,6 +118,7 @@ class FoodGateway extends EndpointGateway {
      * @param int $calories
      * @param string $brandName
      * @param array $nutrition
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function logFood(\DateTime $date, $foodId, $mealTypeId, $unitId, $amount, $foodName = null, $calories = null, $brandName = null, $nutrition = null)
@@ -84,86 +143,173 @@ class FoodGateway extends EndpointGateway {
         $parameters['unitId'] = $unitId;
         $parameters['amount'] = $amount;
 
-        return $this->makeApiRequest('user/-/foods/log', 'POST');
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log', 'POST');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Create food log failed.', 505, $e);
+        }
     }
 
     /**
      * Delete user food
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function deleteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Delete food log failed.', 506, $e);
+        }
     }
 
     /**
      * Add user favorite food
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function addFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'POST');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Add favorite food failed.', 507, $e);
+        }
     }
 
     /**
      * Delete user favorite food
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $id Food log id
+     * @throws FBException
      * @return bool
      */
     public function deleteFavoriteFood($id)
     {
-        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
+        try
+        {
+	        return $this->makeApiRequest('user/-/foods/log/favorite/' . $id, 'DELETE');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Delete favorite food failed.', 508, $e);
+        }
     }
 
     /**
      * Get user meal sets
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getMeals()
     {
-        return $this->makeApiRequest('user/-/meals');
+        try
+        {
+	        return $this->makeApiRequest('user/-/meals');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Meal request failed.', 509, $e);
+        }
     }
 
     /**
      * Get food units library
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFoodUnits()
     {
-        return $this->makeApiRequest('foods/units');
+        try
+        {
+	        return $this->makeApiRequest('foods/units');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Food Unit request failed.', 510, $e);
+        }
     }
 
     /**
      * Search for foods in foods database
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $query Search query
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function searchFoods($query)
     {
-        return $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
+        try
+        {
+	        return $this->makeApiRequest('foods/search', 'GET', array('query' => $query));
+        }
+        catch(\Exception $e)
+        {
+	        throw new FBException('Food search (for '.$query.') failed.', 511, $e);
+        }
     }
 
     /**
      * Get description of specific food from food db (or private for the user)
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param  string $id Food Id
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFood($id)
     {
-        return $this->makeApiRequest('foods/' . $id);
+        try
+        {
+	        return $this->makeApiRequest('foods/' . $id);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Food detail request failed.', 512, $e);
+        }
     }
 
     /**
      * Create private foods for a user
+     *
+     * @access public
+     * @version 0.5.0
      *
      * @param string $name Food name
      * @param string $defaultFoodMeasurementUnitId Unit id of the default measurement unit
@@ -172,6 +318,7 @@ class FoodGateway extends EndpointGateway {
      * @param string $description
      * @param string $formType ("LIQUID" or "DRY)
      * @param string $nutrition Array of nutritional values, see http://wiki.fitbit.com/display/API/API-Create-Food
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function createFood($name, $defaultFoodMeasurementUnitId, $defaultServingSize, $calories, $description = null, $formType = null, $nutrition = null)
@@ -191,6 +338,13 @@ class FoodGateway extends EndpointGateway {
             }
         }
 
-        return $this->makeApiRequest('foods', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('foods', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Create food failed.', 513, $e);
+        }
     }
 }

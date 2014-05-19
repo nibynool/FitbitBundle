@@ -1,56 +1,77 @@
 <?php
-
+/**
+ *
+ * Error Codes: 1601-1616
+ */
 namespace NibyNool\FitBitBundle\FitBit;
 
 use NibyNool\FitBitBundle\FitBit\Exception as FBException;
 
-class UserGateway extends EndpointGateway {
-
-    /**
-     * Valid subscription types mapped to their collection paths.
-     * @var array
-     */
-    protected $subscriptionTypes = array(
-        'sleep'      => '/sleep',
-        'body'       => '/body',
-        'activities' => '/activities',
-        'foods'      => '/foods',
-        'all'        => '',
-        ''           => '',
-    );
-
+/**
+ * Class UserGateway
+ *
+ * @package NibyNool\FitBitBundle\FitBit
+ *
+ * @since 0.1.0
+ */
+class UserGateway extends EndpointGateway
+{
     /**
      * API wrappers
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return object
      */
     public function getProfile()
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/profile');
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/profile');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not get the profile.', 1601, $e);
+        }
     }
 
     /**
      * Update user profile with array of parameters.
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param array $parameters
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function updateProfileFromArray($parameters)
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/profile', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/' . $this->userID . '/profile', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not update the user profile.', 1602, $e);
+        }
     }
 
     /**
      * Update user profile
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param string $gender 'FEMALE', 'MALE' or 'NA'
      * @param \DateTime $birthday Date of birth
      * @param string $height Height in cm/inches (as set with setMetric)
      * @param string $nickname Nickname
      * @param string $fullName Full name
      * @param string $timezone Timezone in the format 'America/Los_Angeles'
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function updateProfile($gender = null, \DateTime $birthday = null, $height = null, $nickname = null, $fullName = null, $timezone = null)
@@ -63,44 +84,109 @@ class UserGateway extends EndpointGateway {
         if ($fullName) $parameters['fullName'] = $fullName;
         if ($timezone) $parameters['timezone'] = $timezone;
 
-        return $this->updateProfileFromArray($parameters);
+        try
+        {
+	        return $this->updateProfileFromArray($parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not update the user profile.', 1603, $e);
+        }
     }
 
     /**
      * Get list of devices and their properties
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getDevices()
     {
-        return $this->makeApiRequest('user/-/devices');
+        try
+        {
+	        return $this->makeApiRequest('user/-/devices');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not get the device list.', 1604, $e);
+        }
     }
 
     /**
      * Get user friends
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFriends()
     {
-        return $this->makeApiRequest('user/' . $this->userID . '/friends');
+	    try
+	    {
+		    return $this->makeApiRequest('user/' . $this->userID . '/friends');
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not get the friends list.', 1605, $e);
+	    }
     }
 
     /**
      * Get user's friends leaderboard
      *
+     * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
      */
     public function getFriendsLeaderboard()
     {
-        return $this->makeApiRequest('user/-/friends/leaderboard');
+        try
+        {
+	        return $this->makeApiRequest('user/-/friends/leaderboard');
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not get the friends leaderboard.', 1607, $e);
+        }
     }
+
+	/**
+	 * Get friend invites
+	 *
+	 * @access public
+	 * @version 0.5.0
+	 *
+	 * @throws FBException
+	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 */
+	public function getInvites()
+	{
+		try
+		{
+			return $this->makeApiRequest('user/-/friends/invitations');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException('Could not get friend invitations.', 1606, $e);
+		}
+	}
 
     /**
      * Invite user to become friends
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $userId Invite user by id
      * @param string $email Invite user by email address (could be already FitBit member or not)
+     * @throws FBException
      * @return bool
      */
     public function inviteFriend($userId = null, $email = null)
@@ -109,13 +195,24 @@ class UserGateway extends EndpointGateway {
         if (isset($userId)) $parameters['invitedUserId'] = $userId;
         if (isset($email)) $parameters['invitedUserEmail'] = $email;
 
-        return $this->makeApiRequest('user/-/friends/invitations', 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/friends/invitations', 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not invite the chosen friend', 1608, $e);
+        }
     }
 
     /**
      * Accept invite to become friends from user
      *
+     * @access public
+     * @version 0.5.0
+     *
      * @param string $userId Id of the inviting user
+     * @throws FBException
      * @return bool
      */
     public function acceptFriend($userId)
@@ -123,13 +220,24 @@ class UserGateway extends EndpointGateway {
         $parameters = array();
         $parameters['accept'] = 'true';
 
-        return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+        try
+        {
+	        return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not accept friend invitation.', 1609, $e);
+        }
     }
 
     /**
-     * Accept invite to become friends from user
+     * Reject invite to become friends from user
+     *
+     * @access public
+     * @version 0.5.0
      *
      * @param string $userId Id of the inviting user
+     * @throws FBException
      * @return bool
      */
     public function rejectFriend($userId)
@@ -137,64 +245,109 @@ class UserGateway extends EndpointGateway {
         $parameters = array();
         $parameters['accept'] = 'false';
 
-        return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+	    try
+	    {
+		    return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Could not reject friend request.', 1610, $e);
+	    }
     }
+
+	/**
+	 * Get badges
+	 *
+	 * @access public
+	 * @version 0.5.0
+	 *
+	 * @throws FBException
+	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 */
+	public function getBadges()
+	{
+		try
+		{
+			return $this->makeApiRequest('user/-/badges');
+		}
+		catch (\Exception $e)
+		{
+			throw new FBException('Could not get badges.', 1611, $e);
+		}
+	}
 
     /**
      * Add subscription
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param string $id Subscription ID
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
+     * @throws FBException
      * @return mixed
      */
     public function addSubscription($id, $subscriptionType = 'all', $subscriberId = null)
     {
-        return $this->makeApiRequest(
-            $this->makeSubscriptionUrl($id, $subscriptionType),
-            'POST',
-            array(),
-            $this->makeSubscriptionHeaders($subscriberId)
-        );
+        try
+        {
+	        return $this->makeApiRequest(
+		        $this->makeSubscriptionUrl($id, $subscriptionType),
+		        'POST',
+		        array(),
+		        $this->makeSubscriptionHeaders($subscriberId)
+	        );
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not add subscription.', 1612, $e);
+        }
     }
 
     /**
      * Delete user subscription
      *
      * @access public
+     * @version 0.5.0
+     *
      * @param string $id Subscription Id
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
+     * @throws FBException
      * @return bool
      */
     public function deleteSubscription($id, $subscriptionType = 'all', $subscriberId = null)
     {
-        return $this->makeApiRequest(
-            $this->makeSubscriptionUrl($id, $subscriptionType),
-            'DELETE',
-            array(),
-            $this->makeSubscriptionHeaders($subscriberId)
-        );
+        try
+        {
+	        return $this->makeApiRequest(
+		        $this->makeSubscriptionUrl($id, $subscriptionType),
+		        'DELETE',
+		        array(),
+		        $this->makeSubscriptionHeaders($subscriberId)
+	        );
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Could not delete subscription.', 1613, $e);
+        }
     }
 
     /**
      * Validate user subscription type
      *
-     * @throws FBException
      * @access protected
+     * @version 0.5.0
+     *
      * @param string &$subscriptionType Collection type
+     * @throws FBException
      * @return bool
      */
     protected function validateSubscriptionType(&$subscriptionType)
     {
-        if (isset($this->subscriptionTypes[$subscriptionType])) {
-            $subscriptionType = $this->subscriptionTypes[$subscriptionType];
-        } else {
-            throw new FBException(sprintf('Invalid subscription collection type (valid values are \'%s\')',
-                implode("', '", array_keys($this->subscriptionTypes))
-            ));
-        }
+	    if (!isset($this->configuration['subscription_types'][$subscriptionType])) throw new FBException('Invalid subscription type requested.', 1614);
+	    $subscriptionType = $this->configuration['subscription_types'][$subscriptionType]['value'];
         return true;
     }
 
@@ -202,6 +355,7 @@ class UserGateway extends EndpointGateway {
      * Create headers for subscription requests.
      *
      * @access protected
+     *
      * @param string $subscriberId The ID of the subscriber
      * @return array
      */
@@ -216,14 +370,23 @@ class UserGateway extends EndpointGateway {
      * Create the subscription request URL
      *
      * @access protected
+     * @version 0.5.0
+     *
      * @param string $id Subscription Id
      * @param string $subscriptionType subscriptionType resource path
+     * @throws FBException
      * @return string
      */
     protected function makeSubscriptionUrl($id, $subscriptionType)
     {
-        $this->validateSubscriptionType($subscriptionType);
-        
+	    try
+	    {
+		    $this->validateSubscriptionType($subscriptionType);
+	    }
+	    catch (\Exception $e)
+	    {
+		    throw new FBException('Invalid subscription type provided.', 1615, $e);
+	    }
         return sprintf('user/%s%s/apiSubscriptions%s',
             $this->userID,
             $subscriptionType,
@@ -235,10 +398,20 @@ class UserGateway extends EndpointGateway {
      * Get list of user's subscriptions for this application
      *
      * @access public
+     * @version 0.5.0
+     *
+     * @throws FBException
      * @return mixed
      */
     public function getSubscriptions()
     {
-        return $this->makeApiRequest($this->makeSubscriptionUrl(null, null));
+        try
+        {
+	        return $this->makeApiRequest($this->makeSubscriptionUrl(null, null));
+        }
+        catch (\Exception $e)
+        {
+	        throw new FBException('Unable to get subscriptions.', 1615, $e);
+        }
     }
 }
