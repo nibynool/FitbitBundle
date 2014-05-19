@@ -216,16 +216,16 @@ class ApiGatewayFactory
 	{
 		if (!preg_match('/^get.*Gateway$/', $method)) throw new FBException('Invalid API Gateway interface ('.$method.') requested.', 103);
 		if (count($parameters)) throw new FBException('API Gateway interfaces do not accept parameters.', 104);
-		$gatewayName = substr($method, 3);
+		$gatewayName = '\\'.__NAMESPACE__.'\\'.substr($method, 3);
 		try
 		{
 			$gateway = new $gatewayName($this->configuration);
-			$this->injectGatewayDependencies($gateway);
 		}
 		catch (\Exception $e)
 		{
 			throw new FBException('API Gateway could not open a gateway named '.$gatewayName.'.', 105);
 		}
+		$this->injectGatewayDependencies($gateway);
 		return $gateway;
 	}
 
