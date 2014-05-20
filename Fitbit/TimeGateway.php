@@ -13,7 +13,7 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.1.0
- * @deprecated 0.5.0
+ * @deprecated 0.5.0 No replacement available
  */
 class TimeGateway extends EndpointGateway
 {

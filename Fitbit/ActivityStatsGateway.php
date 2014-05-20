@@ -13,10 +13,17 @@ use NibyNool\FitBitBundle\FitBit\Exception as FBException;
  * @package NibyNool\FitBitBundle\FitBit
  *
  * @since 0.5.0
+ * @deprecated 0.5.1 use ActivityGateway::getActivityStats
  */
 class ActivityStatsGateway extends EndpointGateway
 {
-    /**
+	public function __construct($config)
+	{
+		trigger_error('The ActivityStatsGateway class has been deprecated and should no longer be used.', E_WARNING);
+		parent::__construct($config);
+	}
+
+	/**
      * Get user body measurements
      *
      * @access public
