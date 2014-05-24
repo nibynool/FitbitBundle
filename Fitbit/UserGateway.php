@@ -99,6 +99,7 @@ class UserGateway extends EndpointGateway
      *
      * @access public
      * @version 0.5.0
+     * @deprecated 0.5.1
      *
      * @throws FBException
      * @return mixed SimpleXMLElement or the value encoded in json as an object
