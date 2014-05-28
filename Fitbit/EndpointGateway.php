@@ -3,15 +3,15 @@
  *
  * Error Codes: 401 - 407
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
-use OAuth\OAuth1\Service\FitBit as ServiceInterface;
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use OAuth\OAuth1\Service\Fitbit as ServiceInterface;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class EndpointGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */
@@ -38,7 +38,7 @@ class EndpointGateway
 	}
 
     /**
-     * Set FitBit service
+     * Set Fitbit service
      *
      * @access public
      *
@@ -66,7 +66,7 @@ class EndpointGateway
     }
 
     /**
-     * Set FitBit user ids.
+     * Set Fitbit user ids.
      *
      * @access public
      *
@@ -115,7 +115,7 @@ class EndpointGateway
         }
         catch (\Exception $e)
 	    {
-		    throw new FBException('The response from FitBit could not be interpreted.', 402, $e);
+		    throw new FBException('The response from Fitbit could not be interpreted.', 402, $e);
 	    }
 	    return $response;
     }

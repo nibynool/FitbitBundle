@@ -3,22 +3,22 @@
  *
  * Error Codes: 201 - 206
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 use OAuth\OAuth1\Token\TokenInterface;
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class AuthenticationGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */
 class AuthenticationGateway extends EndpointGateway
 {
 	/**
-	 * Determine if this user is authorised with FitBit
+	 * Determine if this user is authorised with Fitbit
 	 *
 	 * @access public
 	 * @version 0.5.0
@@ -30,7 +30,7 @@ class AuthenticationGateway extends EndpointGateway
     {
         try
         {
-	        return $this->service->getStorage()->hasAccessToken('FitBit');
+	        return $this->service->getStorage()->hasAccessToken('Fitbit');
         }
         catch (\Exception $e)
         {
@@ -52,7 +52,7 @@ class AuthenticationGateway extends EndpointGateway
 	    /** @var TokenInterface $token */
         $token = $this->service->requestRequestToken();
         $url = $this->service->getAuthorizationUri(['oauth_token' => $token->getRequestToken()]);
-	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException('FitBit returned an invalid login URL ('.$url.').', 201);
+	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException('Fitbit returned an invalid login URL ('.$url.').', 201);
 	    header('Location: ' . $url);
         exit;
     }
@@ -73,7 +73,7 @@ class AuthenticationGateway extends EndpointGateway
 	    try
 	    {
 		    /** @var TokenInterface $tokenSecret */
-	        $tokenSecret = $this->service->getStorage()->retrieveAccessToken('FitBit');
+	        $tokenSecret = $this->service->getStorage()->retrieveAccessToken('Fitbit');
 	    }
 	    catch (\Exception $e)
 	    {
@@ -109,7 +109,7 @@ class AuthenticationGateway extends EndpointGateway
     {
 	    try
 	    {
-		    $this->service->getStorage()->clearToken('FitBit');
+		    $this->service->getStorage()->clearToken('Fitbit');
 	    }
 	    catch (\Exception $e)
 	    {

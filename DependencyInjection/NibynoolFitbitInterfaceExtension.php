@@ -1,13 +1,13 @@
 <?php
 
-namespace NibyNool\FitBitBundle\DependencyInjection;
+namespace Nibynool\FitbitInterfaceBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
-class NibyNoolFitBitExtension extends Extension
+class NibynoolFitbitInterfaceExtension extends Extension
 {
 	public function load(array $configs, ContainerBuilder $container)
 	{
@@ -16,11 +16,11 @@ class NibyNoolFitBitExtension extends Extension
 
 		$configuration = new Configuration();
 		$config = $this->processConfiguration($configuration, $configs);
-		$container->setParameter('niby_nool_fit_bit.key',      $config['key']);
-		$container->setParameter('niby_nool_fit_bit.secret',   $config['secret']);
-		$container->setParameter('niby_nool_fit_bit.callback', $config['callback']);
+		$container->setParameter('nibynool_fitbit_interface.key',      $config['key']);
+		$container->setParameter('nibynool_fitbit.secret',   $config['secret']);
+		$container->setParameter('nibynool_fitbit.callback', $config['callback']);
 		$container->setParameter(
-			'niby_nool_fit_bit.configuration',
+			'nibynool_fitbit.configuration',
 			array(
 				'distance_units'                => $config['distance_units'],
 				'interday_timeseries_endpoints' => $config['interday_timeseries_endpoints'],
@@ -33,6 +33,6 @@ class NibyNoolFitBitExtension extends Extension
 
 	public function getAlias()
 	{
-		return 'niby_nool_fit_bit';
+		return 'nibynool_fitbit';
 	}
 }

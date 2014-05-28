@@ -3,14 +3,14 @@
  *
  * Error Codes: 601 - 618
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class ActivityGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */
@@ -134,7 +134,7 @@ class ActivityGateway extends EndpointGateway
      * @param int|string $activity Activity Id (or Intensity Level Id) from activities database,
      *                                  see http://wiki.fitbit.com/display/API/API-Log-Activity or a new activity name
      * @param string $duration Duration millis
-     * @param string $calories Manual calories to override FitBit estimate
+     * @param string $calories Manual calories to override Fitbit estimate
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
      * @throws FBException
@@ -273,7 +273,7 @@ class ActivityGateway extends EndpointGateway
     }
 
     /**
-     * Get a tree of all valid FitBit public activities as well as private custom activities the user createds
+     * Get a tree of all valid Fitbit public activities as well as private custom activities the user createds
      *
      * @access public
      * @version 0.5.0

@@ -3,12 +3,12 @@
  *
  * Error Codes: 8XX
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 /**
  * Class ActivityTimeSeriesGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  * @version 0.5.0

@@ -3,14 +3,14 @@
  *
  * Error Codes: 1601-1616
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class UserGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */
@@ -186,7 +186,7 @@ class UserGateway extends EndpointGateway
      * @version 0.5.0
      *
      * @param string $userId Invite user by id
-     * @param string $email Invite user by email address (could be already FitBit member or not)
+     * @param string $email Invite user by email address (could be already Fitbit member or not)
      * @throws FBException
      * @return bool
      */
@@ -363,7 +363,7 @@ class UserGateway extends EndpointGateway
     protected function makeSubscriptionHeaders($subscriberId = null)
     {
         $headers = array();
-        if ($subscriberId) $headers['X-FitBit-Subscriber-Id'] = $subscriberId;
+        if ($subscriberId) $headers['X-Fitbit-Subscriber-Id'] = $subscriberId;
         return $headers;
     }
 
