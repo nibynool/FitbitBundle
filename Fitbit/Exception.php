@@ -1,10 +1,10 @@
 <?php
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 /**
  * Class Exception
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */

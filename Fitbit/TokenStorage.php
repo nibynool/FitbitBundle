@@ -3,17 +3,17 @@
  *
  * Error Codes: 1401-1403
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\Common\Storage\Memory;
 use OAuth\Common\Storage\Session;
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class TokenStorage
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  */
@@ -61,7 +61,7 @@ class TokenStorage
 				$this->token->setRequestTokenSecret($secret);
 				$this->token->setAccessToken($token);
 				$this->token->setAccessTokenSecret($secret);
-				$this->adapter->storeAccessToken('FitBit', $this->token);
+				$this->adapter->storeAccessToken('Fitbit', $this->token);
 			}
 			catch(\Exception $e)
 			{

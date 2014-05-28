@@ -1,15 +1,15 @@
 {
-    "name":        "nibynool/fitbit-bundle",
+    "name":        "nibynool/fitbit-interface-bundle",
     "type":        "symfony-bundle",
-    "description": "A Symfony >=2.3.0 Bundle for accessing the FitBit API.",
+    "description": "A Symfony >=2.3.0 Bundle for accessing the Fitbit API.",
     "keywords":    ["fitbit", "symfony"],
-    "homepage":    "https://github.com/nibynool/fitbitbundle",
+    "homepage":    "https://github.com/nibynool/FitbitInterfaceBundle",
     "license" :    "Apache-2.0",
     "authors": [
 	    {
 		    "name":     "Michael Lambert",
 		    "email":    "michael@alphageek.com.au",
-		    "homepage": "https://github.com/NibyNool"
+		    "homepage": "https://github.com/Nibynool"
 	    },
 	    {
 		    "name":     "Juni Samos",
@@ -35,8 +35,8 @@
     },
     "autoload": {
         "psr-0": {
-            "NibyNool\\FitBitBundle": ""
+            "Nibynool\\FitbitInterfaceBundle": ""
         }
     },
-	"target-dir": "NibyNool/FitBitBundle"
+	"target-dir": "Nibynool/FitbitInterfaceBundle"
 }

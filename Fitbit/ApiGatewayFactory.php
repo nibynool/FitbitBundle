@@ -3,20 +3,20 @@
  *
  * Error Codes: 101 - 112
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 use OAuth\Common\Consumer\Credentials;
 use OAuth\ServiceFactory;
-use OAuth\OAuth1\Service\FitBit as ServiceInterface;
+use OAuth\OAuth1\Service\Fitbit as ServiceInterface;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Http\Client\ClientInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class ApiGatewayFactory
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  * @version 0.5.0
@@ -81,9 +81,9 @@ class ApiGatewayFactory
 	 *
 	 * @access public
 	 *
-	 * @param string $consumer_key Application consumer key for FitBit API
+	 * @param string $consumer_key Application consumer key for Fitbit API
 	 * @param string $consumer_secret Application secret
-	 * @param string $callback_url Callback URL to provide to FitBit
+	 * @param string $callback_url Callback URL to provide to Fitbit
 	 * @param array  $configuration Configurable items
 	 * @param Router $router
 	 */
@@ -101,7 +101,7 @@ class ApiGatewayFactory
      * 
      * @access public
 	 *
-     * @param string $consumer_key Application consumer key for FitBit API
+     * @param string $consumer_key Application consumer key for Fitbit API
      * @param string $consumer_secret Application secret
      * @return self
      */
@@ -174,7 +174,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Set FitBit user id for API calls
+     * Set Fitbit user id for API calls
      *
      * @access public
      *
@@ -188,7 +188,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Set HTTP Client library for FitBit service.
+     * Set HTTP Client library for Fitbit service.
      *
      * @access public
      *
@@ -255,7 +255,7 @@ class ApiGatewayFactory
     }
 
     /**
-     * Get FitBit service
+     * Get Fitbit service
      *
      * @access protected
      * @version 0.5.0
@@ -289,7 +289,7 @@ class ApiGatewayFactory
 	        {
 	            $factory = new ServiceFactory();
 		        if ($this->httpClient) $factory->setHttpClient($this->httpClient);
-		        $this->service = $factory->createService('FitBit', $credentials, $this->storageAdapter);
+		        $this->service = $factory->createService('Fitbit', $credentials, $this->storageAdapter);
 	        }
 	        catch (\Exception $e)
 	        {

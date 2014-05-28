@@ -3,17 +3,17 @@
  *
  * Error Codes: 1201-1204
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class TimeGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
- * @deprecated 0.5.0
+ * @deprecated 0.5.0 No replacement available
  */
 class TimeGateway extends EndpointGateway
 {

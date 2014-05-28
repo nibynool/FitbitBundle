@@ -1,6 +1,6 @@
 <?php
 
-namespace NibyNool\FitBitBundle\DependencyInjection;
+namespace Nibynool\FitbitInterfaceBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -13,23 +13,23 @@ class Configuration implements ConfigurationInterface
 		$rootNode = $treeBuilder->root('fitbit')
 			->children()
 				->scalarNode('key')
-				->info('The FitBit API key')
+				->info('The Fitbit API key')
 			->end()
 			->scalarNode('secret')
-				->info('The FitBit API secret')
+				->info('The Fitbit API secret')
 			->end()
 			->scalarNode('callback')
-				->info('The callback URL to pass to FitBit')
+				->info('The callback URL to pass to Fitbit')
 			->end()
 			->arrayNode('distance_units')
 				->requiresAtLeastOneElement()
-				->info('Distance units recognised by FitBit')
+				->info('Distance units recognised by Fitbit')
 				->defaultValue(array('Centimeter', 'Foot', 'Inch', 'Kilometer', 'Meter', 'Mile', 'Millimeter', 'Steps', 'Yards'))
 				->prototype('scalar')->end()
 			->end()
 			->arrayNode('interday_timeseries_endpoints')
 				->requiresAtLeastOneElement()
-		        ->info('Valid end points for FitBit interday time series data')
+		        ->info('Valid end points for Fitbit interday time series data')
 				->prototype('array')
 					->children()
 						->scalarNode('value')
@@ -72,7 +72,7 @@ class Configuration implements ConfigurationInterface
 		    ->end()
 			->arrayNode('intraday_timeseries_endpoints')
 				->requiresAtLeastOneElement()
-				->info('Valid end points for FitBit intraday time series data')
+				->info('Valid end points for Fitbit intraday time series data')
 				->prototype('array')
 					->children()
 						->scalarNode('value')
@@ -108,7 +108,7 @@ class Configuration implements ConfigurationInterface
 			->end()
 			->arrayNode('water_units')
 				->requiresAtLeastOneElement()
-				->info('Water units recognised by FitBit')
+				->info('Water units recognised by Fitbit')
 				->prototype('scalar')->end()
 				->defaultValue(array('ml', 'fl oz', 'cup'))
 			->end()

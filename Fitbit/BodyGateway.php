@@ -3,14 +3,14 @@
  *
  * Error Codes: 301 - 311
  */
-namespace NibyNool\FitBitBundle\FitBit;
+namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
-use NibyNool\FitBitBundle\FitBit\Exception as FBException;
+use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
  * Class BodyGateway
  *
- * @package NibyNool\FitBitBundle\FitBit
+ * @package Nibynool\FitbitInterfaceBundle\Fitbit
  *
  * @since 0.1.0
  *
