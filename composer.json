@@ -31,7 +31,7 @@
     "require": {
         "php":                      ">=5.3.0",
 	    "symfony/framework-bundle": "~2.1",
-	    "symfony/stopwatch":        "",
+	    "symfony/stopwatch":        "~2.3.15",
         "lusitanian/oauth":         "~0.3"
     },
     "autoload": {
