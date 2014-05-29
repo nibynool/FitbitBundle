@@ -6,6 +6,7 @@
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
 use OAuth\OAuth1\Token\TokenInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -61,7 +62,7 @@ class AuthenticationGateway extends EndpointGateway
      * Authenticate user, request access token.
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $token
      * @param string $verifier
@@ -70,6 +71,10 @@ class AuthenticationGateway extends EndpointGateway
      */
     public function authenticateUser($token, $verifier)
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Authenticating User', 'Fitbit API');
+
 	    try
 	    {
 		    /** @var TokenInterface $tokenSecret */
@@ -77,19 +82,24 @@ class AuthenticationGateway extends EndpointGateway
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Authenticating User');
 		    throw new FBException('Could not retrieve the access token secret.', 202, $e);
 	    }
 
 	    try
 	    {
-	        return $this->service->requestAccessToken(
+		    /** @var TokenInterface $tokenResponse */
+	        $tokenResponse = $this->service->requestAccessToken(
                 $token,
                 $verifier,
                 $tokenSecret->getRequestTokenSecret()
 	        );
+		    $timer->stop('Authenticating User');
+		    return $tokenResponse;
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Authenticating User');
 		    throw new FBException('Unable to request the access token.', 203, $e);
 	    }
     }
@@ -98,7 +108,7 @@ class AuthenticationGateway extends EndpointGateway
      * Reset session
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @todo Need to add clear to the interface for phpoauthlib (this item was here when this project was branched)
      *
@@ -107,14 +117,20 @@ class AuthenticationGateway extends EndpointGateway
      */
     public function resetSession()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Resetting Session', 'Fitbit API');
+
 	    try
 	    {
 		    $this->service->getStorage()->clearToken('Fitbit');
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Resetting Session');
 		    throw new FBException('Could not clear the token.', 204);
 	    }
+	    $timer->stop('Resetting Session');
     }
 
 	/**

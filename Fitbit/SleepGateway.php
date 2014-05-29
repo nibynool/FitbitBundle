@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -20,22 +22,30 @@ class SleepGateway extends EndpointGateway {
      * Get user sleep log entries for specific date
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  \DateTime $date
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getSleep($date)
     {
-        $dateStr = $date->format('Y-m-d');
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Sleep', 'Fitbit API');
+
+	    $dateStr = $date->format('Y-m-d');
 
 	    try
 	    {
-		    return $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
+		    /** @var SimpleXMLElement|object $sleep */
+		    $sleep = $this->makeApiRequest('user/' . $this->userID . '/sleep/date/' . $dateStr);
+		    $timer->stop('Get Sleep');
+		    return $sleep;
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Get Sleep');
 		    throw new FBException('Unable to get sleep records.', 1101, $e);
 	    }
     }
@@ -44,26 +54,34 @@ class SleepGateway extends EndpointGateway {
      * Log user sleep
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param \DateTime $date Sleep date and time (set proper timezone, which could be fetched via getProfile)
      * @param string $duration Duration millis
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function logSleep(\DateTime $date, $duration)
     {
-        $parameters = array();
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Log Sleep', 'Fitbit API');
+
+	    $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['startTime'] = $date->format('H:i');
         $parameters['duration'] = $duration;
 
         try
         {
-	        return $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $sleep */
+	        $sleep = $this->makeApiRequest('user/-/sleep', 'POST', $parameters);
+	        $timer->stop('Log Sleep');
+	        return $sleep;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Log Sleep');
 	        throw new FBException('Unable to add sleep load.', 1102, $e);
         }
     }
@@ -72,20 +90,28 @@ class SleepGateway extends EndpointGateway {
      * Delete user sleep record
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Activity log id
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function deleteSleep($id)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Delete Sleep', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
+	        /** @var SimpleXMLElement|object $result */
+	        $result = $this->makeApiRequest('user/-/sleep/' . $id, 'DELETE');
+	        $timer->stop('Delete Sleep');
+	        return $result;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Delete Sleep');
 	        throw new FBException('Unable to delete sleep record.', 1103, $e);
         }
     }

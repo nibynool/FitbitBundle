@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -20,19 +22,27 @@ class UserGateway extends EndpointGateway
      * API wrappers
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getProfile()
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Profile', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/' . $this->userID . '/profile');
+	        /** @var SimpleXMLElement|object $profile */
+	        $profile = $this->makeApiRequest('user/' . $this->userID . '/profile');
+	        $timer->stop('Get Profile');
+	        return $profile;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Profile');
 	        throw new FBException('Could not get the profile.', 1601, $e);
         }
     }
@@ -41,20 +51,28 @@ class UserGateway extends EndpointGateway
      * Update user profile with array of parameters.
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param array $parameters
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function updateProfileFromArray($parameters)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Update Profile', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/' . $this->userID . '/profile', 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $profile */
+	        $profile = $this->makeApiRequest('user/' . $this->userID . '/profile', 'POST', $parameters);
+	        $timer->stop('Update Profile');
+	        return $profile;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Update Profile');
 	        throw new FBException('Could not update the user profile.', 1602, $e);
         }
     }
@@ -72,7 +90,7 @@ class UserGateway extends EndpointGateway
      * @param string $fullName Full name
      * @param string $timezone Timezone in the format 'America/Los_Angeles'
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function updateProfile($gender = null, \DateTime $birthday = null, $height = null, $nickname = null, $fullName = null, $timezone = null)
     {
@@ -102,7 +120,7 @@ class UserGateway extends EndpointGateway
      * @deprecated 0.5.1
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getDevices()
     {
@@ -120,19 +138,27 @@ class UserGateway extends EndpointGateway
      * Get user friends
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getFriends()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Friends', 'Fitbit API');
+
 	    try
 	    {
-		    return $this->makeApiRequest('user/' . $this->userID . '/friends');
+		    /** @var SimpleXMLElement|object $friends */
+		    $friends = $this->makeApiRequest('user/' . $this->userID . '/friends');
+		    $timer->stop('Get Friends');
+		    return $friends;
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Get Friends');
 		    throw new FBException('Could not get the friends list.', 1605, $e);
 	    }
     }
@@ -141,19 +167,27 @@ class UserGateway extends EndpointGateway
      * Get user's friends leaderboard
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getFriendsLeaderboard()
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Friends Leaderboard', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/-/friends/leaderboard');
+	        /** @var SimpleXMLElement|object $leaderboard */
+	        $leaderboard = $this->makeApiRequest('user/-/friends/leaderboard');
+	        $timer->stop('Get Friends Leaderboard');
+	        return $leaderboard;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Friends Leaderboard');
 	        throw new FBException('Could not get the friends leaderboard.', 1607, $e);
         }
     }
@@ -162,19 +196,27 @@ class UserGateway extends EndpointGateway
 	 * Get friend invites
 	 *
 	 * @access public
-	 * @version 0.5.0
+	 * @version 0.5.2
 	 *
 	 * @throws FBException
-	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
 	 */
 	public function getInvites()
 	{
+		/** @var Stopwatch $timer */
+		$timer = new Stopwatch();
+		$timer->start('Get Invites', 'Fitbit API');
+
 		try
 		{
-			return $this->makeApiRequest('user/-/friends/invitations');
+			/** @var SimpleXMLElement|object $invites */
+			$invites = $this->makeApiRequest('user/-/friends/invitations');
+			$timer->stop('Get Invites');
+			return $invites;
 		}
 		catch (\Exception $e)
 		{
+			$timer->stop('Get Invites');
 			throw new FBException('Could not get friend invitations.', 1606, $e);
 		}
 	}
@@ -183,25 +225,33 @@ class UserGateway extends EndpointGateway
      * Invite user to become friends
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $userId Invite user by id
      * @param string $email Invite user by email address (could be already Fitbit member or not)
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function inviteFriend($userId = null, $email = null)
     {
-        $parameters = array();
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Invite Friend', 'Fitbit API');
+
+	    $parameters = array();
         if (isset($userId)) $parameters['invitedUserId'] = $userId;
         if (isset($email)) $parameters['invitedUserEmail'] = $email;
 
         try
         {
-	        return $this->makeApiRequest('user/-/friends/invitations', 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $invite */
+	        $invite = $this->makeApiRequest('user/-/friends/invitations', 'POST', $parameters);
+	        $timer->stop('Invite Friend');
+	        return $invite;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Invite Friend');
 	        throw new FBException('Could not invite the chosen friend', 1608, $e);
         }
     }
@@ -210,23 +260,31 @@ class UserGateway extends EndpointGateway
      * Accept invite to become friends from user
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $userId Id of the inviting user
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function acceptFriend($userId)
     {
-        $parameters = array();
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Accept Friend', 'Fitbit API');
+
+	    $parameters = array();
         $parameters['accept'] = 'true';
 
         try
         {
-	        return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $acceptance */
+	        $acceptance = $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+	        $timer->stop('Accept Friend');
+	        return $acceptance;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Accept Friend');
 	        throw new FBException('Could not accept friend invitation.', 1609, $e);
         }
     }
@@ -235,23 +293,31 @@ class UserGateway extends EndpointGateway
      * Reject invite to become friends from user
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $userId Id of the inviting user
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function rejectFriend($userId)
     {
-        $parameters = array();
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Reject Friend', 'Fitbit API');
+
+	    $parameters = array();
         $parameters['accept'] = 'false';
 
 	    try
 	    {
-		    return $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+		    /** @var SimpleXMLElement|object $rejection */
+		    $rejection = $this->makeApiRequest('user/-/friends/invitations/' . $userId, 'POST', $parameters);
+		    $timer->stop('Reject Friend');
+		    return $rejection;
 	    }
 	    catch (\Exception $e)
 	    {
+		    $timer->stop('Reject Friend');
 		    throw new FBException('Could not reject friend request.', 1610, $e);
 	    }
     }
@@ -260,19 +326,27 @@ class UserGateway extends EndpointGateway
 	 * Get badges
 	 *
 	 * @access public
-	 * @version 0.5.0
+	 * @version 0.5.2
 	 *
 	 * @throws FBException
-	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
 	 */
 	public function getBadges()
 	{
+		/** @var Stopwatch $timer */
+		$timer = new Stopwatch();
+		$timer->start('Get Badges', 'Fitbit API');
+
 		try
 		{
-			return $this->makeApiRequest('user/-/badges');
+			/** @var SimpleXMLElement|object $badges */
+			$badges = $this->makeApiRequest('user/-/badges');
+			$timer->stop('Get Badges');
+			return $badges;
 		}
 		catch (\Exception $e)
 		{
+			$timer->stop('Get Badges');
 			throw new FBException('Could not get badges.', 1611, $e);
 		}
 	}
@@ -281,27 +355,35 @@ class UserGateway extends EndpointGateway
      * Add subscription
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Subscription ID
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
      * @throws FBException
-     * @return mixed
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function addSubscription($id, $subscriptionType = 'all', $subscriberId = null)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Add Subscription', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest(
+	        /** @var SimpleXMLElement|object $subscription */
+	        $subscription = $this->makeApiRequest(
 		        $this->makeSubscriptionUrl($id, $subscriptionType),
 		        'POST',
 		        array(),
 		        $this->makeSubscriptionHeaders($subscriberId)
 	        );
+	        $timer->stop('Add Subscriptions');
+	        return $subscription;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Add Subscriptions');
 	        throw new FBException('Could not add subscription.', 1612, $e);
         }
     }
@@ -310,27 +392,35 @@ class UserGateway extends EndpointGateway
      * Delete user subscription
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Subscription Id
      * @param string $subscriptionType Collection type
      * @param string $subscriberId The ID of the subscriber
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function deleteSubscription($id, $subscriptionType = 'all', $subscriberId = null)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Delete Subscriptions', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest(
+	        /** @var SimpleXMLElement|object $result */
+	        $result = $this->makeApiRequest(
 		        $this->makeSubscriptionUrl($id, $subscriptionType),
 		        'DELETE',
 		        array(),
 		        $this->makeSubscriptionHeaders($subscriberId)
 	        );
+	        $timer->stop('Delete Subscriptions');
+	        return $result;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Delete Subscriptions');
 	        throw new FBException('Could not delete subscription.', 1613, $e);
         }
     }
@@ -399,19 +489,27 @@ class UserGateway extends EndpointGateway
      * Get list of user's subscriptions for this application
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getSubscriptions()
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Subscriptions', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest($this->makeSubscriptionUrl(null, null));
+	        /** @var SimpleXMLElement|object $subscriptions */
+	        $subscriptions = $this->makeApiRequest($this->makeSubscriptionUrl(null, null));
+	        $timer->stop('Get Subscriptions');
+	        return $subscriptions;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Subscriptions');
 	        throw new FBException('Unable to get subscriptions.', 1615, $e);
         }
     }

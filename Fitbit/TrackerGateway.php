@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -20,20 +22,28 @@ class TrackerGateway extends EndpointGateway {
 	 * Get list of devices and their properties
 	 *
 	 * @access public
-	 * @version 0.5.1
 	 * @since 0.5.1
+	 * @version 0.5.2
 	 *
 	 * @throws FBException
-	 * @return mixed SimpleXMLElement or the value encoded in json as an object
+	 * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
 	 */
 	public function getDevices()
 	{
+		/** @var Stopwatch $timer */
+		$timer = new Stopwatch();
+		$timer->start('Get Devices', 'Fitbit API');
+
 		try
 		{
-			return $this->makeApiRequest('user/-/devices');
+			/** @var SimpleXMLElement|object $devices */
+			$devices = $this->makeApiRequest('user/-/devices');
+			$timer->stop('Get Devices');
+			return $devices;
 		}
 		catch (\Exception $e)
 		{
+			$timer->stop('Get Devices');
 			throw new FBException('Could not get the device list.', 1502, $e);
 		}
 	}
@@ -42,20 +52,28 @@ class TrackerGateway extends EndpointGateway {
      * Get alarm settings
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  string $tracker
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getAlarms($tracker)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Alarms', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
+	        /** @var SimpleXMLElement|object $alarms */
+	        $alarms = $this->makeApiRequest('user/' . $this->userID . '/devices/tracker/' . $tracker . '/alarms');
+	        $timer->stop('Get Alarms');
+	        return $alarms;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Alarms');
 	        throw new FBException('Could not get silent alarms.', 1501, $e);
         }
     }
