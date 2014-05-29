@@ -6,4 +6,4 @@ parameters:
 services:
     fitbit:
         class:     Nibynool\FitbitInterfaceBundle\Fitbit\ApiGatewayFactory
-        arguments: [%nibynool_fitbit.key%, %nibynool_fitbit.secret%, %nibynool_fitbit.callback%, %nibynool_fitbit.configuration%, @router]
+        arguments: [%nibynool_fitbit_interface.key%, %nibynool_fitbit_interface.secret%, %nibynool_fitbit_interface.callback%, %nibynool_fitbit_interface.configuration%, @router]
