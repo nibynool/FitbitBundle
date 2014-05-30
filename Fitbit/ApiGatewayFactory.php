@@ -72,9 +72,13 @@ class ApiGatewayFactory
      * @var ClientInterface
      */
     protected $httpClient;
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $configuration;
-	/** @var Router */
+	/**
+	 * @var Router
+	 */
 	protected $router;
 
 	/**

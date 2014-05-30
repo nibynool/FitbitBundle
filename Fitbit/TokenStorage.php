@@ -61,7 +61,7 @@ class TokenStorage
 				$this->token->setRequestTokenSecret($secret);
 				$this->token->setAccessToken($token);
 				$this->token->setAccessTokenSecret($secret);
-				$this->adapter->storeAccessToken('Fitbit', $this->token);
+				$this->adapter->storeAccessToken('FitBit', $this->token);
 			}
 			catch(\Exception $e)
 			{

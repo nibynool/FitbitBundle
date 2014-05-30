@@ -31,7 +31,7 @@ class AuthenticationGateway extends EndpointGateway
     {
         try
         {
-	        return $this->service->getStorage()->hasAccessToken('Fitbit');
+	        return $this->service->getStorage()->hasAccessToken('FitBit');
         }
         catch (\Exception $e)
         {
@@ -52,7 +52,7 @@ class AuthenticationGateway extends EndpointGateway
     {
 	    /** @var TokenInterface $token */
         $token = $this->service->requestRequestToken();
-        $url = $this->service->getAuthorizationUri(['oauth_token' => $token->getRequestToken()]);
+        $url = $this->service->getAuthorizationUri(array('oauth_token' => $token->getRequestToken()));
 	    if (!filter_var($url, FILTER_VALIDATE_URL)) throw new FBException('Fitbit returned an invalid login URL ('.$url.').', 201);
 	    header('Location: ' . $url);
         exit;
@@ -78,7 +78,7 @@ class AuthenticationGateway extends EndpointGateway
 	    try
 	    {
 		    /** @var TokenInterface $tokenSecret */
-	        $tokenSecret = $this->service->getStorage()->retrieveAccessToken('Fitbit');
+	        $tokenSecret = $this->service->getStorage()->retrieveAccessToken('FitBit');
 	    }
 	    catch (\Exception $e)
 	    {
@@ -123,7 +123,7 @@ class AuthenticationGateway extends EndpointGateway
 
 	    try
 	    {
-		    $this->service->getStorage()->clearToken('Fitbit');
+		    $this->service->getStorage()->clearToken('FitBit');
 	    }
 	    catch (\Exception $e)
 	    {
