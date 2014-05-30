@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -45,16 +47,20 @@ class TimeSeriesEndpointGateway extends EndpointGateway
      * Get user time series
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  string $fragment
      * @param  \DateTime|string $baseDate
      * @param  \DateTime|string $end
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function get($fragment, $baseDate = null, $end = null)
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get '.$fragment, 'Fitbit API');
+
 	    if (!isset($baseDate)) $date1 = 'today';
 	    elseif ($baseDate instanceof \Datetime) $date1 = $baseDate->format('Y-m-d');
 	    else $date1 = $baseDate;
@@ -66,10 +72,14 @@ class TimeSeriesEndpointGateway extends EndpointGateway
 
         try
         {
-	        return $this->makeApiRequest($endpoint);
+	        /** @var SimpleXMLElement|object $timeSeries */
+	        $timeSeries = $this->makeApiRequest($endpoint);
+	        $timer->stop('Get '.$fragment);
+	        return $timeSeries;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get '.$fragment);
 	        throw new FBException('Unable to complete API request ('.$fragment.')', 1302, $e);
         }
     }

@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -20,19 +22,26 @@ class ActivityGateway extends EndpointGateway
      * Get user's activity statistics
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getActivityStats()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Activity Stats', 'Fitbit API');
         try
         {
-	        return $this->makeApiRequest('user/' . $this->userID . '/activities');
+	        /** @var SimpleXMLElement|object $activityStats */
+	        $activityStats = $this->makeApiRequest('user/' . $this->userID . '/activities');
+	        $timer->stop('Get Activity Stats');
+	        return $activityStats;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Activity Stats');
 	        throw new FBException('Activity statistics request failed.', 601, $e);
         }
     }
@@ -41,22 +50,30 @@ class ActivityGateway extends EndpointGateway
      * Get user activities for specific date
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  \DateTime $date
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getActivities(\DateTime $date)
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Activities', 'Fitbit API');
+
         $dateStr = $date->format('Y-m-d');
 
         try
         {
-	        return $this->makeApiRequest('user/' . $this->userID . '/activities/date/' . $dateStr);
+	        /** @var SimpleXMLElement|object $activities */
+	        $activities = $this->makeApiRequest('user/' . $this->userID . '/activities/date/' . $dateStr);
+	        $timer->stop('Get Activities');
+	        return $activities;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Activities');
 	        throw new FBException('Get activities by date request failed.', 602, $e);
         }
     }
@@ -65,19 +82,27 @@ class ActivityGateway extends EndpointGateway
      * Get user recent activities
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getRecentActivities()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Recent Activities', 'Fitbit API');
+
 	    try
 	    {
-		    return $this->makeApiRequest('user/-/activities/recent');
+		    /** @var SimpleXMLElement|object $recentActivities */
+		    $recentActivities = $this->makeApiRequest('user/-/activities/recent');
+		    $timer->stop('Get Recent Activities');
+		    return $recentActivities;
 	    }
 	    catch (Exception $e)
 	    {
+		    $timer->stop('Get Recent Activities');
 		    throw new FBException('Get recent activities request failed.', 603, $e);
 	    }
     }
@@ -86,19 +111,27 @@ class ActivityGateway extends EndpointGateway
      * Get user frequent activities
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getFrequentActivities()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Frequent Activities', 'Fitbit API');
+
         try
         {
-	        return $this->makeApiRequest('user/-/activities/frequent');
+	        /** @var SimpleXMLElement|object $frequentActivities */
+	        $frequentActivities = $this->makeApiRequest('user/-/activities/frequent');
+	        $timer->stop('Get Frequent Activities');
+	        return $frequentActivities;
         }
         catch (Exception $e)
         {
+	        $timer->stop('Get Frequent Activities');
 	        throw new FBException('Request for frequent activities failed.', 604, $e);
         }
     }
@@ -107,19 +140,27 @@ class ActivityGateway extends EndpointGateway
      * Get user favorite activities
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getFavoriteActivities()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Favorite Activities', 'Fitbit API');
+
         try
         {
-	        return $this->makeApiRequest('user/-/activities/favorite');
+	        /** @var SimpleXMLElement|object $favoriteActivities */
+	        $favoriteActivities = $this->makeApiRequest('user/-/activities/favorite');
+	        $timer->stop('Get Favorite Activities');
+	        return $favoriteActivities;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Favorite Activities');
 	        throw new FBException('Request for favorite activities failed.', 605, $e);
         }
     }
@@ -128,7 +169,7 @@ class ActivityGateway extends EndpointGateway
      * Log user activity
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param \DateTime $date Activity date and time (set proper timezone, which could be fetched via getProfile)
      * @param int|string $activity Activity Id (or Intensity Level Id) from activities database,
@@ -138,19 +179,39 @@ class ActivityGateway extends EndpointGateway
      * @param string $distance Distance in km/miles (as set with setMetric)
      * @param string $distanceUnit Distance unit string (see http://wiki.fitbit.com/display/API/API-Distance-Unit)
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function logActivity(\DateTime $date, $activity, $duration, $calories = null, $distance = null, $distanceUnit = null)
     {
-	    if (!isset($date)) throw new FBException('Start date must be defined.', 614);
-	    if (!isset($activity) || (!is_string($activity) && !is_integer($activity))) throw new FBException('Activity must be defined as a string or integer.', 615);
-	    if (!is_integer($duration)) throw new FBException('Duration must be defined in milliseconds.', 613);
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Log Activity', 'Fitbit API');
+
+	    if (!isset($date))
+	    {
+		    $timer->stop('Log Activity');
+		    throw new FBException('Start date must be defined.', 614);
+	    }
+	    if (!isset($activity) || (!is_string($activity) && !is_integer($activity)))
+	    {
+		    $timer->stop('Log Activity');
+		    throw new FBException('Activity must be defined as a string or integer.', 615);
+	    }
+	    if (!is_integer($duration))
+	    {
+		    $timer->stop('Log Activity');
+		    throw new FBException('Duration must be defined in milliseconds.', 613);
+	    }
         $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['startTime'] = $date->format('H:i');
 	    if (is_string($activity))
         {
-	        if (!isset($calories) || !is_integer($calories)) throw new FBException('Calories must be defined when using a manual activity.', 612);
+	        if (!isset($calories) || !is_integer($calories))
+	        {
+		        $timer->stop('Log Activity');
+		        throw new FBException('Calories must be defined when using a manual activity.', 612);
+	        }
             $parameters['activityName'] = $activity;
             $parameters['manualCalories'] = $calories;
         }
@@ -167,15 +228,23 @@ class ActivityGateway extends EndpointGateway
         }
         if (isset($distanceUnit))
         {
-	        if (!in_array($distanceUnit, $this->configuration['distance_units'])) throw new FBException('Invalid distance unit provided.', 617);
+	        if (!in_array($distanceUnit, $this->configuration['distance_units']))
+	        {
+		        $timer->stop('Log Activity');
+		        throw new FBException('Invalid distance unit provided.', 617);
+	        }
 		    $parameters['distanceUnit'] = $distanceUnit;
         }
         try
         {
-	        return $this->makeApiRequest('user/-/activities', 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $loggedActivity */
+	        $loggedActivity = $this->makeApiRequest('user/-/activities', 'POST', $parameters);
+	        $timer->stop('Log Activity');
+	        return $loggedActivity;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Log Activity');
 	        throw new FBException('Failed logging activity.', 606, $e);
         }
     }
@@ -184,18 +253,29 @@ class ActivityGateway extends EndpointGateway
      * Delete user activity
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Activity log id
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function deleteActivity($id)
     {
-	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 618);
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Delete Activity', 'Fitbit API');
+
+	    if (!is_integer($id))
+	    {
+		    $timer->stop('Delete Activity');
+		    throw new FBException('Invalid ID format provided.', 618);
+	    }
 	    try
 	    {
-            return $this->makeApiRequest('user/-/activities/' . $id, 'DELETE');
+		    /** @var SimpleXMLElement|object $deletedActivity */
+		    $deletedActivity = $this->makeApiRequest('user/-/activities/' . $id, 'DELETE');
+		    $timer->stop('Delete Activity');
+		    return $deletedActivity;
 	    }
 	    catch (\Exception $e)
 	    {
@@ -207,21 +287,33 @@ class ActivityGateway extends EndpointGateway
      * Add user favorite activity
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Activity log id
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function addFavoriteActivity($id)
     {
-	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 619);
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Add Favorite Activity', 'Fitbit API');
+
+	    if (!is_integer($id))
+	    {
+		    $timer->stop('Add Favorite Activity');
+		    throw new FBException('Invalid ID format provided.', 619);
+	    }
 	    try
         {
-	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'POST');
+	        /** @var SimpleXMLElement|object $favoriteActivity */
+	        $favoriteActivity = $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'POST');
+	        $timer->stop('Add Favorite Activity');
+	        return $favoriteActivity;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Add Favorite Activity');
 	        throw new FBException('Unable to add favorite activity.', 608, $e);
         }
     }
@@ -230,21 +322,33 @@ class ActivityGateway extends EndpointGateway
      * Delete user favorite activity
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Activity log id
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function deleteFavoriteActivity($id)
     {
-	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 620);
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Delete Favorite Activity', 'Fitbit API');
+
+	    if (!is_integer($id))
+	    {
+		    $timer->stop('Delete Favorite Activity');
+		    throw new FBException('Invalid ID format provided.', 620);
+	    }
         try
         {
-	        return $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'DELETE');
+	        /** @var SimpleXMLElement|object $deletedFavorite */
+	        $deletedFavorite = $this->makeApiRequest('user/-/activities/log/favorite/' . $id, 'DELETE');
+	        $timer->stop('Delete Favorite Activity');
+	        return $deletedFavorite;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Delete Favorite Activity');
 	        throw new FBException('Unable to delete favorite activity.', 609, $e);
         }
     }
@@ -253,21 +357,33 @@ class ActivityGateway extends EndpointGateway
      * Get full description of specific activity
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  string $id Activity log Id
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getActivity($id)
     {
-	    if (!is_integer($id)) throw new FBException('Invalid ID format provided.', 621);
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Activity', 'Fitbit API');
+
+	    if (!is_integer($id))
+	    {
+		    $timer->stop('Get Activity');
+		    throw new FBException('Invalid ID format provided.', 621);
+	    }
         try
         {
-	        return $this->makeApiRequest('activities/' . $id);
+	        /** @var SimpleXMLElement|object $activity */
+	        $activity = $this->makeApiRequest('activities/' . $id);
+	        $timer->stop('Get Activity');
+	        return $activity;
         }
         catch (Exception $e)
         {
+	        $timer->stop('Get Activity');
 	        throw new FBException('Unable to get the requested activity.', 610, $e);
         }
     }
@@ -276,19 +392,27 @@ class ActivityGateway extends EndpointGateway
      * Get a tree of all valid Fitbit public activities as well as private custom activities the user createds
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function browseActivities()
     {
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Browse Activities', 'Fitbit API');
+
         try
         {
-	        return $this->makeApiRequest('activities');
+	        /** @var SimpleXMLElement|object $activities */
+	        $activities = $this->makeApiRequest('activities');
+	        $timer->stop('Browse Activities');
+	        return $activities;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Browse Activities');
 	        throw new FBException('Unable to get a list of activities.', 611, $e);
         }
     }

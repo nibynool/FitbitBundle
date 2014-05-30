@@ -5,6 +5,8 @@
  */
 namespace Nibynool\FitbitInterfaceBundle\Fitbit;
 
+use SimpleXMLElement;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -20,22 +22,30 @@ class WaterGateway extends EndpointGateway {
      * Get user water log entries for specific date
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param  \DateTime $date
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function getWater(\DateTime $date)
     {
-        $dateStr = $date->format('Y-m-d');
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Get Water', 'Fitbit API');
+
+	    $dateStr = $date->format('Y-m-d');
 
         try
         {
-	        return $this->makeApiRequest('user/-/foods/log/water/date/' . $dateStr);
+	        /** @var SimpleXMLElement|object $water */
+	        $water = $this->makeApiRequest('user/-/foods/log/water/date/' . $dateStr);
+	        $timer->stop('Get Water');
+	        return $water;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Get Water');
 	        throw new FBException('Could not get water records.', 1701, $e);
         }
     }
@@ -44,7 +54,7 @@ class WaterGateway extends EndpointGateway {
      * Log user water
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @todo Can this use a time in the date string?
      *
@@ -52,11 +62,15 @@ class WaterGateway extends EndpointGateway {
      * @param string $amount Amount in ml/fl oz (as set with setMetric) or waterUnit
      * @param string $waterUnit Water Unit ("ml", "fl oz" or "cup")
      * @throws FBException
-     * @return mixed SimpleXMLElement or the value encoded in json as an object
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function logWater(\DateTime $date, $amount, $waterUnit = null)
     {
-        $parameters = array();
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Log Water', 'Fitbit API');
+
+	    $parameters = array();
         $parameters['date'] = $date->format('Y-m-d');
         $parameters['amount'] = $amount;
         if (isset($waterUnit) && in_array($waterUnit, $this->configuration['water_units'][$waterUnit])) $parameters['unit'] = $waterUnit;
@@ -64,10 +78,14 @@ class WaterGateway extends EndpointGateway {
 
         try
         {
-	        return $this->makeApiRequest('user/-/foods/log/water', 'POST', $parameters);
+	        /** @var SimpleXMLElement|object $water */
+	        $water = $this->makeApiRequest('user/-/foods/log/water', 'POST', $parameters);
+	        $timer->stop('Log Water');
+	        return $water;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Log Water');
 	        throw new FBException('Could not log water consumption.', 1703, $e);
         }
     }
@@ -76,20 +94,28 @@ class WaterGateway extends EndpointGateway {
      * Delete user water record
      *
      * @access public
-     * @version 0.5.0
+     * @version 0.5.2
      *
      * @param string $id Water log id
      * @throws FBException
-     * @return bool
+     * @return SimpleXMLElement|object The result as an object or SimpleXMLElement
      */
     public function deleteWater($id)
     {
-        try
+	    /** @var Stopwatch $timer */
+	    $timer = new Stopwatch();
+	    $timer->start('Delete Water', 'Fitbit API');
+
+	    try
         {
-	        return $this->makeApiRequest('user/-/foods/log/water/' . $id, 'DELETE');
+	        /** @var SimpleXMLElement|object $result */
+	        $result = $this->makeApiRequest('user/-/foods/log/water/' . $id, 'DELETE');
+	        $timer->stop('Delete Water');
+	        return $result;
         }
         catch (\Exception $e)
         {
+	        $timer->stop('Delete Water');
 	        throw new FBException('Could not delete water record.', 1704, $e);
         }
     }

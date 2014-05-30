@@ -17,10 +17,10 @@ class NibynoolFitbitInterfaceExtension extends Extension
 		$configuration = new Configuration();
 		$config = $this->processConfiguration($configuration, $configs);
 		$container->setParameter('nibynool_fitbit_interface.key',      $config['key']);
-		$container->setParameter('nibynool_fitbit.secret',   $config['secret']);
-		$container->setParameter('nibynool_fitbit.callback', $config['callback']);
+		$container->setParameter('nibynool_fitbit_interface.secret',   $config['secret']);
+		$container->setParameter('nibynool_fitbit_interface.callback', $config['callback']);
 		$container->setParameter(
-			'nibynool_fitbit.configuration',
+			'nibynool_fitbit_interface.configuration',
 			array(
 				'distance_units'                => $config['distance_units'],
 				'interday_timeseries_endpoints' => $config['interday_timeseries_endpoints'],
@@ -33,6 +33,6 @@ class NibynoolFitbitInterfaceExtension extends Extension
 
 	public function getAlias()
 	{
-		return 'nibynool_fitbit';
+		return 'nibynool_fitbit_interface';
 	}
 }

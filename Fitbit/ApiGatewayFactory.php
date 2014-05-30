@@ -11,6 +11,7 @@ use OAuth\OAuth1\Service\Fitbit as ServiceInterface;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Http\Client\ClientInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Nibynool\FitbitInterfaceBundle\Fitbit\Exception as FBException;
 
 /**
@@ -71,9 +72,13 @@ class ApiGatewayFactory
      * @var ClientInterface
      */
     protected $httpClient;
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $configuration;
-	/** @var Router */
+	/**
+	 * @var Router
+	 */
 	protected $router;
 
 	/**
@@ -87,7 +92,7 @@ class ApiGatewayFactory
 	 * @param array  $configuration Configurable items
 	 * @param Router $router
 	 */
-	public function __construct($consumer_key, $consumer_secret, $callback_url, $configuration, $router)
+	public function __construct($consumer_key, $consumer_secret, $callback_url, $configuration, Router $router)
 	{
 		$this->consumerKey    = $consumer_key;
 		$this->consumerSecret = $consumer_secret;
@@ -205,7 +210,7 @@ class ApiGatewayFactory
 	 * Open a Gateway
 	 *
 	 * @access public
-	 * @version 0.5.0
+	 * @version 0.5.2
 	 *
 	 * @param $method
 	 * @param $parameters
@@ -214,6 +219,9 @@ class ApiGatewayFactory
 	 */
 	public function __call($method, $parameters)
 	{
+		/** @var Stopwatch $timer */
+		$timer = new Stopwatch();
+		$timer->start('Establishing Gateway', 'Fitbit API');
 		if (!preg_match('/^get.*Gateway$/', $method)) throw new FBException('Invalid API Gateway interface ('.$method.') requested.', 103);
 		if (count($parameters)) throw new FBException('API Gateway interfaces do not accept parameters.', 104);
 		$gatewayName = '\\'.__NAMESPACE__.'\\'.substr($method, 3);
@@ -223,9 +231,11 @@ class ApiGatewayFactory
 		}
 		catch (\Exception $e)
 		{
+			$timer->stop('Establishing Gateway');
 			throw new FBException('API Gateway could not open a gateway named '.$gatewayName.'.', 105);
 		}
 		$this->injectGatewayDependencies($gateway);
+		$timer->stop('Establishing Gateway');
 		return $gateway;
 	}
 
@@ -296,7 +306,6 @@ class ApiGatewayFactory
 		        throw new FBException('Could not initialise service factory.', 111, $e);
 	        }
         }
-
         return $this->service;
     }
 }
